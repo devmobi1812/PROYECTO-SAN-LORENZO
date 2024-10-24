@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alquiler_abonos', function (Blueprint $table) {
+        Schema::create('metodo_de_pagos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("alquiler_id")->constrained("alquileres");
-            $table->integer("monto_pagado");
+            $table->string("nombre", 100);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alquiler_abonos');
+        Schema::dropIfExists('metodo_de_pagos');
     }
 };

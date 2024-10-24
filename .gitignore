@@ -18,3 +18,7 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
+000-default.conf
+docker-compose.yml
+Dockerfile
+.env

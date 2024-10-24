@@ -19,10 +19,10 @@
                             <div class="col-lg-6">
                                 <div class="text-center mt-4">
                                     <h1 class="display-1">500</h1>
-                                    <p class="lead">Internal Server Error</p>
-                                    <a href="index.html">
+                                    <p class="lead">Error interno del servidor</p>
+                                    <a href="{{ route('panel') }}">
                                         <i class="fas fa-arrow-left me-1"></i>
-                                        Return to Dashboard
+                                        Volver al panel
                                     </a>
                                 </div>
                             </div>
