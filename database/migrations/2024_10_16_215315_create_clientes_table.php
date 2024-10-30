@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre',100);
             $table->string('domicilio',100);
             $table->integer('dni');
-            $table->boolean('socio');
+            $table->boolean('socio')->default(false);
             $table->string('contacto',100);
             
             $table->timestamps();
