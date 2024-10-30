@@ -13,4 +13,6 @@ class Cliente extends Model
     public function alquileres(){
         return $this->hasMany(Alquilere::class);
     }
+
+    protected $fillable = ['nombre', 'descripcion', 'domicilio', 'dni', 'socio', 'contacto'];
 }

@@ -44,7 +44,7 @@
             <div class="mb-3">
                 <label for="socio" class="form-label">
                     Es socio
-                    <input type="checkbox" name="socio" class="checkbox-control" aria-describedby="emailHelp">
+                    <input type="checkbox" value="true" name="socio" class="checkbox-control" aria-describedby="emailHelp">
                 </label>
                 @error('socio')
                 <small class="text-danger"> {{ '*'.$message}}</small>
