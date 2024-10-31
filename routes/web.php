@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\TurnoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,6 +16,17 @@ Route::controller(ClienteController::class)->group( function(){
     Route::post("clientes/actualizar/{id}", "update")->name("cliente-actualizar");
     Route::get("clientes/eliminar/{id}", "destroy")->name("cliente-borrar");
 });
+
+Route::controller(TurnoController::class)->group( function(){
+    Route::get("turnos", "index")->name("turnos");
+    Route::get("turnos/crear", "create")->name("turno-crear");
+    Route::post("turnos/guardar", "store")->name("turno-guardar");
+    Route::get("turnos/mostrar/{id}", "show")->name("turno-mostrar");
+    Route::get("turnos/editar/{id}", "edit")->name("turno-editar");
+    Route::post("turnos/actualizar/{id}", "update")->name("turno-actualizar");
+    Route::get("turnos/eliminar/{id}", "destroy")->name("turno-borrar");
+});
+
 Route::view("/panel", "panel.index")->name("panel");
 Route::view("/login", "auth.login")->name("login");
 Route::view("/401", "pages.401")->name("401");

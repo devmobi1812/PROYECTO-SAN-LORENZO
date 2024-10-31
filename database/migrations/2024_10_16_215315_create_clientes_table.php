@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre',100);
             $table->string('domicilio',100);
-            $table->integer('dni');
+            $table->integer('dni')->unique();
             $table->boolean('socio')->default(false);
             $table->string('contacto',100);
             

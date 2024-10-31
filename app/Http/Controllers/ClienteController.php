@@ -16,8 +16,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //TODO: conectar con el modelo
-        return view('clients.index');
+        $clientes = Cliente::all();
+        return view('clients.index',['clientes' =>$clientes]);
     }
 
     /**

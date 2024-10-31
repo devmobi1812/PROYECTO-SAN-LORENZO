@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId("estado_id")->constrained("estados");
             $table->integer("monto_final");
             $table->integer("monto_adeudado");
+            $table->integer("deposito")->default(0);
             $table->date("fecha");
 
 

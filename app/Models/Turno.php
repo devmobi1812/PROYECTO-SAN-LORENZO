@@ -10,7 +10,11 @@ class Turno extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre','desde','hasta'];
+    
     public function servicios(){
         return $this->hasMany(Servicio::class);
     }
+
+    
 }

@@ -22,7 +22,7 @@ class ClienteStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "dni" => "required|integer|min_digits:7",
+            "dni" => "required|unique:clientes,dni|integer|min_digits:7",
             "nombre" => "required|string|max:100",
             "domicilio" => "required|string|max:100",
             "contacto" => "required|string|max:100",
@@ -33,6 +33,7 @@ class ClienteStoreRequest extends FormRequest
     {
         return [
             "dni.required" => "El campo DNI es obligatorio.",
+            "dni.unique" =>"El dni ya está registrado.",
             "dni.integer" => "El campo DNI debe ser un número entero.",
             "dni.min_digits" => "El campo DNI debe tener al menos 7 caracteres.",
             
