@@ -40,7 +40,7 @@
                             <td>{{$cliente->contacto}}</td>
                             <td>{{$cliente->domicilio}}</td>
                             <td>
-                                <a class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                <a href="{{ route('cliente-editar', $cliente->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>
                         </tr>

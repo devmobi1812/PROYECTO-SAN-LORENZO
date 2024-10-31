@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClienteStoreRequest;
+use App\Http\Requests\ClienteUpdateRequest;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use View;
@@ -54,17 +55,33 @@ class ClienteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cliente $cliente)
+    public function edit($id)
     {
-        //
+        try{
+            $cliente = Cliente::findOrFail($id);
+            return view('clients.edit', ["cliente" => $cliente]);
+        }catch(Exception $e){
+            return redirect()->route("404");
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(ClienteUpdateRequest $request, $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            $estudiante = Cliente::findOrFail($id);
+            $estudiante->update($request->all());
+            $estudiante -> save();
+
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route("clientes");
     }
 
     /**
