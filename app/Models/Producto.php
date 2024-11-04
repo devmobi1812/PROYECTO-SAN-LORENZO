@@ -13,4 +13,6 @@ class Producto extends Model
     public function servicios(){
         return $this->hasMany(Servicio::class);
     }
+
+    protected $fillable = ['nombre'];
 }

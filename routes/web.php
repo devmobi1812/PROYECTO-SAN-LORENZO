@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\TurnoController;
+use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,16 @@ Route::controller(TurnoController::class)->group( function(){
     Route::get("turnos/editar/{id}", "edit")->name("turno-editar");
     Route::post("turnos/actualizar/{id}", "update")->name("turno-actualizar");
     Route::get("turnos/eliminar/{id}", "destroy")->name("turno-borrar");
+});
+
+Route::controller(ProductoController::class)->group( function(){
+    Route::get("productos","index")->name("productos");
+    Route::get("productos/crear", "create")->name("producto-crear");
+    Route::post("productos/guardar", "store")->name("producto-guardar");
+    Route::get("productos/mostrar/{id}", "show")->name("producto-mostrar");
+    Route::get("productos/editar/{id}", "edit")->name("producto-editar");
+    Route::post("productos/actualizar/{id}", "update")->name("producto-actualizar");
+    Route::get("productos/eliminar/{id}", "destroy")->name("producto-borrar");
 });
 
 Route::view("/panel", "panel.index")->name("panel");
