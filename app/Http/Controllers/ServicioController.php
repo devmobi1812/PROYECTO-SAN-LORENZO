@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServicioStoreRequest;
 use App\Models\Servicio;
 use App\Models\Turno;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Exception;
 
 class ServicioController extends Controller
 {
@@ -31,25 +33,22 @@ class ServicioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ServicioStoreRequest $request)
     {
         
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Servicio $servicio)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Servicio $servicio)
+    public function edit($id)
     {
-        //
+        try{
+            $servicio = Servicio::findOrFail($id);
+            return view('servicios.edit', ["servicio" => $servicio]);
+        }catch(Exception $e){
+            return redirect()->route("404");
+        }
     }
 
     /**
