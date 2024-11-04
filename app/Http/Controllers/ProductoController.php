@@ -88,8 +88,9 @@ class ProductoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Producto $producto)
+    public function destroy($id)
     {
-        //
+        Producto::destroy($id);
+        return redirect()->route("productos");
     }
 }

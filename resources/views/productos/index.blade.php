@@ -33,7 +33,7 @@
                             <td>{{$producto->nombre}}</td>
                             <td>
                                 <a href="{{ route('producto-editar', $producto->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                <a class="btn btn-danger" href="{{ route('producto-borrar', $producto->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>
                         </tr>
                         @endforeach
