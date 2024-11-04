@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServicioStoreRequest;
+use App\Http\Requests\ServicioUpdateRequest;
 use App\Models\Servicio;
+use App\Models\Turno;
+use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class ServicioController extends Controller
 {
@@ -12,7 +18,8 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        //
+        $servicios = Servicio::all();
+        return view('servicios.index',['servicios' =>$servicios]);
     }
 
     /**
@@ -20,46 +27,64 @@ class ServicioController extends Controller
      */
     public function create()
     {
-        //
+        $turnos = Turno::all();
+        $productos = Producto::all();
+        return view('servicios.create', ['turnos' =>$turnos, 'productos' =>$productos]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ServicioStoreRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Servicio $servicio)
-    {
-        //
+        try{
+            DB::beginTransaction();
+            Servicio::create($request->all());
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route("servicios");
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Servicio $servicio)
+    public function edit($id)
     {
-        //
+        try{
+            $servicio = Servicio::findOrFail($id);
+            return view('servicios.edit', ["servicio" => $servicio]);
+        }catch(Exception $e){
+            return redirect()->route("404");
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Servicio $servicio)
+    public function update(ServicioUpdateRequest $request, $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            $servicio = Servicio::findOrFail($id);
+            $servicio->update($request->all());
+            $servicio -> save();
+
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route("servicios");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Servicio $servicio)
+    public function destroy($id)
     {
-        //
+        Servicio::destroy($id);
+        return redirect()->route("servicios");
     }
 }

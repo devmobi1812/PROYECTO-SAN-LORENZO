@@ -58,19 +58,19 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     Clientes
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('servicios') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Servicios
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('turnos') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Turnos
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" > 
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Productos
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" >
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Descuentos
                 </a>

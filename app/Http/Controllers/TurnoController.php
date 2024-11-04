@@ -15,7 +15,8 @@ class TurnoController extends Controller
      */
     public function index()
     {
-        return view('turnos.index');
+        $turnos = Turno::all();
+        return view('turnos.index', ["turnos" => $turnos]);
     }
 
     /**
@@ -38,7 +39,7 @@ class TurnoController extends Controller
         }catch(Exception $e){
             DB::rollBack();
         }
-        return redirect()->route("turnos");
+        return redirect()->route(route: "turnos");
     }
 
     /**
@@ -46,30 +47,47 @@ class TurnoController extends Controller
      */
     public function show(Turno $turno)
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Turno $turno)
+    public function edit($id)
     {
-        //
+        try{
+            $turno = Turno::findOrFail($id);
+            return view('turnos.edit', ["turno" => $turno]);
+        }catch(Exception $e){
+            return redirect()->route("404");
+        }    
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Turno $turno)
+    public function update(TurnoStoreRequest $request,$id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            $estudiante = Turno::findOrFail($id);
+            $estudiante->update($request->all());
+            $estudiante -> save();
+
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route("turnos");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Turno $turno)
+    public function destroy($id)
     {
-        //
+        Turno::destroy($id);
+        return redirect()->route("turnos");
     }
 }
