@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Servicio;
+use App\Models\Turno;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class ServicioController extends Controller
@@ -21,7 +23,9 @@ class ServicioController extends Controller
      */
     public function create()
     {
-        return view('servicios.create');
+        $turnos = Turno::all();
+        $productos = Producto::all();
+        return view('servicios.create', ['turnos' =>$turnos, 'productos' =>$productos]);
     }
 
     /**
@@ -29,7 +33,7 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
