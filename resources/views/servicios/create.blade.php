@@ -29,19 +29,24 @@
             </div>
             <div class="mb-3">
                 <label for="turno" class="form-label">Turno</label>
-                @foreach ($turnos as $turno)
+                
                     <select class="form-select" name="id_turno" id="">
-                        <option value="{{$turno->id}}" >{{$turno->nombre}}</option>
+                            <option value="">Seleccionar turno</option>  
+                        @foreach ($turnos as $turno)
+                            <option value="{{$turno->id}}" >{{$turno->nombre}}</option>
+                        @endforeach
                     </select>
-                @endforeach
+                
             </div>
             <div class="mb-3">
                 <label for="producto" class="form-label">Producto</label>
-                @foreach ($productos as $producto)
                     <select class="form-select" name="id_producto" id="">
-                        <option value="{{$producto->id}}" >{{$producto->nombre}}</option>
+                            <option value="">Seleccionar producto</option>
+                        @foreach ($productos as $producto)
+                            <option value="{{$producto->id}}" >{{$producto->nombre}}</option>
+                        @endforeach
                     </select>
-                @endforeach
+                
             </div>
             <a href="{{ route('servicios') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>
