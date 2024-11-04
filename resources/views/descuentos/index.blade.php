@@ -24,6 +24,7 @@
                             <th>#</th>
                             <th>Nombre</th>
                             <th>Cantidad</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
