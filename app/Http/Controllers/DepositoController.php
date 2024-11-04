@@ -12,8 +12,7 @@ class DepositoController extends Controller
      */
     public function index()
     {
-        $descuentos = Descuento::all();
-        return view('descuentos.index', ["descuentos" => $descuentos]);
+        
     }
 
     /**

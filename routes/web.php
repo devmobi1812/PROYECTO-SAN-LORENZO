@@ -38,6 +38,8 @@ Route::controller(ProductoController::class)->group( function(){
     Route::get("productos/editar/{id}", "edit")->name("producto-editar");
     Route::post("productos/actualizar/{id}", "update")->name("producto-actualizar");
     Route::get("productos/eliminar/{id}", "destroy")->name("producto-borrar");
+});
+
 Route::controller(ServicioController::class)->group( function(){
     Route::get("servicios", "index")->name("servicios");
     Route::get("servicios/crear", "create")->name("servicio-crear");

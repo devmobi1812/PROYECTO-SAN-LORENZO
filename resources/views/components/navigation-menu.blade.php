@@ -66,11 +66,11 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Turnos
                 </a>
-                <a class="nav-link" > 
+                <a class="nav-link" href="{{ route('productos')}}"> 
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Productos
                 </a>
-                <a class="nav-link" >
+                <a class="nav-link" href="{{ route('descuentos')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Descuentos
                 </a>
