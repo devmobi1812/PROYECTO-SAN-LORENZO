@@ -25,6 +25,7 @@
                             <th>Nombre</th>
                             <th>Desde</th>
                             <th>Hasta</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -26,6 +26,7 @@
                             <th>Precio</th>
                             <th>Turno</th>
                             <th>Producto</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
