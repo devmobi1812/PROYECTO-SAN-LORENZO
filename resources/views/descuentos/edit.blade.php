@@ -11,25 +11,23 @@
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('descuentos') }} ">Descuentos</a></li>
             <li class="breadcrumb-item active">Crear</li>
         </ol>
-        <form method="POST" action="{{ route('descuento-guardar') }}">
+        <form method="POST" action="{{ route('descuento-actualizar', $descuento->id) }}">
             @csrf
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text"  name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp">
+              <input type="text"  name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('nombre') == "" ? $descuento->nombre : old('nombre') }}">
               @error('nombre')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
-            </div>
             <div class="mb-3">
-                <label for="cantidad" class="form-label">Cantidad</label>
-                <input type="text"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp">
-                @error('cantidad')
+                <label for="descuento" class="form-label">Cantidad</label>
+                <input type="text"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('cantidad') == "" ? $descuento->nombre : old('cantidad') }}">
+                @error('descuento')
                   <small class="text-danger"> {{ '*'.$message}}</small>
-            @enderror
-            </div>
+              @enderror
             
             <a href="{{ route('descuentos') }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="submit" class="btn btn-primary">Modificar</button>
           </form>
     </div>
 @endsection
