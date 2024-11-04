@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ServicioStoreRequest;
+use App\Http\Requests\ServicioUpdateRequest;
 use App\Models\Servicio;
 use App\Models\Turno;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class ServicioController extends Controller
@@ -35,7 +37,14 @@ class ServicioController extends Controller
      */
     public function store(ServicioStoreRequest $request)
     {
-        
+        try{
+            DB::beginTransaction();
+            Servicio::create($request->all());
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route("servicios");
     }
 
     /**
@@ -54,16 +63,28 @@ class ServicioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Servicio $servicio)
+    public function update(ServicioUpdateRequest $request, $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            $servicio = Servicio::findOrFail($id);
+            $servicio->update($request->all());
+            $servicio -> save();
+
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route("servicios");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Servicio $servicio)
+    public function destroy($id)
     {
-        //
+        Servicio::destroy($id);
+        return redirect()->route("servicios");
     }
 }

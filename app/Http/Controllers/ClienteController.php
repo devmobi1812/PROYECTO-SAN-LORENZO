@@ -44,13 +44,6 @@ class ClienteController extends Controller
         return redirect()->route("clientes");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cliente $cliente)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -87,8 +80,9 @@ class ClienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cliente $cliente)
+    public function destroy($id)
     {
-        //
+        Cliente::destroy($id);
+        return redirect()->route("clientes");
     }
 }
