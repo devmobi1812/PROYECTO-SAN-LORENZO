@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\DescuentoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,6 +37,16 @@ Route::controller(ServicioController::class)->group( function(){
     Route::get("servicios/editar/{id}", "edit")->name("servicio-editar");
     Route::post("servicios/actualizar/{id}", "update")->name("servicio-actualizar");
     Route::get("servicios/eliminar/{id}", "destroy")->name("servicio-borrar");
+});
+
+Route::controller(DescuentoController::class)->group( function(){
+    Route::get("descuentos", "index")->name("descuentos");
+    Route::get("descuentos/crear", "create")->name("descuento-crear");
+    Route::post("descuentos/guardar", "store")->name("descuento-guardar");
+    Route::get("descuentos/mostrar/{id}", "show")->name("descuento-mostrar");
+    Route::get("descuentos/editar/{id}", "edit")->name("descuento-editar");
+    Route::post("descuentos/actualizar/{id}", "update")->name("descuento-actualizar");
+    Route::get("descuentos/eliminar/{id}", "destroy")->name("descuento-borrar");
 });
 
 Route::view("/panel", "panel.index")->name("panel");
