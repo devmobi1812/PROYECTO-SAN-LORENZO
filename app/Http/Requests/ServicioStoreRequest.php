@@ -11,7 +11,7 @@ class ServicioStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class ServicioStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "nombre" => "required|string|max:100",
+            "precio" => "required|integer",
+            "id_turno" => "required|integer",
+            "id_producto" => "required|integer"
         ];
     }
 }
