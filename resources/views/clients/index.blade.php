@@ -41,7 +41,7 @@
                             <td>{{$cliente->domicilio}}</td>
                             <td>
                                 <a href="{{ route('cliente-editar', $cliente->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                <a class="btn btn-danger" href="{{ route('cliente-borrar', $cliente->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>
                         </tr>
                         @endforeach
