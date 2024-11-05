@@ -13,4 +13,6 @@ class Descuento extends Model
     public function alquileres(){
         return $this->hasMany(Alquilere::class);
     }
+
+    protected $fillable = ['nombre', 'cantidad'];
 }
