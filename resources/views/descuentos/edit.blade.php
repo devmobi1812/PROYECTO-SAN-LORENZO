@@ -20,8 +20,8 @@
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             <div class="mb-3">
-                <label for="descuento" class="form-label">Cantidad</label>
-                <input type="text"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('cantidad') == "" ? $descuento->nombre : old('cantidad') }}">
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <input type="text"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('cantidad') == "" ? $descuento->cantidad : old('cantidad') }}">
                 @error('descuento')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
