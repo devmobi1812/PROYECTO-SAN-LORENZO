@@ -25,3 +25,4 @@ Dockerfile
 composer.json
 composer.lock
 composer.lock
+.env.example
