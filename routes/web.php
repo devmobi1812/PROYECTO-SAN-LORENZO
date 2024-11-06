@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServicioController;
@@ -58,6 +59,16 @@ Route::controller(DescuentoController::class)->group( function(){
     Route::get("descuentos/editar/{id}", "edit")->name("descuento-editar");
     Route::post("descuentos/actualizar/{id}", "update")->name("descuento-actualizar");
     Route::get("descuentos/eliminar/{id}", "destroy")->name("descuento-borrar");
+});
+
+Route::controller(DepositoController::class)->group( function(){
+    Route::get("depositos", "index")->name("depositos");
+    Route::get("depositos/crear", "create")->name("deposito-crear");
+    Route::post("depositos/guardar", "store")->name("deposito-guardar");
+    Route::get("depositos/mostrar/{id}", "show")->name("deposito-mostrar");
+    Route::get("depositos/editar/{id}", "edit")->name("deposito-editar");
+    Route::post("depositos/actualizar/{id}", "update")->name("deposito-actualizar");
+    Route::get("depositos/eliminar/{id}", "destroy")->name("deposito-borrar");
 });
 
 Route::view("/panel", "panel.index")->name("panel");
