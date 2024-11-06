@@ -26,7 +26,8 @@
                             <th>Servicio</th>
                             <th>Precio</th>
                             <th>Cantidad</th>
-                            <th>Depósito</th>
+                            <th>Desde</th>
+                            <th>Hasta</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -37,7 +38,8 @@
                             <td>{{$recibo->servicio_nombre}}</td>
                             <td>{{$recibo->servicio_precio}}</td>
                             <td>{{$recibo->servicio_cantidad}}</td>
-                            <td>{{$recibo->servicio_deposito}}</td>
+                            <td>{{$recibo->desde}}</td>
+                            <td>{{$recibo->hasta}}</td>
                             
                             <td>
                                 <a href="{{ route('recibo-editar', $recibo->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->

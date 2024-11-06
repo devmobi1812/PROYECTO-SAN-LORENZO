@@ -36,13 +36,19 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="servicio_deposito" class="form-label">Deposito</label>
-                <input type="number" name="servicio_deposito" class="form-control @error('servicio_deposito') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('servicio_deposito') }}">
-                @error('servicio_deposito')
+                <label for="desde" class="form-label">Desde</label>
+                <input type="number" name="desde" class="form-control @error('desde') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('desde') }}">
+                @error('desde')
                     <small class="text-danger"> {{ '*'.$message}}</small>
                 @enderror
             </div>
-           
+            <div class="mb-3">
+                <label for="hasta" class="form-label">Hasta</label>
+                <input type="number" name="hasta" class="form-control @error('hasta') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('hasta') }}">
+                @error('hasta')
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
+            </div>
         
             <a href="{{ route('recibos') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Modificar</button>

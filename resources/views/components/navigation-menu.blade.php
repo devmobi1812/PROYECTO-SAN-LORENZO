@@ -74,6 +74,10 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-percent"></i></i></div>
                     Descuentos
                 </a>
+                <a class="nav-link" href="{{ route('depositos')}}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></i></div>
+                    Depositos
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
