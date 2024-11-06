@@ -1,5 +1,5 @@
 @extends('template')
-@section('titulo', 'Panel')
+@section('titulo', 'Crear Servicio')
 @push('css')
     
 @endpush
@@ -17,40 +17,47 @@
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('nombre') }}">
                 @error('nombre')
-                <small class="text-danger"> {{ '*'.$message}}</small>
-            @enderror
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="precio" class="form-label">Precio</label>
                 <input type="number" name="precio" class="form-control @error('precio') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('precio') }}">
                 @error('contacto')
-                <small class="text-danger"> {{ '*'.$message}}</small>
-            @enderror
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
             </div>
             <div class="mb-3">
-                <label for="turno" class="form-label">Turno</label>
+                <label for="turno_id" class="form-label">Turno</label>
                 
-                    <select class="form-select" name="id_turno" id="">
+                    <select class="form-select" name="turno_id" id="">
                             <option value="">Seleccionar turno</option>  
                         @foreach ($turnos as $turno)
                             <option value="{{$turno->id}}" >{{$turno->nombre}}</option>
                         @endforeach
                     </select>
+                    @error('turno_id')
+                        <small class="text-danger"> {{ '*'.$message }}</small>
+                    @enderror
                 
             </div>
             <div class="mb-3">
-                <label for="producto" class="form-label">Producto</label>
-                    <select class="form-select" name="id_producto" id="">
+                <label for="producto_id" class="form-label">Producto</label>
+                    <select class="form-select" name="producto_id" id="">
                             <option value="">Seleccionar producto</option>
                         @foreach ($productos as $producto)
                             <option value="{{$producto->id}}" >{{$producto->nombre}}</option>
                         @endforeach
                     </select>
+                    @error('producto_id')
+                        <small class="text-danger"> {{ '*'.$message }}</small>
+                    @enderror
                 
             </div>
+            
             <a href="{{ route('servicios') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>
-          </form>
+        </form>
     </div>
 @endsection
 @push('js')

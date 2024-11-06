@@ -33,13 +33,13 @@
                         @foreach ($servicios as $servicio)
                         <tr>
                             <td>{{$servicio->id}}</td>
-                            <td>{{$servicio->nombre}}</td>
+                            <td>{{$servicio->servicio_nombre}}</td>
                             <td>{{$servicio->precio}}</td>
-                            <td>{{$servicio->turno}}</td>
-                            <td>{{$servicio->producto}}</td>
+                            <td>{{ $servicio->turno_nombre }}</td>
+                            <td>{{ $servicio->producto_nombre }}
                             <td>
-                                <a href="{{ route('cliente-editar', $servicio->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                <a href="{{ route('servicio-editar', $servicio->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                <a class="btn btn-danger" href="{{ route('servicio-borrar', $servicio->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>
                         </tr>
                         @endforeach

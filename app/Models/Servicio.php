@@ -10,6 +10,7 @@ class Servicio extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['turno_id', 'producto_id', 'nombre', 'precio'];
     public function turno(){
         return $this->belongsTo(Turno::class);
     }

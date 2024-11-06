@@ -22,7 +22,29 @@ class ServicioUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "nombre" => "required|string|max:100",
+            "precio" => "required|integer",
+            "turno_id" => "required|integer",
+            "producto_id" => "required|integer"
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            "nombre.required" => "El campo nombre es obligatorio.",
+            "nombre.max" => "El campo nombre no debe exceder los 100 caracteres.",
+
+            "precio.required" => "El campo precio es obligatorio.",
+            "precio.integer" => "El campo precio debe ser un número entero.",
+
+            "turno_id.required" => "El campo turno es obligatorio.",
+            'turno_id.integer' => 'El campo turno debe ser un número entero.', 
+            'turno_id.exists' => 'El turno seleccionado no es válido.', 
+
+            
+            'producto_id.required' => 'El campo producto es obligatorio.', 
+            'producto_id.integer' => 'El campo producto debe ser un número entero.', 
+            'producto_id.exists' => 'El producto seleccionado no es válido.'
         ];
     }
 }

@@ -18,7 +18,14 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        $servicios = Servicio::all();
+        $servicios = Servicio::join('turnos as turn', 'servicios.turno_id', '=', 'turn.id')
+                         ->join('productos as prod', 'servicios.producto_id', '=', 'prod.id')
+                         ->select('servicios.id as id', 
+                                  'servicios.nombre as servicio_nombre', 
+                                  'servicios.precio', 
+                                  'turn.nombre as turno_nombre', 
+                                  'prod.nombre as producto_nombre')
+                         ->get();
         return view('servicios.index',['servicios' =>$servicios]);
     }
 
@@ -53,8 +60,10 @@ class ServicioController extends Controller
     public function edit($id)
     {
         try{
+            $turnos = Turno::all();
             $servicio = Servicio::findOrFail($id);
-            return view('servicios.edit', ["servicio" => $servicio]);
+            $productos = Producto::all();
+            return view('servicios.edit', ["servicio" => $servicio, "turnos"=> $turnos, 'productos' =>$productos]);
         }catch(Exception $e){
             return redirect()->route("404");
         }
