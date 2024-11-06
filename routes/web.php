@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\DescuentoController;
 use App\Http\Controllers\AlquilerAbonoController;
+use App\Http\Controllers\AlquilerReciboController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -79,6 +80,15 @@ Route::controller(AlquilerAbonoController::class)->group( function(){
     Route::get("abonos/editar/{id}", "edit")->name("abono-editar");
     Route::post("abonos/actualizar/{id}", "update")->name("abono-actualizar");
     Route::get("abonos/eliminar/{id}", "destroy")->name("abono-borrar");
+});
+
+Route::controller(AlquilerReciboController::class)->group( function(){
+    Route::get("recibos", "index")->name("recibos");
+    Route::get("recibos/crear", "create")->name("recibo-crear");
+    Route::post("recibos/guardar", "store")->name("recibo-guardar");
+    Route::get("recibos/editar/{id}", "edit")->name("recibo-editar");
+    Route::post("recibos/actualizar/{id}", "update")->name("recibo-actualizar");
+    Route::get("recibos/eliminar/{id}", "destroy")->name("recibo-borrar");
 });
 
 Route::controller(loginController::class)->group( function(){
