@@ -23,20 +23,32 @@
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Monto</th>
+                            <th>Dia</th>
+                            <th>Descuento</th>
+                            <th>Estado</th>
+                            <th>Monto Final</th>
+                            <th>Monto Adeudado</th>
+                            <th>Deposito</th>
+                            <th>Fecha</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!--TODO: Recortar los segundos de la tabla de horarios-->
-                        @foreach ($depositos as $deposito)
+                        @foreach ($alquileres as $alquiler)
                         <tr>
-                            <td>{{$deposito->id}}</td>
-                            <td>{{$deposito->nombre}}</td>
-                            <td>{{$deposito->monto}}</td>
+                            <td>{{$alquiler->id}}</td>
+                            <td>{{$alquiler->nombre_id}}</td>
+                            <td>{{$alquiler->dia_id}}</td>
+                            <td>{{$alquiler->descuento_id}}</td>
+                            <td>{{$alquiler->estado_id}}</td>
+                            <td>{{$alquiler->monto_final}}</td>
+                            <td>{{$alquiler->monto_adeudado}}</td>
+                            <td>{{$alquiler->deposito}}</td>
+                            <td>{{$alquiler->fecha}}</td>
                             <td>
-                                <a href="{{ route('deposito-editar', $deposito->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                <a href="{{ route('alquiler-editar', $alquiler->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                <a class="btn btn-danger" href="{{ route('alquiler-borrar', $alquiler->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>
                         </tr>
                         @endforeach
