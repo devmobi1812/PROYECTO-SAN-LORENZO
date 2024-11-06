@@ -12,36 +12,36 @@
         </ol>
         <a class="btn btn-primary mb-3" role="button" href="{{ route('producto-crear') }}"><i
                 class="fa-solid fa-circle-plus"></i> Cargar producto</a>
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Productos
-            </div>
-            <div class="card-body">
-                <table id="datatablesSimple" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($productos as $producto)
-                        <tr>
-                            <td>{{$producto->id}}</td>
-                            <td>{{$producto->nombre}}</td>
-                            <td>
-                                <a href="{{ route('producto-editar', $producto->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                <a class="btn btn-danger" href="{{ route('producto-borrar', $producto->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
-                            </td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Productos
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($productos as $producto)
+                                <tr>
+                                    <td>{{$producto->id}}</td>
+                                    <td>{{$producto->nombre}}</td>
+                                    <td>
+                                        <a href="{{ route('producto-editar', $producto->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                        <a class="btn btn-danger" href="{{ route('producto-borrar', $producto->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                    </td>
+                                </tr>
+                                @endforeach
+        
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
     </div>
 @endsection
 @push('js')
