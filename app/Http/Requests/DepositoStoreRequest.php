@@ -23,7 +23,7 @@ class DepositoStoreRequest extends FormRequest
     {
         return [
             "nombre" => "required|string|max:100",
-            "monto" => "required|integer|max:3"
+            "monto" => "required|integer"
         ];
     }
 
