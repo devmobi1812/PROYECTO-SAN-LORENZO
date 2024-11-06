@@ -55,23 +55,23 @@
                 <!-- TODO: buscar iconos para la botonera -->
                 <div class="sb-sidenav-menu-heading">Gestión</div>
                 <a class="nav-link" href="{{ route('clientes') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></i></div><!-- el default <i class="fas fa-chart-area"> -->
                     Clientes
                 </a>
                 <a class="nav-link" href="{{ route('servicios') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></i></div><!-- el default <i class="fas fa-table"> -->
                     Servicios
                 </a>
                 <a class="nav-link" href="{{ route('turnos') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-days"></i></div>
                     Turnos
                 </a>
                 <a class="nav-link" href="{{ route('productos')}}"> 
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></i></div>
                     Productos
                 </a>
                 <a class="nav-link" href="{{ route('descuentos')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-percent"></i></i></div>
                     Descuentos
                 </a>
             </div>
