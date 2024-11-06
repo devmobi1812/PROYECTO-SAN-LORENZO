@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer("servicio_precio");
             $table->integer("servicio_cantidad")->default(1);
             $table->integer("servicio_deposito");
+            $table->time("desde");
+            $table->time("hasta");
             $table->timestamps();
         });
     }
