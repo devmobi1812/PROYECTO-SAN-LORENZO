@@ -44,6 +44,7 @@
             <div class="mb-3">
                 <label for="socio" class="form-label">
                     Es socio
+                    <input type="hidden" name="socio" value="0"> <!-- Este campo oculto asegura que el valor 0 se envíe si el checkbox no está marcado -->
                     <input type="checkbox" value="1" name="socio" class="checkbox-control @error('socio') is-invalid @enderror" aria-describedby="emailHelp" 
                     @if(old('socio') == '')
                         @if($cliente->socio)

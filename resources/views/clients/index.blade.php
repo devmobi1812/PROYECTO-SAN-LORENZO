@@ -36,7 +36,11 @@
                             <td>{{$cliente->id}}</td>
                             <td>{{$cliente->nombre}}</td>
                             <td>{{$cliente->dni}}</td>
-                            <td>{{$cliente->socio}}</td>
+                            @if ($cliente->socio==1)
+                            <td>Si</td> 
+                            @else
+                            <td>No</td>
+                            @endif
                             <td>{{$cliente->contacto}}</td>
                             <td>{{$cliente->domicilio}}</td>
                             <td>
