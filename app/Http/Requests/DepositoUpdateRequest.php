@@ -11,7 +11,7 @@ class DepositoUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,14 +21,23 @@ class DepositoUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+            return [
+                "nombre" => "required|string|max:100",
+                "monto" => "required|integer"
+            ];
+    }
+
+    public function messages()
+    {
         return [
+
             "nombre.required" => "El campo Nombre es obligatorio.",
             "nombre.string" => "El campo Nombre debe ser una cadena de texto.",
             "nombre.max" => "El campo Nombre no debe exceder los 100 caracteres.",
 
-            "monto.required" => "El campo Cantidad es obligatorio.",
-            "monto.integer" => "El campo Cantidad debe ser un número entero.",
-            "monto.min_digits" => "El campo Cantidad debe tener al menos 1 caracter."
+            "monto.required" => "El campo Monto es obligatorio.",
+            "monto.integer" => "El campo Monto debe ser un número entero.",
+            "monto.min_digits" => "El campo Monto debe tener al menos 1 caracter."
         ];
     }
 }
