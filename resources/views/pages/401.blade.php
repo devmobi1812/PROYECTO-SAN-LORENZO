@@ -21,9 +21,9 @@
                                     <h1 class="display-1">401</h1>
                                     <p class="lead">Permisos insuficientes</p>
                                     <p>Acceso denegado</p>
-                                    <a href="{{ route('panel') }}">
+                                    <a href="{{ route('login') }}">
                                         <i class="fas fa-arrow-left me-1"></i>
-                                        Volver al panel
+                                        Iniciar sesión
                                     </a>
                                 </div>
                             </div>

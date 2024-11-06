@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\ProductoController;
@@ -80,8 +81,13 @@ Route::controller(AlquilerAbonoController::class)->group( function(){
     Route::get("abonos/eliminar/{id}", "destroy")->name("abono-borrar");
 });
 
+Route::controller(loginController::class)->group( function(){
+    Route::get("login", "index")->name("login");
+    Route::post("login", "login")->name("login");
+    Route::get("logout", "logout")->name("logout");
+});
 Route::view("/panel", "panel.index")->name("panel");
-Route::view("/login", "auth.login")->name("login");
+
 Route::view("/401", "pages.401")->name("401");
 Route::view("/404", "pages.404")->name("404");
 Route::view("/500", "pages.500")->name("500");

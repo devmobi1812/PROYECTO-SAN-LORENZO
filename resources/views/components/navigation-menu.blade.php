@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="sb-sidenav-footer">
-            <div class="small">Hola </div>
+            <div class="small">Hola {{ auth()->user()->name }}</div>
         </div>
     </nav>
 </div>
