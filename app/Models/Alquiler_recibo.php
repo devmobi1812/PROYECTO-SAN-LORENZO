@@ -13,5 +13,6 @@ class Alquiler_recibo extends Model
     public function alquiler(){
         return $this->belongsTo(Alquilere::class);
     }
-
+    
+    protected $fillable = ['servicio_nombre', 'servicio_precio', 'servicio_cantidad', 'servicio_deposito'];
 }
