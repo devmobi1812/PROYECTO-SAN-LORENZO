@@ -1,5 +1,5 @@
 @extends('template')
-@section('titulo', 'Crear Recibo')
+@section('titulo', 'Crear recibo')
 @push('css')
     
 @endpush

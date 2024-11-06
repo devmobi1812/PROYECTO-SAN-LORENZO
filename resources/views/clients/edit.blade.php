@@ -1,5 +1,5 @@
 @extends('template')
-@section('titulo', 'Panel')
+@section('titulo', 'Editar cliente')
 @push('css')
 
 @endpush
