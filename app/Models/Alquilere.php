@@ -39,5 +39,7 @@ class Alquilere extends Model
     public function alquilerAbonos(){
         return $this->hasMany(Alquiler_abono::class);
     }
+
+    protected $fillable = ['monto_final', 'monto_adeudado', 'deposito', 'fecha'];
     
 }
