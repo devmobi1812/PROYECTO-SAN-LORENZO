@@ -6,6 +6,7 @@ use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\DescuentoController;
+use App\Http\Controllers\AlquilerAbonoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,7 +46,6 @@ Route::controller(ServicioController::class)->group( function(){
     Route::get("servicios", "index")->name("servicios");
     Route::get("servicios/crear", "create")->name("servicio-crear");
     Route::post("servicios/guardar", "store")->name("servicio-guardar");
-    Route::get("servicios/mostrar/{id}", "show")->name("servicio-mostrar");
     Route::get("servicios/editar/{id}", "edit")->name("servicio-editar");
     Route::post("servicios/actualizar/{id}", "update")->name("servicio-actualizar");
     Route::get("servicios/eliminar/{id}", "destroy")->name("servicio-borrar");
@@ -69,6 +69,15 @@ Route::controller(DepositoController::class)->group( function(){
     Route::get("depositos/editar/{id}", "edit")->name("deposito-editar");
     Route::post("depositos/actualizar/{id}", "update")->name("deposito-actualizar");
     Route::get("depositos/eliminar/{id}", "destroy")->name("deposito-borrar");
+});
+
+Route::controller(AlquilerAbonoController::class)->group( function(){
+    Route::get("abonos", "index")->name("abonos");
+    Route::get("abonos/crear", "create")->name("abono-crear");
+    Route::post("abonos/guardar", "store")->name("abono-guardar");
+    Route::get("abonos/editar/{id}", "edit")->name("abono-editar");
+    Route::post("abonos/actualizar/{id}", "update")->name("abono-actualizar");
+    Route::get("abonos/eliminar/{id}", "destroy")->name("abono-borrar");
 });
 
 Route::view("/panel", "panel.index")->name("panel");

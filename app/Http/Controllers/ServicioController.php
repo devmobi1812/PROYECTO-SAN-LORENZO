@@ -18,14 +18,7 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        $servicios = Servicio::join('turnos as turn', 'servicios.turno_id', '=', 'turn.id')
-                         ->join('productos as prod', 'servicios.producto_id', '=', 'prod.id')
-                         ->select('servicios.id as id', 
-                                  'servicios.nombre as servicio_nombre', 
-                                  'servicios.precio', 
-                                  'turn.nombre as turno_nombre', 
-                                  'prod.nombre as producto_nombre')
-                         ->get();
+        $servicios = Servicio::with(["turno", "producto"])->get();
         return view('servicios.index',['servicios' =>$servicios]);
     }
 
