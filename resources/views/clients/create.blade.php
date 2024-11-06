@@ -44,7 +44,7 @@
             <div class="mb-3">
                 <label for="socio" class="form-label">
                     Es socio
-                    <input type="checkbox" value="1" name="socio" class="checkbox-control @error('socio') is-invalid @enderror" aria-describedby="emailHelp" 
+                    <input type="checkbox" value="1" name="socio" class="form-check-input @error('socio') is-invalid @enderror" aria-describedby="emailHelp" 
                     @if(old('socio') != '')
                         checked
                     @endif
