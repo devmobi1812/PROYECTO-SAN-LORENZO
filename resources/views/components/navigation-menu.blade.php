@@ -53,13 +53,18 @@
                 </div>
             -->
                 <!-- TODO: buscar iconos para la botonera -->
+                
                 <div class="sb-sidenav-menu-heading">Gestión</div>
+                <a class="nav-link" href="{{ route('alquileres') }}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-dollar-to-slot"></i></div><!-- el default <i class="fas fa-table"> -->
+                    Alquileres
+                </a>
                 <a class="nav-link" href="{{ route('clientes') }}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></i></div><!-- el default <i class="fas fa-chart-area"> -->
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div><!-- el default <i class="fas fa-chart-area"> -->
                     Clientes
                 </a>
                 <a class="nav-link" href="{{ route('servicios') }}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></i></div><!-- el default <i class="fas fa-table"> -->
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div><!-- el default <i class="fas fa-table"> -->
                     Servicios
                 </a>
                 <a class="nav-link" href="{{ route('turnos') }}">
@@ -67,15 +72,15 @@
                     Turnos
                 </a>
                 <a class="nav-link" href="{{ route('productos')}}"> 
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
                     Productos
                 </a>
                 <a class="nav-link" href="{{ route('descuentos')}}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-percent"></i></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-percent"></i></div>
                     Descuentos
                 </a>
                 <a class="nav-link" href="{{ route('depositos')}}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
                     Depositos
                 </a>
             </div>
