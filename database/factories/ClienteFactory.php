@@ -17,11 +17,13 @@ class ClienteFactory extends Factory
     public function definition(): array
     {
         return [
+            
             "nombre"=> fake()->name(),
             "domicilio"=> fake()->text(100),
             "dni"=> fake()->randomNumber(8),
             "socio"=>fake()->boolean(),
             "contacto"=>fake()->email()
+            
         ];
     }
 }

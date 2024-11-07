@@ -16,10 +16,9 @@ return new class extends Migration
             $table->foreignId("alquiler_id")->constrained("alquileres");
             $table->string("servicio_nombre",100);
             $table->integer("servicio_precio");
-            $table->integer("servicio_cantidad")->default(1);
-            $table->integer("servicio_deposito");
-            $table->time("desde");
-            $table->time("hasta");
+            $table->integer("servicio_cantidad")->nullable()->default(1);
+            $table->time("desde")->nullable();
+            $table->time("hasta")->nullable();
             $table->timestamps();
         });
     }

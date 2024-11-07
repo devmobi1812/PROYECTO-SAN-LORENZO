@@ -16,12 +16,16 @@ class TurnoFactory extends Factory
      */
     public function definition(): array
     {
+        
         $horaInicio = fake()->time();
         $horaFin = date("H:i:s", strtotime($horaInicio. "+ 4 hour"));
         return [
+            
             "nombre"=> fake()->word(),
             "desde" => $horaInicio,
             "hasta" => $horaFin
+            
         ];
+        
     }
 }

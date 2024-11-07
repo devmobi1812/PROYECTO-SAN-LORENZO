@@ -18,11 +18,15 @@ class ServicioFactory extends Factory
      */
     public function definition(): array
     {
+        
         return [
+            
             'turno_id' => Turno::factory(),
             'producto_id' => Producto::factory(),
             'nombre' => fake()->word(),
             'precio' => fake()->numberBetween(2000, 180000)
+            
         ];
+        
     }
 }

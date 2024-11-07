@@ -22,16 +22,20 @@ class AlquilerReciboStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "alquiler_id"=>"required|integer",
             "servicio_nombre" => "required|string|max:100",
             "servicio_precio" => "required|integer",
             "servicio_cantidad" => "required|integer",
-            "servicio_deposito" => "required|integer"
+            "servicio_deposito" => "required|integer",
+            "desde"=>"time",
+            "hasta"=>"time"
        ];
     }
 
     public function messages(): array
     {
         return [
+            "alquiler_id.required"=>"El id del alquiler es obligatorio.",
             "servicio_nombre.required" => "El nombre del servicio es obligatorio.",
             "servicio_nombre.string" => "El nombre del servicio debe ser una cadena de texto.",
             "servicio_nombre.max" => "El nombre del servicio no debe superar los 100 caracteres.",
