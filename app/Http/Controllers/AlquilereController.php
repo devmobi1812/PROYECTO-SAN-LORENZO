@@ -15,7 +15,8 @@ class AlquilereController extends Controller
      */
     public function index()
     {
-        //
+        $alquileres = Alquilere::all();
+        return view('alquiler.alquileres.index',['alquileres' =>$alquileres]);
     }
 
     /**
