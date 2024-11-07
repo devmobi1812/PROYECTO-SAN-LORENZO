@@ -40,6 +40,6 @@ class Alquilere extends Model
         return $this->hasMany(Alquiler_abono::class);
     }
 
-    protected $fillable = ['monto_final', 'monto_adeudado', 'deposito', 'fecha'];
+    protected $fillable = ['deposito', 'fecha'];
     
 }

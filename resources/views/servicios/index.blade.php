@@ -36,7 +36,7 @@
                             <td>{{$servicio->nombre}}</td>
                             <td>{{$servicio->precio}}</td>
                             <td>{{ $servicio->turno->nombre }}</td>
-                            <td>{{ $servicio->producto->nombre }}
+                            <td>{{ $servicio->producto->nombre }}</td>
                             <td>
                                 <a href="{{ route('servicio-editar', $servicio->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('servicio-borrar', $servicio->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
