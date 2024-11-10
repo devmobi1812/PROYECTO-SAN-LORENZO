@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('alquileres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("nombre_id")->nullable()->constrained("clientes");
+            $table->foreignId("nombre_id")->constrained("clientes");
             $table->foreignId("dia_id")->constrained("dias");
             $table->foreignId("descuento_id")->constrained("descuentos");
-            $table->foreignId("estado_id")->constrained("estados");
-            $table->integer("monto_final");
-            $table->integer("monto_adeudado");
+            $table->foreignId("estado_id")->constrained("estados")->default(2); // inpago
+            $table->integer("monto_final")->default(0);
+            $table->integer("monto_adeudado")->default(0);
             $table->integer("deposito")->default(0);
             $table->date("fecha");
 

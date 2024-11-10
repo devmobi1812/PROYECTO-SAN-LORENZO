@@ -38,10 +38,10 @@
                         @foreach ($alquileres as $alquiler)
                         <tr>
                             <td>{{$alquiler->id}}</td>
-                            <td>{{$alquiler->nombre_id}}</td>
-                            <td>{{$alquiler->dia_id}}</td>
-                            <td>{{$alquiler->descuento_id}}</td>
-                            <td>{{$alquiler->estado_id}}</td>
+                            <td>{{$alquiler->cliente->nombre}}</td>
+                            <td>{{$alquiler->dia->nombre}}</td>
+                            <td>{{$alquiler->descuento->nombre}}</td>
+                            <td>{{$alquiler->estado->nombre}}</td>
                             <td>{{$alquiler->monto_final}}</td>
                             <td>{{$alquiler->monto_adeudado}}</td>
                             <td>{{$alquiler->deposito}}</td>

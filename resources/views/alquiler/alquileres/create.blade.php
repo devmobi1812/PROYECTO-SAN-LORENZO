@@ -39,66 +39,51 @@
           <div class="mb-36">
               <!-- Quincho -->
               <label for="quincho" class="form-label">Quincho</label>
-              <input type="checkbox" value="Quincho" name="servicios[0][nombre]" class="form-check-input @error('servicios.0.nombre') is-invalid @enderror" id="quincho-checkbox" aria-describedby="emailHelp" @if(old('servicios.0.nombre') == 'Quincho') checked @endif>
+              <input type="checkbox" value="1" name="quincho" class="form-check-input @error('servicios.0.nombre') is-invalid @enderror" id="quincho-checkbox" aria-describedby="emailHelp" @if(old('servicios.0.nombre') == 'Quincho') checked @endif>
               <div class="mb-3" id="quincho-select-container" style="visibility: hidden; height: 0;">
                   <label for="quincho_variantes" class="form-label">Selecciona las variantes de quincho</label>
-                  <select class="form-select" name="servicios[0][precio]" id="quincho_variantes">
+                  <select class="form-select" name="quincho_id" id="quincho_variantes">
                       <option value="">Selecciona aquí</option>
                       @foreach ($quinchos as $quincho)
-                          <option value="{{ $quincho->precio }}" @if(old('servicios.0.precio') == $quincho->precio) selected @endif>{{ $quincho->nombre }}</option>
+                          <option value="{{ $quincho->id }}" @if(old('quincho_id') == $quincho->id) selected @endif>{{ $quincho->nombre }}</option>
                       @endforeach
                   </select>
-                  @error('servicios.0.precio')
+                  @error('quincho_id')
                       <small class="text-danger">{{ '*'.$message }}</small>
                   @enderror
-                  <input type="hidden" name="servicios[0][precio]" value="{{ $quincho->precio }}">
-                  <input type="hidden" name="servicios[0][nombre]" value="$quincho->nombre">
-                  <input type="hidden" name="servicios[0][cantidad]" value="1">
-                  <input type="hidden" name="servicios[0][deposito]" value="0">
-                  <input type="hidden" name="servicios[0][desde]" value="">
-                  <input type="hidden" name="servicios[0][hasta]" value="">
               </div>
           
               <!-- Vajilla -->
               <label for="vajilla" class="form-label">Vajilla</label>
-              <input type="checkbox" value="Vajilla" name="servicios[1][nombre]" class="form-check-input @error('servicios.1.nombre') is-invalid @enderror" id="vajilla-checkbox" aria-describedby="emailHelp" @if(old('servicios.1.nombre') == 'Vajilla') checked @endif>
+              <input type="checkbox" value="1" name="vajilla" class="form-check-input @error('servicios.1.nombre') is-invalid @enderror" id="vajilla-checkbox" aria-describedby="emailHelp" @if(old('servicios.1.nombre') == 'Vajilla') checked @endif>
               <div class="mb-3" id="vajilla-input-container" style="visibility: hidden; height: 0;">
                   <label for="cantidad" class="form-label">Cantidad</label>
-                  <input type="number" class="form-control" name="servicios[1][cantidad]" id="cantidad_vajilla" placeholder="Cantidad de vajilla" value="{{ old('servicios.1.cantidad') }}">
-                  @error('servicios.1.cantidad')
+                  <input type="number" class="form-control" name="servicio_cantidad" id="servicio_cantidad" placeholder="Cantidad de vajilla" value="{{ old('servicio_cantidad') }}">
+                  @error('servicio_cantidad')
                       <small class="text-danger">{{ '*'.$message }}</small>
                   @enderror
-                  <input type="hidden" name="servicios[1][nombre]" value="Vajilla"> <!-- Define un precio de ejemplo -->
-                  <input type="hidden" name="servicios[1][precio]" value="50"> <!-- Define un precio de ejemplo -->
-                  <input type="hidden" name="servicios[1][deposito]" value="0">
-                  <input type="hidden" name="servicios[1][desde]" value="12:00">
-                  <input type="hidden" name="servicios[1][hasta]" value="18:00">
               </div>
           
               <!-- Pileta -->
               <label for="pileta" class="form-label">Pileta</label>
-              <input type="checkbox" value="Pileta" name="servicios[2][nombre]" class="form-check-input @error('servicios.2.nombre') is-invalid @enderror" id="pileta-checkbox" aria-describedby="emailHelp" @if(old('servicios.2.nombre') == 'Pileta') checked @endif>
+              <input type="checkbox" value="1" name="pileta" class="form-check-input @error('pileta') is-invalid @enderror" id="pileta-checkbox" aria-describedby="emailHelp" @if(old('pileta') == 'Pileta') checked @endif>
               <div class="mb-3" id="pileta-select-container" style="visibility: hidden; height: 0;">
                   <div class="mb-3 row">
                       <div class="col-md-6">
                           <label for="desde" class="form-label">Desde</label>
-                          <input type="time" name="servicios[2][desde]" class="form-control @error('servicios.2.desde') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('servicios.2.desde') }}">
-                          @error('servicios.2.desde')
+                          <input type="time" name="desde" class="form-control @error('desde') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('desde') }}">
+                          @error('desde')
                               <small class="text-danger">{{ '*'.$message }}</small>
                           @enderror
                       </div>
                       <div class="col-md-6">
                           <label for="hasta" class="form-label">Hasta</label>
-                          <input type="time" name="servicios[2][hasta]" class="form-control @error('servicios.2.hasta') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('servicios.2.hasta') }}">
-                          @error('servicios.2.hasta')
+                          <input type="time" name="hasta" class="form-control @error('hasta') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('hasta') }}">
+                          @error('hasta')
                               <small class="text-danger">{{ '*'.$message }}</small>
                           @enderror
                       </div>
                   </div>
-                  <input type="hidden" name="servicios[2][nombre]" value="Pileta"> <!-- Define un precio de ejemplo -->
-                  <input type="hidden" name="servicios[2][precio]" value="$quincho->precio"> <!-- Define un precio de ejemplo -->
-                  <input type="hidden" name="servicios[2][cantidad]" value="1">
-                  <input type="hidden" name="servicios[2][deposito]" value="0">
               </div>
           </div>
           
