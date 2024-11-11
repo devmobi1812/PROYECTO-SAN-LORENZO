@@ -83,7 +83,7 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
                     Depositos
                 </a>
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{ route('metododepagos')}}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-credit-card"></i></div>
                     Metodos de Pago
                 </a>
