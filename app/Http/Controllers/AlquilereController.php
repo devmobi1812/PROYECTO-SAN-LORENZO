@@ -102,16 +102,14 @@ class AlquilereController extends Controller
                 }
                 
                 if($request->vajilla==1){
-                    $servicio = Servicio::with(['turno', 'producto'])->where("producto_id", 3)->first();
-                    //$servicio = Servicio::where('producto_id', 3)->first();
+                    
+                    $servicio = Servicio::where('producto_id', 3)->first();
                     //dd($servicio);
                     $recibo = Alquiler_recibo::create([
                         'alquiler_id' => $ultimoRegistro->id,
                         'servicio_nombre'=>$servicio->nombre,
                         'servicio_precio'=>$servicio->precio,
                         'servicio_cantidad'=>$request->servicio_cantidad,
-                        'desde'=>$servicio->turno->desde,
-                        'hasta'=>$servicio->turno->hasta
                         
                     ]);
                     $montoVajilla= $recibo->servicio_precio * $recibo->servicio_cantidad;
