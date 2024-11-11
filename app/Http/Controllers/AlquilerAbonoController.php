@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AlquilerAbonoRequest;
 use App\Http\Requests\AlquilerAbonoUpdateRequest;
 use App\Models\Alquiler_abono;
+use App\Models\Alquilere;
 use App\Models\MetodoDePago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +16,9 @@ class AlquilerAbonoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        $abonos = Alquiler_abono::with(["alquiler", "metodoDePago"])->get();
+        $abonos = Alquiler_abono::with(["alquiler", "metodoDePago"])->where("alquiler_id","=",$id)->get();
         /*$abonos=Alquiler_abono::join("metodo_de_pagos as metodo","alquiler_abonos.metodo_de_pagos_id","=","metodo_de_pagos.id")
                                 ->join("alquileres","alquiler_abonos.alquiler_id","=","alquileres.id")
                                 ->select("alquiler_abonos.id as abono_id",
@@ -25,16 +26,17 @@ class AlquilerAbonoController extends Controller
                                         "alquiler_abonos.metodo_de_pagos_id as abono_metodo",
                                         "alquiler_abono.alquiler_id as abono_alquiler")
                                 ->get();*/
-        return view("alquiler.abonos.index", ["abonos"=>$abonos]);
+        //return view("alquiler.abonos.index", ["abonos"=>$abonos]);
+        return view('alquiler.abonos.index', ['abonos' => $abonos, 'alquiler_id' => $id]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
         $metodos=MetodoDePago::all();
-        return view("alquiler.abonos.create", ["metodos"=>$metodos]);
+        return view("alquiler.abonos.create", ["metodos"=>$metodos, 'alquiler_id' => $id]);
     }
 
     /**
@@ -42,32 +44,39 @@ class AlquilerAbonoController extends Controller
      */
     public function store(AlquilerAbonoRequest $request)
     {
+        
         try{
             DB::beginTransaction();
             Alquiler_abono::create($request->all());
+            
+            $alquiler = Alquilere::findOrFail($request->alquiler_id);
+            
+            $monto=$alquiler->monto_adeudado;
+            $monto-=$request->monto_pagado;
+            $alquiler->update(['monto_adeudado' => $monto]);
+            if($monto<=0){
+                $alquiler->update(['estado_id'=>1]);
+            }
+            $alquiler -> save();
             DB::commit();
+            
         }catch(Exception $e){
             DB::rollBack();
+            dd($e);
         }
-        return redirect()->route("alquiler.abonos");
+        return $this->index($request->alquiler_id);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Alquiler_abono $alquiler_abono)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Alquiler_abono $alquiler_abono)
+    public function edit($id)
     {
         try{
+            $abono = Alquiler_abono::findOrFail($id);
             $metodos = MetodoDePago::all();
-            return view("alquiler.abono.edit", ["metodos"=>$metodos]);
+            return view("alquiler.abonos.edit", ["abono"=>$abono,"metodos"=>$metodos]);
         }catch(Exception $e){
             return redirect()->route("404");
         }
@@ -80,16 +89,28 @@ class AlquilerAbonoController extends Controller
     {
         try{
             DB::beginTransaction();
-
             $abono = Alquiler_abono::findOrFail($id);
-            $abono->update($request->all());
-            $abono -> save();
+            $alquiler = Alquilere::findOrFail($request->alquiler_id);
+            $monto=$alquiler->monto_adeudado;
+            $monto+=$abono->monto_pagado;
+            $alquiler->update(['monto_adeudado' => $monto]);
 
+            $abono->update($request->all());
+
+            $monto=$alquiler->monto_adeudado;
+            $monto-=$request->monto_pagado;
+            $alquiler->update(['monto_adeudado' => $monto]);
+            if($monto<=0){
+                $alquiler->update(['estado_id'=>1]);
+            }
+            $alquiler -> save();
             DB::commit();
+            
         }catch(Exception $e){
             DB::rollBack();
+            dd($e);
         }
-        return redirect()->route("abonos");
+        return $this->index($request->alquiler_id);
     }
 
     /**

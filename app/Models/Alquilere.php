@@ -17,7 +17,7 @@ class Alquilere extends Model
     use HasFactory;
 
     public function cliente(){
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(Cliente::class, "nombre_id");
     }
 
     public function dia(){
@@ -25,11 +25,11 @@ class Alquilere extends Model
     }
 
     public function descuento(){
-        return $this->belongsTo(Descuento::class);
+        return $this->belongsTo(Descuento::class, "descuento_id");
     }
 
     public function estado(){
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, "estado_id");
     }
 
     public function alquilerRecibos(){

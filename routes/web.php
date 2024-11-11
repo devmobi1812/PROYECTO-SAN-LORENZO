@@ -76,9 +76,9 @@ Route::controller(DepositoController::class)->group( function(){
 });
 
 Route::controller(AlquilerAbonoController::class)->group( function(){
-    Route::get("abonos", "index")->name("abonos");
-    Route::get("abonos/crear", "create")->name("abono-crear");
-    Route::post("abonos/guardar", "store")->name("abono-guardar");
+    Route::get("abonos/{id}", "index")->name("abonos");
+    Route::get("abonos/crear/{id}", "create")->name("abono-crear");
+    Route::post("abonos/guardar/", "store")->name("abono-guardar");
     Route::get("abonos/editar/{id}", "edit")->name("abono-editar");
     Route::post("abonos/actualizar/{id}", "update")->name("abono-actualizar");
     Route::get("abonos/eliminar/{id}", "destroy")->name("abono-borrar");

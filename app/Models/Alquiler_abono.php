@@ -16,6 +16,7 @@ class Alquiler_abono extends Model
     }
 
     public function metodoDePago(){
-        return $this->belongsTo(MetodoDePago::class);
+        return $this->belongsTo(MetodoDePago::class, 'metodo_de_pagos_id');
     }
+    protected $fillable = ['alquiler_id','monto_pagado', 'metodo_de_pagos_id'];
 }

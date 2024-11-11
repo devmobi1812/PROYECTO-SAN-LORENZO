@@ -8,10 +8,10 @@
         <h1 class="mt-4">Abonos</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" >Alquileres</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }} ">Alquileres</a></li>
             <li class="breadcrumb-item active">Abonos</li>
         </ol>
-        <a class="btn btn-primary mb-3" role="button" href="{{ route('abono-crear') }}"><i
+        <a class="btn btn-primary mb-3" role="button" href="{{ route('abono-crear', $alquiler_id)}}"><i
                 class="fa-solid fa-circle-plus"></i> Cargar abono</a>
         <div class="card mb-4">
             <div class="card-header">
@@ -32,7 +32,7 @@
                         @foreach ($abonos as $abono)
                         <tr>
                             <td>{{$abono->id}}</td>
-                            <td>{{$abono->monto}}</td>
+                            <td>{{$abono->monto_pagado}}</td>
                             <td>{{$abono->metodoDePago->nombre}}</td>
                             <td>
                                 <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->

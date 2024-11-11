@@ -41,12 +41,26 @@
                             <td>{{$alquiler->cliente->nombre}}</td>
                             <td>{{$alquiler->dia->nombre}}</td>
                             <td>{{$alquiler->descuento->nombre}}</td>
-                            <td>{{$alquiler->estado->nombre}}</td>
-                            <td>{{$alquiler->monto_final}}</td>
-                            <td>{{$alquiler->monto_adeudado}}</td>
-                            <td>{{$alquiler->deposito}}</td>
+
+                            <td>
+                                <a href=""
+                                   @if($alquiler->estado->nombre=="Inpago")
+                                       class="btn btn-danger " style="pointer-events: none;"
+                                   @else
+                                       class="btn btn-success" style="pointer-events: none;"
+                                   @endif>
+                                   {{$alquiler->estado->nombre}}
+                                </a>
+                            </td>
+                            
+
+                            <td>${{$alquiler->monto_final}}.-</td>
+                            <td>${{$alquiler->monto_adeudado}}.-</td>
+                            <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->fecha}}</td>
                             <td>
+                                <a href="{{ route('abonos', $alquiler->id)}}" type="button" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a><!--BOTON DE VER-->
+                                <a href="{{ route('abono-crear', $alquiler->id)}}" type="button" class="btn btn-success"><i class="fa-solid fa-money-bill"></i></a> <!--BOTON DE CREAR ABONO-->
                                 <a href="{{ route('alquiler-editar', $alquiler->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('alquiler-borrar', $alquiler->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>

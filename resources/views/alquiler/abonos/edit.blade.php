@@ -8,15 +8,15 @@
         <h1 class="mt-4">Editar</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" href="">Alquileres</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('abonos')}}">Abonos</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }}">Alquileres</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('abonos',$abono->id)}}">Abonos</a></li>
             <li class="breadcrumb-item active">Editar</li>
         </ol>
-        <form method="POST" action="{{ route('servicio-actualizar', $servicio->id) }}">
+        <form method="POST" action="{{ route('abono-actualizar', $abono->id) }}">
             @csrf
             <div class="mb-3">
-                <label for="precio" class="form-label">Precio</label>
-                <input type="text" name="precio" class="form-control @error('precio') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('precio')=="" ? $servicio->precio : old('precio') }}">
+                <label for="monto_pagado" class="form-label">Precio</label>
+                <input type="text" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado')=="" ? $abono->monto_pagado : old('monto_pagado') }}">
                 @error('contacto')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
@@ -27,7 +27,7 @@
                     <select class="form-select" name="metodo_de_pagos_id" id="">
                             <option value="">Seleccionar metodo</option>  
                         @foreach ($metodos as $metodo)
-                            <option value="{{ $metodo->id }}" {{ (old('metodo_de_pagos_id', $selectedMetodoId) == $metodo->id) ? 'selected' : '' }}> {{ $metodo->nombre }} </option>
+                            <option value="{{ $metodo->id }}" {{ (old('metodo_de_pagos_id', $abono->metodo_de_pagos_id) == $metodo->id) ? 'selected' : '' }}> {{ $metodo->nombre }} </option>
                         @endforeach
                     </select>
                     @error('metodo_de_pagos_id')
@@ -36,7 +36,7 @@
                 
             </div>
 
-            <a href="{{ route('servicios') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('abonos',$abono->id)}}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Modificar</button>
           </form>
     </div>

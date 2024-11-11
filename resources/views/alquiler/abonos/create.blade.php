@@ -8,15 +8,15 @@
         <h1 class="mt-4">Abono</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" href="">Alquileres</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('abonos') }} ">Abonos</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }}">Alquileres</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('abonos', $alquiler_id) }} ">Abonos</a></li>
             <li class="breadcrumb-item active">Crear</li>
         </ol>
         <form method="POST" action="{{ route('abono-guardar') }}">
             @csrf
             <div class="mb-3">
-                <label for="precio" class="form-label">Precio</label>
-                <input type="number" name="precio" class="form-control @error('precio') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('precio') }}">
+                <label for="monto_pagado" class="form-label">Precio</label>
+                <input type="number" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado') }}">
                 @error('contacto')
                     <small class="text-danger"> {{ '*'.$message}}</small>
                 @enderror
@@ -35,8 +35,9 @@
                     @enderror
                 
             </div>
+            <input type="hidden" name="alquiler_id" value="{{$alquiler_id}}">
         
-            <a href="{{ route('abonos') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('abonos', $alquiler_id) }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
     </div>

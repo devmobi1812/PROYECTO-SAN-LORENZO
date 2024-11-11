@@ -113,9 +113,11 @@ class AlquilereController extends Controller
                     ]);
                     $montoFinal += $recibo->servicio_precio;
                 }
+
+                $montoFinal+=$recibo->deposito;
                 // Actualizar el monto final del alquiler 
-                $alquiler->update(['monto_final' => $montoFinal]); 
-                $alquiler->update(['monto_adeudado'=>$montoFinal]);
+                $ultimoRegistro->update(['monto_final' => $montoFinal]); 
+                $ultimoRegistro->update(['monto_adeudado'=>$montoFinal]);
                 DB::commit();
             }
             
@@ -149,7 +151,7 @@ class AlquilereController extends Controller
      */
     public function update(Request $request, Alquilere $alquilere)
     {
-        //
+        
     }
 
     /**
