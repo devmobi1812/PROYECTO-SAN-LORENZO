@@ -24,7 +24,7 @@ class ServicioStoreRequest extends FormRequest
         return [
             "nombre" => "required|string|max:100",
             "precio" => "required|integer",
-            "turno_id" => "required|integer",
+            "turno_id" => "nullable|integer",
             "producto_id" => "required|integer"
         ];
     }

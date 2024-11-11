@@ -35,7 +35,12 @@
                             <td>{{$servicio->id}}</td>
                             <td>{{$servicio->nombre}}</td>
                             <td>{{$servicio->precio}}</td>
-                            <td>{{ $servicio->turno->nombre }}</td>
+                            <td>
+                                @if ($servicio->turno)
+                                {{ $servicio->turno->nombre }}
+                                @else
+                                    Sin turno
+                                @endif </td>
                             <td>{{ $servicio->producto->nombre }}</td>
                             <td>
                                 <a href="{{ route('servicio-editar', $servicio->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->

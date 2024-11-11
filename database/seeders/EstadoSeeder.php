@@ -12,7 +12,7 @@ class EstadoSeeder extends Seeder
     {
         $estado = [
             ["nombre" => "Pago"],
-            ["nombre" => "Inpago"]
+            ["nombre" => "Impago"]
         ];
         DB::table("estados")->insert($estado);
     }

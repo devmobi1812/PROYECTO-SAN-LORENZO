@@ -11,7 +11,7 @@ class Alquiler_recibo extends Model
     use HasFactory;
 
     public function alquiler(){
-        return $this->belongsTo(Alquilere::class);
+        return $this->belongsTo(Alquilere::class, 'alquiler_id');
     }
     
     protected $fillable = ['alquiler_id','servicio_nombre', 'servicio_precio', 'servicio_cantidad', 'desde', 'hasta'];

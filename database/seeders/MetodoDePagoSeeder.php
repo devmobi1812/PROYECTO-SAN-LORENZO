@@ -13,7 +13,7 @@ class MetodoDePagoSeeder extends Seeder
      */
     public function run(): void
     {
-        $estado = [
+        $metodoDePago = [
             ["nombre" => "Efectivo"],
             ["nombre" => "Transferencia"],
             ["nombre" => "Billetera Virtual"],
@@ -21,6 +21,6 @@ class MetodoDePagoSeeder extends Seeder
             ["nombre" => "Tarjeta Debito"],
             ["nombre" => "Credito Personal"]
         ];
-        DB::table("metodo_de_pagos")->insert($estado);
+        DB::table("metodo_de_pagos")->insert($metodoDePago);
     }
 }

@@ -22,14 +22,14 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
-                            <th>Dia</th>
-                            <th>Descuento</th>
-                            <th>Estado</th>
+                            <th>Servicios</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
                             <th>Monto Final</th>
                             <th>Monto Adeudado</th>
                             <th>Deposito</th>
-                            <th>Fecha</th>
+                            <th>Descuento</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -38,13 +38,23 @@
                         @foreach ($alquileres as $alquiler)
                         <tr>
                             <td>{{$alquiler->id}}</td>
+                            <td> @foreach ($servicios as $servicio) 
+                                    @if ($servicio->alquiler_id == $alquiler->id) 
+                                        {{$servicio->servicio_nombre .","}} 
+                                    @endif 
+                                @endforeach 
+                            </td>
                             <td>{{$alquiler->cliente->nombre}}</td>
-                            <td>{{$alquiler->dia->nombre}}</td>
+                            
+                            <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
+                            <td>${{$alquiler->monto_final}}.-</td>
+                            <td>${{$alquiler->monto_adeudado}}.-</td>
+                            <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->descuento->nombre}}</td>
 
                             <td>
                                 <a href=""
-                                   @if($alquiler->estado->nombre=="Inpago")
+                                   @if($alquiler->estado->nombre=="Impago")
                                        class="btn btn-danger " style="pointer-events: none;"
                                    @else
                                        class="btn btn-success" style="pointer-events: none;"
@@ -54,10 +64,6 @@
                             </td>
                             
 
-                            <td>${{$alquiler->monto_final}}.-</td>
-                            <td>${{$alquiler->monto_adeudado}}.-</td>
-                            <td>${{$alquiler->deposito}}.-</td>
-                            <td>{{$alquiler->fecha}}</td>
                             <td>
                                 <a href="{{ route('abonos', $alquiler->id)}}" type="button" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a><!--BOTON DE VER-->
                                 <a href="{{ route('abono-crear', $alquiler->id)}}" type="button" class="btn btn-success"><i class="fa-solid fa-money-bill"></i></a> <!--BOTON DE CREAR ABONO-->
