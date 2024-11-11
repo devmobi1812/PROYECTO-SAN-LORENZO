@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('template');
 });
-Route::controller(ClienteController::class)->group( function(){
+Route::controller(ClienteController::class)->middleware(['auth'])->group( function(){
     Route::get("clientes", "index")->name("clientes");
     Route::get("clientes/crear", "create")->name("cliente-crear");
     Route::post("clientes/guardar", "store")->name("cliente-guardar");
@@ -26,7 +26,7 @@ Route::controller(ClienteController::class)->group( function(){
     Route::get("clientes/eliminar/{id}", "destroy")->name("cliente-borrar");
 });
 
-Route::controller(TurnoController::class)->group( function(){
+Route::controller(TurnoController::class)->middleware(['auth'])->group( function(){
     Route::get("turnos", "index")->name("turnos");
     Route::get("turnos/crear", "create")->name("turno-crear");
     Route::post("turnos/guardar", "store")->name("turno-guardar");
@@ -36,7 +36,7 @@ Route::controller(TurnoController::class)->group( function(){
     Route::get("turnos/eliminar/{id}", "destroy")->name("turno-borrar");
 });
 
-Route::controller(ProductoController::class)->group( function(){
+Route::controller(ProductoController::class)->middleware(['auth'])->group( function(){
     Route::get("productos","index")->name("productos");
     Route::get("productos/crear", "create")->name("producto-crear");
     Route::post("productos/guardar", "store")->name("producto-guardar");
@@ -46,7 +46,7 @@ Route::controller(ProductoController::class)->group( function(){
     Route::get("productos/eliminar/{id}", "destroy")->name("producto-borrar");
 });
 
-Route::controller(ServicioController::class)->group( function(){
+Route::controller(ServicioController::class)->middleware(['auth'])->group( function(){
     Route::get("servicios", "index")->name("servicios");
     Route::get("servicios/crear", "create")->name("servicio-crear");
     Route::post("servicios/guardar", "store")->name("servicio-guardar");
@@ -55,7 +55,7 @@ Route::controller(ServicioController::class)->group( function(){
     Route::get("servicios/eliminar/{id}", "destroy")->name("servicio-borrar");
 });
 
-Route::controller(DescuentoController::class)->group( function(){
+Route::controller(DescuentoController::class)->middleware(['auth'])->group( function(){
     Route::get("descuentos", "index")->name("descuentos");
     Route::get("descuentos/crear", "create")->name("descuento-crear");
     Route::post("descuentos/guardar", "store")->name("descuento-guardar");
@@ -65,7 +65,7 @@ Route::controller(DescuentoController::class)->group( function(){
     Route::get("descuentos/eliminar/{id}", "destroy")->name("descuento-borrar");
 });
 
-Route::controller(DepositoController::class)->group( function(){
+Route::controller(DepositoController::class)->middleware(['auth'])->group( function(){
     Route::get("depositos", "index")->name("depositos");
     Route::get("depositos/crear", "create")->name("deposito-crear");
     Route::post("depositos/guardar", "store")->name("deposito-guardar");
@@ -75,7 +75,7 @@ Route::controller(DepositoController::class)->group( function(){
     Route::get("depositos/eliminar/{id}", "destroy")->name("deposito-borrar");
 });
 
-Route::controller(AlquilerAbonoController::class)->group( function(){
+Route::controller(AlquilerAbonoController::class)->middleware(['auth'])->group( function(){
     Route::get("abonos/{id}", "index")->name("abonos");
     Route::get("abonos/crear/{id}", "create")->name("abono-crear");
     Route::post("abonos/guardar/", "store")->name("abono-guardar");
@@ -84,7 +84,7 @@ Route::controller(AlquilerAbonoController::class)->group( function(){
     Route::get("abonos/eliminar/{id}", "destroy")->name("abono-borrar");
 });
 
-Route::controller(AlquilerReciboController::class)->group( function(){
+Route::controller(AlquilerReciboController::class)->middleware(['auth'])->group( function(){
     Route::get("recibos", "index")->name("recibos");
     Route::get("recibos/crear", "create")->name("recibo-crear");
     Route::post("recibos/guardar", "store")->name("recibo-guardar");
@@ -93,7 +93,7 @@ Route::controller(AlquilerReciboController::class)->group( function(){
     Route::get("recibos/eliminar/{id}", "destroy")->name("recibo-borrar");
 });
 
-Route::controller(AlquilereController::class)->group( function(){
+Route::controller(AlquilereController::class)->middleware(['auth'])->group( function(){
     Route::get("alquileres", "index")->name("alquileres");
     Route::get("alquileres/crear", "create")->name("alquiler-crear");
     Route::post("alquileres/guardar", "store")->name("alquiler-guardar");
@@ -102,7 +102,7 @@ Route::controller(AlquilereController::class)->group( function(){
     Route::get("alquileres/eliminar/{id}", "destroy")->name("alquiler-borrar");
 });
 
-Route::controller(UserController::class)->group( function(){
+Route::controller(UserController::class)->middleware(['auth'])->group( function(){
     Route::get("usuarios", "index")->name("usuarios");
     Route::get("usuarios/crear", "create")->name("usuario-crear");
     Route::post("usuarios/guardar", "store")->name("usuario-guardar");
@@ -116,7 +116,7 @@ Route::controller(loginController::class)->group( function(){
     Route::post("login", "login")->name("login");
     Route::get("logout", "logout")->name("logout");
 });
-Route::view("/panel", "panel.index")->name("panel");
+Route::view("/panel", "panel.index")->middleware(['auth'])->name("panel");
 
 Route::view("/401", "pages.401")->name("401");
 Route::view("/404", "pages.404")->name("404");
