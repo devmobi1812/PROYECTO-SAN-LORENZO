@@ -83,6 +83,10 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
                     Depositos
                 </a>
+                <a class="nav-link" href="">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-credit-card"></i></div>
+                    Metodos de Pago
+                </a>
                 <a class="nav-link" href="{{ route('usuarios')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
                     Usuarios
