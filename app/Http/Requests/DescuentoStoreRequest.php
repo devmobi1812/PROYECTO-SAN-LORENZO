@@ -23,7 +23,7 @@ class DescuentoStoreRequest extends FormRequest
     {
         return [
             "nombre" => "required|string|max:100",
-            "cantidad" => "required|integer|max:3"
+            "cantidad" => "required|integer|max:100"
         ];
     }
 

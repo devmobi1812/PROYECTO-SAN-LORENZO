@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DepositoSeeder::class);
         $this->call(EstadoSeeder::class);
         $this->call(DiaSeeder::class);
+        $this->call(MetodoDePagoSeeder::class);
         /*
         Descuento::factory(11)->create();
         Cliente::factory(100)->create();

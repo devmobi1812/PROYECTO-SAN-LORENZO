@@ -21,8 +21,9 @@ class AlquilereController extends Controller
     public function index()
     {
         $alquileres = Alquilere::with(['estado', 'descuento', 'cliente'])->get();
+        $servicios = Alquiler_recibo::all();
         //dd($alquileres);
-        return view('alquiler.alquileres.index',['alquileres' =>$alquileres]);
+        return view('alquiler.alquileres.index',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
     }
 
     /**
@@ -72,14 +73,18 @@ class AlquilereController extends Controller
                 'fecha' => $request->fecha ]); 
             DB::commit();
 
-            $ultimoRegistro = Alquilere::orderBy('id', 'desc')->select("id")->first();
-            print($ultimoRegistro);
+            $ultimoRegistro = Alquilere::orderBy('id', 'desc')->select("id", "deposito")->first();
             if($ultimoRegistro!=null){
                 // Crear los recibos y calcular el monto final 
                 DB::beginTransaction();
                 $montoFinal = 0;
-                $descuento_id = $request->descuento;
+                $descuento_id = $request->descuento_id;
                 $descuento= Descuento::where("id",$descuento_id)->first();
+                $montoQuincho=0;
+                $montoVajilla=0;
+                $montoPileta=0;
+                $deposito=$ultimoRegistro->deposito;
+                
                 if($request->quincho==1){
                     $servicio = Servicio::where('id', $request->quincho_id)->first();
                     $recibo = Alquiler_recibo::create([
@@ -89,7 +94,7 @@ class AlquilereController extends Controller
                         'servicio_cantidad'=>1
                         
                     ]);
-                    $montoFinal += $recibo->servicio_precio; 
+                    $montoQuincho= $recibo->servicio_precio; 
                 }
                 
                 if($request->vajilla==1){
@@ -102,7 +107,7 @@ class AlquilereController extends Controller
                         'servicio_cantidad'=>$request->servicio_cantidad
                         
                     ]);
-                    $montoFinal += $recibo->servicio_precio * $recibo->servicio_cantidad;
+                    $montoVajilla= $recibo->servicio_precio * $recibo->servicio_cantidad;
                 }
                 if($request->pileta==1){
                     $servicio = Servicio::where('producto_id', 2)->first();
@@ -114,12 +119,22 @@ class AlquilereController extends Controller
                         'desde'=>$request->desde,
                         'hasta'=>$request->hasta
                     ]);
-                    $montoFinal += $recibo->servicio_precio;
+
+                    // Convertir los tiempos a DateTime
+                    $desde = new \DateTime($recibo->desde);
+                    $hasta = new \DateTime($recibo->hasta);
+
+                    // Calcular la diferencia
+                    $intervalo = $desde->diff($hasta);
+
+                    $montoPileta= $recibo->servicio_precio *$intervalo->h;
                 }
 
-                $montoFinal+=$recibo->deposito;
-                dd($descuento);
-                $montoFinal-=(($montoFinal*$descuento->cantidad)/100);
+                $montoFinal=$montoQuincho+$montoVajilla+$montoPileta;
+                $montoDescuento=(($montoFinal*$descuento->cantidad)/100);
+                //dd($descuento);
+                $montoFinal=($montoFinal-$montoDescuento)+$deposito;
+                
                 // Actualizar el monto final del alquiler 
                 $ultimoRegistro->update(['monto_final' => $montoFinal]); 
                 $ultimoRegistro->update(['monto_adeudado'=>$montoFinal]);
@@ -131,7 +146,8 @@ class AlquilereController extends Controller
             print($e);
         }
         
-            return $this->index();
+            //return $this->index();
+            return redirect()->route("alquileres");
             //return redirect()->back()->with('success', 'Alquiler creado exitosamente.'); 
     }
 

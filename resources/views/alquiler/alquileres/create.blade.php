@@ -105,7 +105,7 @@
             </div>
             <div class="mb-3">
                 <label for="descuento" class="form-label">Descuento</label>
-                    <select class="form-select" name="descuento_id" id="">
+                    <select class="form-select" name="descuento_id" id="descuento_id">
                             <option value="">Seleccionar descuento</option>
                         @foreach ($descuentos as $descuento)
                             <option value="{{$descuento->id}}" >{{$descuento->nombre}}</option>
@@ -116,6 +116,7 @@
                     @enderror
             
             </div>
+
             
             <a href="{{ route('alquileres') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>
