@@ -86,25 +86,32 @@ class AlquilereController extends Controller
                 $deposito=$ultimoRegistro->deposito;
                 
                 if($request->quincho==1){
-                    $servicio = Servicio::where('id', $request->quincho_id)->first();
+                    $servicio = Servicio::with(['turno', 'producto'])->where("id", $request->quincho_id)->first();
+                    //$servicio = Servicio::where('id', $request->quincho_id)->first();
                     $recibo = Alquiler_recibo::create([
                         'alquiler_id' => $ultimoRegistro->id,
                         'servicio_nombre'=>$servicio->nombre,
                         'servicio_precio'=>$servicio->precio,
-                        'servicio_cantidad'=>1
+                        'servicio_cantidad'=>1,
+                        'desde'=>$servicio->turno->desde,
+                        'hasta'=>$servicio->turno->hasta
+
                         
                     ]);
                     $montoQuincho= $recibo->servicio_precio; 
                 }
                 
                 if($request->vajilla==1){
-                    $servicio = Servicio::where('producto_id', 3)->first();
+                    $servicio = Servicio::with(['turno', 'producto'])->where("producto_id", 3)->first();
+                    //$servicio = Servicio::where('producto_id', 3)->first();
                     //dd($servicio);
                     $recibo = Alquiler_recibo::create([
                         'alquiler_id' => $ultimoRegistro->id,
                         'servicio_nombre'=>$servicio->nombre,
                         'servicio_precio'=>$servicio->precio,
-                        'servicio_cantidad'=>$request->servicio_cantidad
+                        'servicio_cantidad'=>$request->servicio_cantidad,
+                        'desde'=>$servicio->turno->desde,
+                        'hasta'=>$servicio->turno->hasta
                         
                     ]);
                     $montoVajilla= $recibo->servicio_precio * $recibo->servicio_cantidad;

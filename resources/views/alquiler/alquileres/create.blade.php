@@ -19,7 +19,7 @@
                   <select class="form-select" name="nombre_id" id="">
                           <option value="">Seleccionar cliente</option>
                       @foreach ($clientes as $cliente)
-                          <option value="{{$cliente->id}}" >{{$cliente->nombre}}</option>
+                          <option value="{{$cliente->id}}" socio="{{$cliente->socio}}" >{{$cliente->nombre}}</option>
                       @endforeach
                   </select>
                   @error('nombre_id')

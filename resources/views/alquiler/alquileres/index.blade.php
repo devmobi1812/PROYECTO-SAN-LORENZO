@@ -24,6 +24,7 @@
                             <th>#</th>
                             <th>Servicios</th>
                             <th>Cliente</th>
+                            <th>Horario</th>
                             <th>Fecha</th>
                             <th>Monto Final</th>
                             <th>Monto Adeudado</th>
@@ -34,7 +35,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!--TODO: Recortar los segundos de la tabla de horarios-->
                         @foreach ($alquileres as $alquiler)
                         <tr>
                             <td>{{$alquiler->id}}</td>
@@ -45,6 +45,19 @@
                                 @endforeach 
                             </td>
                             <td>{{$alquiler->cliente->nombre}}</td>
+                            <td>
+                                @php
+                                    $existe = 0;
+                                @endphp
+                                @foreach ($servicios as $servicio)
+                                    @if ($servicio->alquiler_id == $alquiler->id && $existe == 0)
+                                        {{ substr($servicio->desde, 0, 5) . "hs - " . substr($servicio->hasta, 0, 5) . "hs" }}
+                                        @php
+                                            $existe = 1;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                            </td>
                             
                             <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
                             <td>${{$alquiler->monto_final}}.-</td>

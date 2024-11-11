@@ -12,10 +12,10 @@ class Servicio extends Model
 
     protected $fillable = ['turno_id', 'producto_id', 'nombre', 'precio'];
     public function turno(){
-        return $this->belongsTo(Turno::class);
+        return $this->belongsTo(Turno::class, 'turno_id');
     }
 
     public function producto(){
-        return $this->belongsTo(Producto::class);
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
 }
