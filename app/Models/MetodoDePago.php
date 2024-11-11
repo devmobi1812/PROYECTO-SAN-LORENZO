@@ -12,4 +12,6 @@ class MetodoDePago extends Model
     public function alquilerAbono(){
         return $this->hasMany(Alquiler_abono::class);
     }
+
+    protected $fillable = ['nombre'];
 }

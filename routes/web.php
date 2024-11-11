@@ -7,6 +7,7 @@ use App\Http\Controllers\TurnoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\DescuentoController;
+use App\Http\Controllers\MetodoDePagoController;
 use App\Http\Controllers\AlquilerAbonoController;
 use App\Http\Controllers\AlquilerReciboController;
 use App\Http\Controllers\AlquilereController;
@@ -73,6 +74,16 @@ Route::controller(DepositoController::class)->middleware(['auth'])->group( funct
     Route::get("depositos/editar/{id}", "edit")->name("deposito-editar");
     Route::post("depositos/actualizar/{id}", "update")->name("deposito-actualizar");
     Route::get("depositos/eliminar/{id}", "destroy")->name("deposito-borrar");
+});
+
+Route::controller(MetodoDePagoController::class)->middleware(['auth'])->group( function(){
+    Route::get("metododepagos", "index")->name("metododepagos");
+    Route::get("metododepagos/crear", "create")->name("metododepago-crear");
+    Route::post("metododepagos/guardar", "store")->name("metododepago-guardar");
+    Route::get("metododepagos/mostrar/{id}", "show")->name("metododepago-mostrar");
+    Route::get("metododepagos/editar/{id}", "edit")->name("metododepago-editar");
+    Route::post("metododepagos/actualizar/{id}", "update")->name("metododepago-actualizar");
+    Route::get("metododepagos/eliminar/{id}", "destroy")->name("metododepago-borrar");
 });
 
 Route::controller(AlquilerAbonoController::class)->middleware(['auth'])->group( function(){
