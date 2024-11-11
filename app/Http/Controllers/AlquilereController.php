@@ -78,6 +78,8 @@ class AlquilereController extends Controller
                 // Crear los recibos y calcular el monto final 
                 DB::beginTransaction();
                 $montoFinal = 0;
+                $descuento_id = $request->descuento;
+                $descuento= Descuento::where("id",$descuento_id)->first();
                 if($request->quincho==1){
                     $servicio = Servicio::where('id', $request->quincho_id)->first();
                     $recibo = Alquiler_recibo::create([
@@ -91,7 +93,8 @@ class AlquilereController extends Controller
                 }
                 
                 if($request->vajilla==1){
-                    $servicio = Servicio::where('id', 3)->first();
+                    $servicio = Servicio::where('producto_id', 3)->first();
+                    //dd($servicio);
                     $recibo = Alquiler_recibo::create([
                         'alquiler_id' => $ultimoRegistro->id,
                         'servicio_nombre'=>$servicio->nombre,
@@ -102,7 +105,7 @@ class AlquilereController extends Controller
                     $montoFinal += $recibo->servicio_precio * $recibo->servicio_cantidad;
                 }
                 if($request->pileta==1){
-                    $servicio = Servicio::where('id', 2)->first();
+                    $servicio = Servicio::where('producto_id', 2)->first();
                     $recibo = Alquiler_recibo::create([
                         'alquiler_id' => $ultimoRegistro->id,
                         'servicio_nombre'=>$servicio->nombre,
@@ -115,6 +118,8 @@ class AlquilereController extends Controller
                 }
 
                 $montoFinal+=$recibo->deposito;
+                dd($descuento);
+                $montoFinal-=(($montoFinal*$descuento->cantidad)/100);
                 // Actualizar el monto final del alquiler 
                 $ultimoRegistro->update(['monto_final' => $montoFinal]); 
                 $ultimoRegistro->update(['monto_adeudado'=>$montoFinal]);
