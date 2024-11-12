@@ -15,7 +15,7 @@
             @csrf
             <div class="mb-3">
                 <label for="monto_pagado" class="form-label">Precio</label>
-                <input type="number" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado') }}">
+                <input type="number" placeholder="Monto abonado" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado') }}">
                 @error('contacto')
                     <small class="text-danger"> {{ '*'.$message}}</small>
                 @enderror

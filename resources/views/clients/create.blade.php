@@ -14,28 +14,28 @@
             @csrf
             <div class="mb-3">
               <label for="dni" class="form-label">DNI</label>
-              <input type="number" placeholder="DNI sin puntos..." name="dni" class="form-control @error('dni') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('dni') }}">
+              <input type="number" placeholder="Ingrese DNI sin puntos" name="dni" class="form-control @error('dni') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('dni') }}">
               @error('dni')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre completo</label>
-                <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('nombre') }}">
+                <input type="text" placeholder="Ingrese el nombre del cliente" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('nombre') }}">
                 @error('nombre')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
             <div class="mb-3">
                 <label for="contacto" class="form-label">Contacto</label>
-                <input type="text" name="contacto" class="form-control @error('contacto') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('contacto') }}">
+                <input type="text" placeholder="Ingrese información de contacto" name="contacto" class="form-control @error('contacto') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('contacto') }}">
                 @error('contacto')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
             <div class="mb-3">
                 <label for="domicilio" class="form-label">Domicilio</label>
-                <input type="text" name="domicilio" class="form-control @error('domicilio') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('domicilio') }}">
+                <input type="text" placeholder="Ingrese el domicilio del cliente" name="domicilio" class="form-control @error('domicilio') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('domicilio') }}">
                 @error('domicilio')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror

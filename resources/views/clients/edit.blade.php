@@ -14,7 +14,7 @@
             @csrf
             <div class="mb-3">
               <label for="dni" class="form-label">DNI</label>
-              <input type="number" placeholder="DNI sin puntos..." name="dni" class="form-control @error('dni') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('dni') == "" ? $cliente->dni : old('dni') }}">
+              <input type="number" placeholder="Ingrese DNI sin puntos" name="dni" class="form-control @error('dni') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('dni') == "" ? $cliente->dni : old('dni') }}">
               @error('dni')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror

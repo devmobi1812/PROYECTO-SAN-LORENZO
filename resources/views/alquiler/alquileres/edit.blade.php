@@ -131,6 +131,10 @@
 @endsection
 @push('js')
     <script src="{{ asset('js/alquileres.js') }}"></script>
+<<<<<<< HEAD
     
     
+=======
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+>>>>>>> 5418e5d75b22a91ef911ddaf0af9741859ff6260
 @endpush
