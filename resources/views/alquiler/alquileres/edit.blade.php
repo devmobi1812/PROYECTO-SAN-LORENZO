@@ -10,9 +10,11 @@
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }} ">Alquiler</a></li>
             <li class="breadcrumb-item active">Editar</li>
         </ol>
+
+
         <form method="POST" action="{{ route('alquiler-actualizar', $alquiler->id) }}">
             @csrf
-           
+
 
             <div class="mb-3">
                 <label for="nombre_id" class="form-label">Cliente</label>
@@ -23,7 +25,7 @@
                             {{ $cliente->nombre }}
                         </option>
                     @endforeach
-            </select>
+                </select>
                 @error('nombre_id')
                     <small class="text-danger"> {{ '*' . $message }}</small>
                 @enderror
@@ -33,23 +35,49 @@
                 <label for="fecha" class="form-label">Seleccionar fecha</label>
                 <input class="form-control" type="date" id="fecha" name="fecha" value="{{ $alquiler->fecha }}">
             </div>
+            @php
+                $quincho = null;
+                $vajilla = null;
+                $pileta = null;
 
+                foreach ($alquiler->alquilerRecibos as $recibo) {
+                    if (strpos($recibo->servicio_nombre, 'quincho') !== false) {
+                        $quincho = $recibo;                        
+                    }
+                                        
+                    if (strpos($recibo->servicio_nombre, 'vajilla') !== false) {
+                        $vajilla = $recibo;
+                    }
+                    if (strpos($recibo->servicio_nombre, 'pileta') !== false) {
+                        $pileta = $recibo;
+                    }
+                }
+            @endphp
             <h4>¿Qué servicio deseas?</h4>
             <div class="mb-3">
                 <!-- Quincho -->
                 <label for="quincho" class="form-label">Quincho</label>
                 <input type="checkbox" value="1" name="quincho" class="form-check-input" id="quincho-checkbox"
-                    {{ $alquiler->quincho ? 'checked' : '' }}>
+                   @if(old('quincho') == '')
+                        @if($quincho)
+                            checked
+                        @endif
+                    @else
+                        @if(old('quincho'))
+                            checked
+                        @endif
+                    @endif >
                 <div class="mb-3" id="quincho-select-container"
                     style="{{ $alquiler->quincho ? '' : 'visibility: hidden; height: 0;' }}">
                     <label for="quincho_variantes" class="form-label">Selecciona las variantes de quincho</label>
                     <select class="form-select" name="quincho_id" id="quincho_variantes">
                         <option value="">Selecciona aquí</option>
-                        @foreach ($quinchos as $quincho)
-                            <option value="{{ $quincho->id }}"
-                                {{ $alquiler->quincho_id == $quincho->id ? 'selected' : '' }}>
-                                {{ $quincho->nombre }}
-                            </option>
+                        @foreach ($quinchos as $quincho_opcion)                           
+                                <option value="{{ $quincho_opcion->id }}" 
+                                    @if($quincho->servicio_nombre == $quincho_opcion->nombre)selected @endif
+                                    >                                    
+                                    {{ $quincho_opcion->nombre }}
+                                </option>                           
                         @endforeach
                     </select>
                 </div>
@@ -57,30 +85,46 @@
                 <!-- Vajilla -->
                 <label for="vajilla" class="form-label">Vajilla</label>
                 <input type="checkbox" value="1" name="vajilla" class="form-check-input" id="vajilla-checkbox"
-                    {{ $alquiler->vajilla ? 'checked' : '' }}>
-                <div class="mb-3" id="vajilla-input-container"
-                    style="{{ $alquiler->vajilla ? '' : 'visibility: hidden; height: 0;' }}">
+                @if(old('vajilla') == '')
+                    @if($vajilla)
+                        checked
+                    @endif
+                @else
+                    @if(old('vajilla'))
+                        checked
+                    @endif
+                @endif >
+                <div class="mb-3" id="vajilla-input-container">
                     <label for="servicio_cantidad" class="form-label">Cantidad</label>
                     <input type="number" class="form-control" name="servicio_cantidad" id="servicio_cantidad"
-                        value="{{ $alquiler->servicio_cantidad }}">
+                        value="{{ $vajilla->servicio_cantidad }}">
                 </div>
 
                 <!-- Pileta -->
                 <label for="pileta" class="form-label">Pileta</label>
                 <input type="checkbox" value="1" name="pileta" class="form-check-input" id="pileta-checkbox"
-                    {{ $alquiler->pileta ? 'checked' : '' }}>
-                <div class="mb-3 row" id="pileta-select-container"
-                    style="{{ $alquiler->pileta ? '' : 'visibility: hidden; height: 0;' }}">
+                @if(old('pileta') == '')
+                    @if($pileta)
+                        checked
+                    @endif
+                @else
+                    @if(old('pileta'))
+                        checked
+                    @endif
+                @endif >
+                <div class="mb-3 row" id="pileta-select-container">
+                   
                     <div class="col-md-6">
                         <label for="desde" class="form-label">Desde</label>
-                        <input type="time" name="desde" class="form-control" value="{{ $alquiler->desde }}">
+                        <input type="time" name="desde" class="form-control" value="{{ $pileta->desde }}">
                     </div>
                     <div class="col-md-6">
                         <label for="hasta" class="form-label">Hasta</label>
-                        <input type="time" name="hasta" class="form-control" value="{{ $alquiler->hasta }}">
+                        <input type="time" name="hasta" class="form-control" value="{{ $pileta->hasta }}">
                     </div>
                 </div>
             </div>
+
 
             <div class="mb-3">
                 <label for="deposito" class="form-label">Deposito</label>
@@ -110,17 +154,19 @@
 
             <!-- Seña -->
             <label for="quincho" class="form-label">Abonar seña</label>
-            <input type="checkbox" value="1" name="seña" class="form-check-input @error('seña') is-invalid @enderror" id="seña-checkbox" aria-describedby="emailHelp" @if(old('seña') == 'seña') checked @endif>
+            <input type="checkbox" value="1" name="seña"
+                class="form-check-input @error('seña') is-invalid @enderror" id="seña-checkbox"
+                aria-describedby="emailHelp" @if (old('seña') == 'seña') checked @endif>
             <div class="mb-3" id="seña-select-container" style="visibility: hidden; height: 0;">
                 <label for="seña" class="form-label">Seleccionar metodo</label>
                 <select class="form-select" name="metodo_de_pagos_id" id="">
-                        <option value="">Seleccionar aqui</option>  
+                    <option value="">Seleccionar aqui</option>
                     @foreach ($metodos as $metodo)
-                        <option value="{{$metodo->id}}" >{{$metodo->nombre}}</option>
+                        <option value="{{ $metodo->id }}">{{ $metodo->nombre }}</option>
                     @endforeach
                 </select>
                 @error('metodo_de_pagos_id')
-                    <small class="text-danger">{{ '*'.$message }}</small>
+                    <small class="text-danger">{{ '*' . $message }}</small>
                 @enderror
             </div>
 
@@ -131,10 +177,5 @@
 @endsection
 @push('js')
     <script src="{{ asset('js/alquileres.js') }}"></script>
-<<<<<<< HEAD
-    
-    
-=======
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
->>>>>>> 5418e5d75b22a91ef911ddaf0af9741859ff6260
 @endpush

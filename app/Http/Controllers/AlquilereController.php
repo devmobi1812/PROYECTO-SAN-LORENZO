@@ -193,8 +193,8 @@ class AlquilereController extends Controller
     {
         try {
 
-            $alquiler = Alquilere::findOrFail($id);
-
+            $alquiler = Alquilere::with(["alquilerRecibos"])->find($id);
+           
             $clientes = Cliente::all();
             $nombreProducto = "Quincho";
             $quinchos = Servicio::whereHas('producto', function ($query) use ($nombreProducto) {
@@ -205,6 +205,9 @@ class AlquilereController extends Controller
             $descuentos = Descuento::all();
             $metodos=MetodoDePago::all();
 
+             
+        $serviciosSeleccionados = Alquiler_recibo::where('alquiler_id', $id)->get();
+                
             return view("alquiler.alquileres.edit", [
                 "alquiler" => $alquiler,
                 "clientes" => $clientes,
@@ -213,14 +216,16 @@ class AlquilereController extends Controller
                 "vajilla" => $vajilla,
                 "depositos" => $deposito,
                 "descuentos" => $descuentos,
-                "metodos"=>$metodos
+                "metodos"=>$metodos,
+                "serviciosSeleccionados" => $serviciosSeleccionados
             ]);
         } catch (Exception $e) {
             DB::rollBack();
+           
             
         }
 
-        return redirect()->route("alquileres");
+        // return redirect()->route("alquileres");
     }
     
 

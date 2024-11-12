@@ -33,7 +33,7 @@ class Alquilere extends Model
     }
 
     public function alquilerRecibos(){
-        return $this->hasMany(Alquiler_recibo::class);
+        return $this->hasMany(Alquiler_recibo::class, "alquiler_id");
     }
 
     public function alquilerAbonos(){
