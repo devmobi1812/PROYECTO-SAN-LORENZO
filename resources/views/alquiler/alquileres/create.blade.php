@@ -57,7 +57,7 @@
               <input type="checkbox" value="1" name="vajilla" class="form-check-input @error('servicios.1.nombre') is-invalid @enderror" id="vajilla-checkbox" aria-describedby="emailHelp" @if(old('servicios.1.nombre') == 'Vajilla') checked @endif>
               <div class="mb-3" id="vajilla-input-container" style="visibility: hidden; height: 0;">
                   <label for="cantidad" class="form-label">Cantidad</label>
-                  <input type="number" class="form-control" name="servicio_cantidad" id="servicio_cantidad" placeholder="Cantidad de vajilla" value="{{ old('servicio_cantidad') }}">
+                  <input type="number" placeholder="Ingrese un número" class="form-control" name="servicio_cantidad" id="servicio_cantidad" placeholder="Cantidad de vajilla" value="{{ old('servicio_cantidad') }}">
                   @error('servicio_cantidad')
                       <small class="text-danger">{{ '*'.$message }}</small>
                   @enderror

@@ -45,9 +45,6 @@
                     </tbody>
                 </table>
             </div>
-            @foreach ($depositos as $deposito)
-                    <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
-            @endforeach
         </div>
     </div>
 @endsection
