@@ -253,9 +253,8 @@ class AlquilereController extends Controller
         $montoVajilla = 0;
         $montoPileta = 0;
         $deposito = $alquiler->deposito;
-
-        $alquiler->alquilerRecibos()->delete();
-
+        
+        
         if ($request->quincho == 1) {
             $servicio = Servicio::where('id', $request->quincho_id)->first();
             $recibo = Alquiler_recibo::updateOrCreate(
@@ -302,11 +301,9 @@ class AlquilereController extends Controller
 
         DB::commit();
         return redirect()->route("alquileres");
-
-        
     } catch (Exception $e) {
         DB::rollBack();
-         $e->getMessage();
+        return redirect()->back()->with('error', 'Error al actualizar el alquiler.');
     }
 }
 

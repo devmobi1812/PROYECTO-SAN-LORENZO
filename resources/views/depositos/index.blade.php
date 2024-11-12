@@ -2,7 +2,6 @@
 @section('titulo', 'Depositos')
 @push('css')
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endpush
 @section('contenido')
@@ -37,7 +36,7 @@
                             <td>{{$deposito->nombre}}</td>
                             <td>{{$deposito->monto}}</td>
                             <td>
-                                <a href="{{ route('deposito-editar', $deposito->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                <a href="{{ route('deposito-editar', $deposito->id) }}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                             </td>
                         </tr>
@@ -46,12 +45,14 @@
                     </tbody>
                 </table>
             </div>
+            @foreach ($depositos as $deposito)
+                    <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+            @endforeach
         </div>
     </div>
 @endsection
 @push('js')
-    <script src="{{ asset('js/sweet-alert.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
     

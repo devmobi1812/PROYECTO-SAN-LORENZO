@@ -131,4 +131,6 @@
 @endsection
 @push('js')
     <script src="{{ asset('js/alquileres.js') }}"></script>
+    
+    
 @endpush
