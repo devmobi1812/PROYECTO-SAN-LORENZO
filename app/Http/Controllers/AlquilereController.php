@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AlquilerStoreRequest;
+use App\Http\Requests\AlquilerAbonoRequest;
+use App\Http\Controllers\AlquilerAbonoController;
 use App\Models\Alquilere;
 use App\Models\Alquiler_recibo;
 use App\Models\Cliente;
 use App\Models\Servicio;
 use App\Models\Deposito;
 use App\Models\Descuento;
+use App\Models\MetodoDePago;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -40,8 +43,9 @@ class AlquilereController extends Controller
         $vajilla = Servicio::where('producto_id', 3)->get();
         $deposito = Deposito::all();
         $descuentos = Descuento::all();
+        $metodos=MetodoDePago::all();
 
-        return view("alquiler.alquileres.create", ["clientes"=>$clientes, "quinchos"=>$quinchos, "pileta"=>$pileta, "vajilla"=>$vajilla,"depositos"=>$deposito, "descuentos"=>$descuentos]);
+        return view("alquiler.alquileres.create", ["clientes"=>$clientes, "quinchos"=>$quinchos, "pileta"=>$pileta, "vajilla"=>$vajilla,"depositos"=>$deposito, "descuentos"=>$descuentos, "metodos"=>$metodos]);
     }
 
     /**
@@ -136,13 +140,30 @@ class AlquilereController extends Controller
                 }
 
                 $montoFinal=$montoQuincho+$montoVajilla+$montoPileta;
+                
                 $montoDescuento=(($montoFinal*$descuento->cantidad)/100);
                 //dd($descuento);
                 $montoFinal=($montoFinal-$montoDescuento)+$deposito;
                 
                 // Actualizar el monto final del alquiler 
                 $ultimoRegistro->update(['monto_final' => $montoFinal]); 
-                $ultimoRegistro->update(['monto_adeudado'=>$montoFinal]);
+                $ultimoRegistro->update(['monto_adeudado' => $montoFinal]);
+
+                if ($request->seña == 1) {
+                    $datosAbono = [
+                        'alquiler_id' => $ultimoRegistro->id,
+                        'monto_pagado' => $montoFinal / 2,
+                        'metodo_de_pagos_id' => $request->metodo_de_pagos_id
+                    ];
+                
+                    $alquilerAbonoRequest = new AlquilerAbonoRequest();
+                    $alquilerAbonoRequest->replace($datosAbono);
+
+                    $abonoController = new AlquilerAbonoController();
+                    $abonoController->store($alquilerAbonoRequest);
+                }
+                
+                
                 DB::commit();
             }
             

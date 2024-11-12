@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const vajillaCheckbox = document.getElementById('vajilla-checkbox');
     const vajillaInputContainer = document.getElementById('vajilla-input-container');
 
+    const señaCheckbox = document.getElementById('seña-checkbox');
+    const señaSelectContainer = document.getElementById('seña-select-container');
+
     // Función para mostrar/ocultar el contenedor del quincho
     function toggleQuinchoSelect() {
         if (quinchoCheckbox.checked) {
@@ -29,6 +32,16 @@ document.addEventListener('DOMContentLoaded', function () {
             piletaSelectContainer.style.height = '0';
         }
     }
+    // Función para mostrar/ocultar el contenedor de la seña
+    function toggleSeñaSelect() {
+        if (señaCheckbox.checked) {
+            señaSelectContainer.style.visibility = 'visible';
+            señaSelectContainer.style.height = 'auto'; // Asegura que el contenedor tenga altura
+        } else {
+            señaSelectContainer.style.visibility = 'hidden';
+            señaSelectContainer.style.height = '0';
+        }
+    }
 
     // Función para mostrar/ocultar el input de vajilla
     function toggleVajillaInput() {
@@ -44,10 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializamos la visibilidad de los elementos según su estado
     toggleQuinchoSelect();
     togglePiletaSelect();
+    toggleSeñaSelect();
     toggleVajillaInput();
 
     // Añadir eventos a los checkboxes
     quinchoCheckbox.addEventListener('change', toggleQuinchoSelect);
+    señaCheckbox.addEventListener('change', toggleSeñaSelect);
     piletaCheckbox.addEventListener('change', togglePiletaSelect);
     vajillaCheckbox.addEventListener('change', toggleVajillaInput);
 });
