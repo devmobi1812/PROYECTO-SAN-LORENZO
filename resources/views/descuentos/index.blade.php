@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{$descuento->id}}</td>
                             <td>{{$descuento->nombre}}</td>
-                            <td>{{$descuento->cantidad}}</td>
+                            <td>{{$descuento->cantidad}}%</td>
                             <td>
                                 <a href="{{ route('descuento-editar', $descuento->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('descuento-borrar', $descuento->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->

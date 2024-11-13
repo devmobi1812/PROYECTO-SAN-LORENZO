@@ -279,6 +279,14 @@ class AlquilereController extends Controller
                 $alquiler->alquilerRecibos()->where("servicio_nombre", $servicio->nombre)->where("alquiler_id", $id)->delete();
             }
 
+        if ($request->vajilla == 1) {
+            $servicio = Servicio::where('producto_id', 2)->first();
+            $recibo = Alquiler_recibo::updateOrCreate(
+                ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
+                ['servicio_precio' => $servicio->precio, 'servicio_cantidad' => $request->servicio_cantidad]
+            );
+            $montoVajilla = $recibo->servicio_precio * $recibo->servicio_cantidad;
+        }
             if ($request->vajilla == 1) {
                 $servicio = Servicio::where('producto_id', 3)->first();
                 $recibo = Alquiler_recibo::updateOrCreate(
@@ -291,32 +299,31 @@ class AlquilereController extends Controller
                 $alquiler->alquilerRecibos()->where("servicio_nombre", $servicio->nombre)->where("alquiler_id", $id)->delete();
             }
 
-            if ($request->pileta == 1) {
-                $servicio = Servicio::where('producto_id', 2)->first();
-                $recibo = Alquiler_recibo::updateOrCreate(
-                    ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
-                    [
-                        'servicio_precio' => $servicio->precio,
-                        'servicio_cantidad' => 1,
-                        'desde' => $request->desde,
-                        'hasta' => $request->hasta
-                    ]
-                );           
-                $desde = new \DateTime($recibo->desde);
-                $hasta = new \DateTime($recibo->hasta);
-                $intervalo = $desde->diff($hasta);
-                $montoPileta = $recibo->servicio_precio * $intervalo->h;
-            }else{
-                $servicio = Servicio::where('id', 2)->first();
-                $alquiler->alquilerRecibos()->where("servicio_nombre", $servicio->nombre)->where("alquiler_id", $id)->delete();
-            }
-            $montoFinal = $montoQuincho + $montoVajilla + $montoPileta;
-            $montoDescuento = (($montoFinal * $descuento->cantidad) / 100);
-            $montoFinal = ($montoFinal - $montoDescuento) + $deposito; 
-            $alquiler->update([
-                'monto_final' => $montoFinal,
-                'monto_adeudado' => $montoFinal - ($alquiler->monto_final - $alquiler->monto_adeudado)
-            ]);
+        if ($request->pileta == 1) {
+            $servicio = Servicio::where('producto_id', 2)->first();
+            $recibo = Alquiler_recibo::updateOrCreate(
+                ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
+                [
+                    'servicio_precio' => $servicio->precio,
+                    'servicio_cantidad' => 1,
+                    'desde' => $request->desde,
+                    'hasta' => $request->hasta
+                ]
+            );           
+            $desde = new \DateTime($recibo->desde);
+            $hasta = new \DateTime($recibo->hasta);
+            $intervalo = $desde->diff($hasta);
+            $montoPileta = $recibo->servicio_precio * $intervalo->h;
+        }
+
+        $montoFinal = $montoQuincho + $montoVajilla + $montoPileta;
+        $montoDescuento = (($montoFinal * $descuento->cantidad) / 100);
+        $montoFinal = ($montoFinal - $montoDescuento) + $deposito;
+        
+        $alquiler->update([
+            'monto_final' => $montoFinal,
+            'monto_adeudado' => $montoFinal
+        ]);
 
             DB::commit();
             return redirect()->route("alquileres");

@@ -42,4 +42,12 @@ class Alquilere extends Model
 
     protected $fillable = ['nombre_id', 'dia_id', 'descuento_id', 'estado_id', 'monto_final', 'monto_adeudado', 'deposito', 'fecha'];
     
+    protected static function boot() { 
+        parent::boot(); 
+        static::deleting(function ($alquiler) { 
+            $alquiler->alquilerRecibos()->delete(); 
+            $alquiler->alquilerAbonos()->delete(); 
+        }); 
+    }
+
 }

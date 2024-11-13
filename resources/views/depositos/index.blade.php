@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{$deposito->id}}</td>
                             <td>{{$deposito->nombre}}</td>
-                            <td>{{$deposito->monto}}</td>
+                            <td>${{$deposito->monto}}.-</td>
                             <td>
                                 <a href="{{ route('deposito-editar', $deposito->id) }}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->

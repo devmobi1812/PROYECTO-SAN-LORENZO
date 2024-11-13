@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{$servicio->id}}</td>
                             <td>{{$servicio->nombre}}</td>
-                            <td>{{$servicio->precio}}</td>
+                            <td>${{$servicio->precio}}.-</td>
                             <td>
                                 @if ($servicio->turno)
                                 {{ $servicio->turno->nombre }}

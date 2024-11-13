@@ -125,11 +125,11 @@ class AlquilerAbonoController extends Controller
         $alquiler = $abono->alquiler;
 
         // Suma el monto del abono al monto total del alquiler
-        $alquiler->monto_total += $abono->monto_pagado;
+        $alquiler->monto_adeudado+= $abono->monto_pagado;
         $alquiler->save();
 
         Alquiler_abono::destroy($id);
-        return redirect()->route("abonos");
+        return redirect()->route("abonos", $id);
     }
 
 }

@@ -12,7 +12,7 @@ class Alquiler_abono extends Model
     use HasFactory;
 
     public function alquiler(){
-        return $this->belongsTo(Alquilere::class);
+        return $this->belongsTo(Alquilere::class, 'alquiler_id');
     }
 
     public function metodoDePago(){

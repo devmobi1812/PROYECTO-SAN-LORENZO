@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('alquiler_recibos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("alquiler_id")->constrained("alquileres");
+            $table->foreignId("alquiler_id")->constrained("alquileres")->onDelete('cascade');
             $table->string("servicio_nombre",100);
             $table->integer("servicio_precio");
             $table->integer("servicio_cantidad")->nullable()->default(1);

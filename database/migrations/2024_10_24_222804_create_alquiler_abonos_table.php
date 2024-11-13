@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('alquiler_abonos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("alquiler_id")->constrained("alquileres");
+            $table->foreignId("alquiler_id")->constrained("alquileres")->onDelete('cascade');
             $table->integer("monto_pagado");
             $table->foreignId("metodo_de_pagos_id")->constrained("metodo_de_pagos");
             $table->timestamps();

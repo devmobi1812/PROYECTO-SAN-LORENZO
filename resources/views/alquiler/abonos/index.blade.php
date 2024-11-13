@@ -32,7 +32,7 @@
                         @foreach ($abonos as $abono)
                         <tr>
                             <td>{{$abono->id}}</td>
-                            <td>{{$abono->monto_pagado}}</td>
+                            <td>${{$abono->monto_pagado}}.-</td>
                             <td>{{$abono->metodoDePago->nombre}}</td>
                             <td>
                                 <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
