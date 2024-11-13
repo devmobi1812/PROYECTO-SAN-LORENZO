@@ -14,7 +14,7 @@
             @csrf
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text"  name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('dni') }}">
+              <input type="text" placeholder="Ingrese un nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('dni') }}">
               @error('nombre')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror

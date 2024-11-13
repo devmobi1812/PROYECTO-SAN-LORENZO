@@ -14,13 +14,13 @@
             @csrf
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text"  name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('nombre') == "" ? $deposito->nombre : old('nombre') }}">
+              <input type="text" placeholder="Ingrese un nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('nombre') == "" ? $deposito->nombre : old('nombre') }}">
               @error('nombre')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             <div class="mb-3">
                 <label for="monto" class="form-label">Cantidad</label>
-                <input type="text"  name="monto" class="form-control @error('monto') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto') == "" ? $deposito->monto : old('monto') }}">
+                <input type="text" placeholder="Ingrese el monto depositado" name="monto" class="form-control @error('monto') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto') == "" ? $deposito->monto : old('monto') }}">
                 @error('estado')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
