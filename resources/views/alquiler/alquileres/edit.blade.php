@@ -139,8 +139,8 @@
             </div>
 
             <!-- Seña -->
-            <label for="quincho" class="form-label">Abonar seña</label>
-            <input type="checkbox" value="1" name="seña"
+           
+            <input type="hidden" value="1" name="seña"
                 class="form-check-input @error('seña') is-invalid @enderror" id="seña-checkbox"
                 aria-describedby="emailHelp" @if (old('seña') == 'seña') checked @endif>
             <div class="mb-3" id="seña-select-container" style="visibility: hidden; height: 0;">
