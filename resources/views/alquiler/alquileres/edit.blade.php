@@ -138,24 +138,6 @@
                 </select>
             </div>
 
-            <!-- Seña -->
-            <label for="quincho" class="form-label">Abonar seña</label>
-            <input type="checkbox" value="1" name="seña"
-                class="form-check-input @error('seña') is-invalid @enderror" id="seña-checkbox"
-                aria-describedby="emailHelp" @if (old('seña') == 'seña') checked @endif>
-            <div class="mb-3" id="seña-select-container" style="visibility: hidden; height: 0;">
-                <label for="seña" class="form-label">Seleccionar metodo</label>
-                <select class="form-select" name="metodo_de_pagos_id" id="">
-                    <option value="">Seleccionar aqui</option>
-                    @foreach ($metodos as $metodo)
-                        <option value="{{ $metodo->id }}">{{ $metodo->nombre }}</option>
-                    @endforeach
-                </select>
-                @error('metodo_de_pagos_id')
-                    <small class="text-danger">{{ '*' . $message }}</small>
-                @enderror
-            </div>
-
             <a href="{{ route('alquileres') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>
