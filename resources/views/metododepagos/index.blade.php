@@ -1,11 +1,11 @@
 @extends('template')
-@section('titulo', 'Metodos De Pago')
+@section('titulo', 'Metodos de pago')
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     @endpush
 @section('contenido')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Metodos De Pago</h1>
+        <h1 class="mt-4">Metodos de pago</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
             <li class="breadcrumb-item active">Metodos De Pago</li>

@@ -11245,3 +11245,9 @@ body {
 td{
   white-space: nowrap
 }
+
+.userFont{
+  display: flex;
+  align-items: center;
+  color: white;
+}

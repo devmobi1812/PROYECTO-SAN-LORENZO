@@ -38,16 +38,13 @@
                             <td>
                                 <a href="{{ route('deposito-editar', $deposito->id) }}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
-                            </td>
+                            </td>
                         </tr>
                         @endforeach
 
                     </tbody>
                 </table>
             </div>
-            @foreach ($depositos as $deposito)
-                    <a class="btn btn-danger" href="{{ route('deposito-borrar', $deposito->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
-            @endforeach
         </div>
     </div>
 @endsection

@@ -4,7 +4,7 @@
 @endpush
 @section('contenido')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Editar</h1>
+        <h1 class="mt-4">Abono</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }}">Alquileres</a></li>
