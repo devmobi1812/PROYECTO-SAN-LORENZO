@@ -1,10 +1,10 @@
 @extends('template')
-@section('titulo', 'Editar descuento')
+@section('titulo', 'Editar usuarios')
 @push('css')
 @endpush
 @section('contenido')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Usuarios</h1>
+        <h1 class="mt-4">Usuario</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('usuarios') }} ">Usuarios</a></li>

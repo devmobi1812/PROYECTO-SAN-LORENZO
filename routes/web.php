@@ -129,6 +129,8 @@ Route::controller(loginController::class)->group( function(){
 });
 Route::view("/panel", "panel.index")->middleware(['auth'])->name("panel");
 
+Route::view("/politicasdeprivacidad", "private.politicas")->name("politicas");
+Route::view("/terminosycondiciones", "private.terminos")->name("terminos");
 Route::view("/401", "pages.401")->name("401");
 Route::view("/404", "pages.404")->name("404");
 Route::view("/500", "pages.500")->name("500");

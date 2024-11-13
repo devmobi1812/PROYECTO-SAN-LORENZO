@@ -2,13 +2,13 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <!--
+                
                 <div class="sb-sidenav-menu-heading">Núcleo</div>
                 <a class="nav-link" href="{{ route('panel')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Panel
                 </a>
-                
+                <!--
                 <div class="sb-sidenav-menu-heading">Interfaz</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -53,8 +53,6 @@
                     </nav>
                 </div>
             -->
-                <!-- TODO: buscar iconos para la botonera -->
-                
                 <div class="sb-sidenav-menu-heading">Gestión</div>
                 <a class="nav-link" href="{{ route('alquileres') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-dollar-to-slot"></i></div><!-- el default <i class="fas fa-table"> -->
@@ -95,7 +93,7 @@
             </div>
         </div>
         <div class="sb-sidenav-footer">
-            <div class="small">Hola {{ auth()->user()->name }}</div>
+            <div class="small">Versión 1.87.87</div>
         </div>
     </nav>
 </div>
