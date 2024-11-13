@@ -20,7 +20,7 @@
             @enderror
             <div class="mb-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
-                <input type="text" placeholder="Ingrese la cantidad" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('cantidad') == "" ? $descuento->cantidad : old('cantidad') }}">
+                <input type="text" placeholder="Ingrese el descuento (ej: %30)" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('cantidad') == "" ? $descuento->cantidad : old('cantidad') }}">
                 @error('descuento')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror

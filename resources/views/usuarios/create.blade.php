@@ -21,7 +21,7 @@
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email"  name="email" class="form-control @error('email') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('email') }}">
+                <input type="email" placeholder="Ingrese su email" name="email" class="form-control @error('email') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('email') }}">
                 @error('email')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
@@ -29,7 +29,7 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password"  name="password" class="form-control @error('password') is-invalid @enderror" aria-describedby="emailHelp" >
+                <input type="password" placeholder="Ingrese su contraseña" name="password" class="form-control @error('password') is-invalid @enderror" aria-describedby="emailHelp" >
                 @error('password')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
@@ -37,7 +37,7 @@
 
             <div class="mb-3">
                 <label for="password2" class="form-label">Repita su contraseña</label>
-                <input type="password"  name="password2" class="form-control @error('password2') is-invalid @enderror" aria-describedby="emailHelp" >
+                <input type="password" placeholder="Vuelva a ingresar su contraseña" name="password2" class="form-control @error('password2') is-invalid @enderror" aria-describedby="emailHelp" >
                 @error('password2')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
