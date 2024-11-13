@@ -10,7 +10,7 @@ class loginController extends Controller
 {
     public function index(){
         if(Auth::check()){
-            return redirect()->route("clientes");
+            return redirect()->route("alquileres");
         }
         return view("auth.login");
     }
@@ -20,7 +20,7 @@ class loginController extends Controller
             return redirect()->to("login")->withErrors("Credenciales incorrectas");
         }
 
-        return redirect()->to("clientes");
+        return redirect()->to("alquileres");
     }
 
     public function logout(){

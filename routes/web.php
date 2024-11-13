@@ -15,7 +15,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('template');
+    return view('auth.login');
 });
 Route::controller(ClienteController::class)->middleware(['auth'])->group( function(){
     Route::get("clientes", "index")->name("clientes");
