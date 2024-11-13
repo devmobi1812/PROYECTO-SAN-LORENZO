@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="sb-sidenav-footer">
-            <div class="small">Versión 1.87.87</div>
+            <div class="small">Versión 1.87.107</div>
         </div>
     </nav>
 </div>
