@@ -14,14 +14,14 @@
             @csrf
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" placeholder="Ingrese un nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp">
+              <input type="text" placeholder="Ingrese el nombre del descuento (ej: %30)" name="nombre" class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp">
               @error('nombre')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
             <div class="mb-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
-                <input type="text" placeholder="Ingrese el descuento (ej: %30)"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp">
+                <input type="text" placeholder="Ingrese solo numeros"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror" aria-describedby="emailHelp">
                 @error('cantidad')
                   <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
