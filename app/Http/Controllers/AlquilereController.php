@@ -199,14 +199,26 @@ class AlquilereController extends Controller
             $nombreProducto = "Quincho";
             $quinchos = Servicio::whereHas('producto', function ($query) use ($nombreProducto) {
                 $query->where('nombre', $nombreProducto);})->get();
-            $pileta = Servicio::where('producto_id', 2)->get();
-            $vajilla = Servicio::where('producto_id', 3)->get();
             $deposito = Deposito::all();
             $descuentos = Descuento::all();
             $metodos=MetodoDePago::all();
 
-             
-        $serviciosSeleccionados = Alquiler_recibo::where('alquiler_id', $id)->get();
+            $quincho = null;
+            $vajilla = null;
+            $pileta = null;
+
+            foreach ($alquiler->alquilerRecibos as $recibo) {
+                if (strpos(strtolower($recibo->servicio_nombre), 'quincho') !== false) {
+                    $quincho = $recibo;                        
+                }
+                                    
+                if (strpos(strtolower($recibo->servicio_nombre), 'vajilla') !== false) {
+                    $vajilla = $recibo;
+                }
+                if (strpos(strtolower($recibo->servicio_nombre), 'pileta') !== false) {
+                    $pileta = $recibo;
+                }
+            }
                 
             return view("alquiler.alquileres.edit", [
                 "alquiler" => $alquiler,
@@ -214,18 +226,14 @@ class AlquilereController extends Controller
                 "quinchos" => $quinchos,
                 "pileta" => $pileta,
                 "vajilla" => $vajilla,
+                "quincho" => $quincho,
                 "depositos" => $deposito,
                 "descuentos" => $descuentos,
-                "metodos"=>$metodos,
-                "serviciosSeleccionados" => $serviciosSeleccionados
+                "metodos"=>$metodos
             ]);
         } catch (Exception $e) {
             DB::rollBack();
-           
-            
         }
-
-        // return redirect()->route("alquileres");
     }
     
 
@@ -234,83 +242,89 @@ class AlquilereController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AlquilerUpdateRequest $request, $id)
-{   
-    try {
-        DB::beginTransaction();
+    public function update(AlquilerUpdateRequest $request, $id){   
+        try{
+            DB::beginTransaction();
+            
+            $alquiler = Alquilere::with(["alquilerRecibo"])->findOrFail($id);
         
-        $alquiler = Alquilere::findOrFail($id);
-       
-        $dia = $this->getDayOfWeek($request->fecha);
-        $alquiler->update([
-            'nombre_id' => $request->nombre_id,
-            'dia_id' => $dia,
-            'descuento_id' => $request->descuento_id,
-            'deposito' => $request->deposito,
-            'fecha' => $request->fecha,
-            'estado_id' => 2, 
-        ]);        
+            $dia = $this->getDayOfWeek($request->fecha);
+            $alquiler->update([
+                'nombre_id' => $request->nombre_id,
+                'dia_id' => $dia,
+                'descuento_id' => $request->descuento_id,
+                'deposito' => $request->deposito,
+                'fecha' => $request->fecha,
+                'estado_id' => 2, 
+            ]);        
 
-        $montoFinal = 0;
-        $descuento_id = $request->descuento_id;
-        $descuento = Descuento::where('id', $descuento_id)->first();
-        $montoQuincho = 0;
-        $montoVajilla = 0;
-        $montoPileta = 0;
-        $deposito = $alquiler->deposito;
-        
-        
-        if ($request->quincho == 1) {
-            $servicio = Servicio::where('id', $request->quincho_id)->first();
-            $recibo = Alquiler_recibo::updateOrCreate(
-                ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
-                ['servicio_precio' => $servicio->precio, 'servicio_cantidad' => 1]
-            );
-            $montoQuincho = $recibo->servicio_precio;
+            $montoFinal = 0;
+            $descuento_id = $request->descuento_id;
+            $descuento = Descuento::where('id', $descuento_id)->first();
+            $montoQuincho = 0;
+            $montoVajilla = 0;
+            $montoPileta = 0;
+            $deposito = $alquiler->deposito;
+            
+            
+            if ($request->quincho == 1) {
+                $servicio = Servicio::where('id', $request->quincho_id)->first();
+                $recibo = Alquiler_recibo::updateOrCreate(
+                    ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
+                    ['servicio_precio' => $servicio->precio, 'servicio_cantidad' => 1]
+                );
+                $montoQuincho = $recibo->servicio_precio;
+            }else{
+                $servicio = Servicio::where('id', $request->quincho_id)->first();
+                $alquiler->alquilerRecibos()->where("servicio_nombre", $servicio->nombre)->where("alquiler_id", $id)->delete();
+            }
+
+            if ($request->vajilla == 1) {
+                $servicio = Servicio::where('producto_id', 3)->first();
+                $recibo = Alquiler_recibo::updateOrCreate(
+                    ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
+                    ['servicio_precio' => $servicio->precio, 'servicio_cantidad' => $request->servicio_cantidad]
+                );
+                $montoVajilla = $recibo->servicio_precio * $recibo->servicio_cantidad;
+            }else{
+                $servicio = Servicio::where('id', 3)->first();
+                $alquiler->alquilerRecibos()->where("servicio_nombre", $servicio->nombre)->where("alquiler_id", $id)->delete();
+            }
+
+            if ($request->pileta == 1) {
+                $servicio = Servicio::where('producto_id', 2)->first();
+                $recibo = Alquiler_recibo::updateOrCreate(
+                    ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
+                    [
+                        'servicio_precio' => $servicio->precio,
+                        'servicio_cantidad' => 1,
+                        'desde' => $request->desde,
+                        'hasta' => $request->hasta
+                    ]
+                );           
+                $desde = new \DateTime($recibo->desde);
+                $hasta = new \DateTime($recibo->hasta);
+                $intervalo = $desde->diff($hasta);
+                $montoPileta = $recibo->servicio_precio * $intervalo->h;
+            }else{
+                $servicio = Servicio::where('id', 2)->first();
+                $alquiler->alquilerRecibos()->where("servicio_nombre", $servicio->nombre)->where("alquiler_id", $id)->delete();
+            }
+            $montoFinal = $montoQuincho + $montoVajilla + $montoPileta;
+            $montoDescuento = (($montoFinal * $descuento->cantidad) / 100);
+            $montoFinal = ($montoFinal - $montoDescuento) + $deposito; 
+            $alquiler->update([
+                'monto_final' => $montoFinal,
+                'monto_adeudado' => $montoFinal - ($alquiler->monto_final - $alquiler->monto_adeudado)
+            ]);
+
+            DB::commit();
+            return redirect()->route("alquileres");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error al actualizar el alquiler.');
         }
-
-        if ($request->vajilla == 1) {
-            $servicio = Servicio::where('producto_id', 3)->first();
-            $recibo = Alquiler_recibo::updateOrCreate(
-                ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
-                ['servicio_precio' => $servicio->precio, 'servicio_cantidad' => $request->servicio_cantidad]
-            );
-            $montoVajilla = $recibo->servicio_precio * $recibo->servicio_cantidad;
-        }
-
-        if ($request->pileta == 1) {
-            $servicio = Servicio::where('producto_id', 2)->first();
-            $recibo = Alquiler_recibo::updateOrCreate(
-                ['alquiler_id' => $alquiler->id, 'servicio_nombre' => $servicio->nombre],
-                [
-                    'servicio_precio' => $servicio->precio,
-                    'servicio_cantidad' => 1,
-                    'desde' => $request->desde,
-                    'hasta' => $request->hasta
-                ]
-            );           
-            $desde = new \DateTime($recibo->desde);
-            $hasta = new \DateTime($recibo->hasta);
-            $intervalo = $desde->diff($hasta);
-            $montoPileta = $recibo->servicio_precio * $intervalo->h;
-        }
-
-        $montoFinal = $montoQuincho + $montoVajilla + $montoPileta;
-        $montoDescuento = (($montoFinal * $descuento->cantidad) / 100);
-        $montoFinal = ($montoFinal - $montoDescuento) + $deposito;
-        
-        $alquiler->update([
-            'monto_final' => $montoFinal,
-            'monto_adeudado' => $montoFinal
-        ]);
-
-        DB::commit();
-        return redirect()->route("alquileres");
-    } catch (Exception $e) {
-        DB::rollBack();
-        return redirect()->back()->with('error', 'Error al actualizar el alquiler.');
     }
-}
 
 
     /**

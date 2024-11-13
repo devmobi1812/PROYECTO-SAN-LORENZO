@@ -29,8 +29,8 @@ class AlquilerUpdateRequest extends FormRequest
 
            
             'servicio_cantidad' => 'nullable|integer|min:1', 
-            'desde' => 'nullable|date', 
-            'hasta' => 'nullable|date|after:desde', 
+            'desde' => 'nullable|date_format:H:i', 
+            'hasta' => 'nullable|date_format:H:i|after:desde', 
 
             'quincho' => 'nullable|boolean', 
             'vajilla' => 'nullable|boolean', 

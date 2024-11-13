@@ -19,7 +19,6 @@
             <div class="mb-3">
                 <label for="nombre_id" class="form-label">Cliente</label>
                 <select class="form-select" name="nombre_id" id="nombre_id">
-                    <option value="">Seleccionar cliente</option>
                     @foreach ($clientes as $cliente)
                         <option value="{{ $cliente->id }}" {{ $alquiler->nombre_id == $cliente->id ? 'selected' : '' }}>
                             {{ $cliente->nombre }}
@@ -35,92 +34,80 @@
                 <label for="fecha" class="form-label">Seleccionar fecha</label>
                 <input class="form-control" type="date" id="fecha" name="fecha" value="{{ $alquiler->fecha }}">
             </div>
-            @php
-                $quincho = null;
-                $vajilla = null;
-                $pileta = null;
 
-                foreach ($alquiler->alquilerRecibos as $recibo) {
-                    if (strpos($recibo->servicio_nombre, 'quincho') !== false) {
-                        $quincho = $recibo;                        
-                    }
-                                        
-                    if (strpos($recibo->servicio_nombre, 'vajilla') !== false) {
-                        $vajilla = $recibo;
-                    }
-                    if (strpos($recibo->servicio_nombre, 'pileta') !== false) {
-                        $pileta = $recibo;
-                    }
-                }
-            @endphp
             <h4>¿Qué servicio deseas?</h4>
-            <div class="mb-3">
+
+            <div class="mb-36">
                 <!-- Quincho -->
                 <label for="quincho" class="form-label">Quincho</label>
-                <input type="checkbox" value="1" name="quincho" class="form-check-input" id="quincho-checkbox"
-                   @if(old('quincho') == '')
-                        @if($quincho)
-                            checked
-                        @endif
-                    @else
-                        @if(old('quincho'))
-                            checked
-                        @endif
-                    @endif >
-                <div class="mb-3" id="quincho-select-container"
-                    style="{{ $alquiler->quincho ? '' : 'visibility: hidden; height: 0;' }}">
+                <input type="checkbox" value="1" name="quincho" class="form-check-input @error('quincho') is-invalid @enderror" id="quincho-checkbox" aria-describedby="emailHelp" 
+                @if(old('quincho') != '')
+                    checked
+                @elseif($quincho)
+                    checked
+                @endif
+                >
+                <div class="mb-3" id="quincho-select-container" style="visibility: hidden; height: 0;">
                     <label for="quincho_variantes" class="form-label">Selecciona las variantes de quincho</label>
                     <select class="form-select" name="quincho_id" id="quincho_variantes">
                         <option value="">Selecciona aquí</option>
-                        @foreach ($quinchos as $quincho_opcion)                           
-                                <option value="{{ $quincho_opcion->id }}" 
-                                    @if($quincho->servicio_nombre == $quincho_opcion->nombre)selected @endif
-                                    >                                    
-                                    {{ $quincho_opcion->nombre }}
-                                </option>                           
+                        @foreach ($quinchos as $quincho_opcion)
+                            <option value="{{ $quincho_opcion->id }}" 
+                                @if(old('quincho_id') == $quincho_opcion->id)
+                                    selected
+                                @elseif(old('quincho_id') == '' && $quincho && $quincho->servicio_nombre == $quincho_opcion->nombre)
+                                    selected
+                                @endif
+                                >{{ $quincho_opcion->nombre }}</option>
                         @endforeach
                     </select>
+                    @error('quincho_id')
+                        <small class="text-danger">{{ '*'.$message }}</small>
+                    @enderror
                 </div>
-
+            
                 <!-- Vajilla -->
                 <label for="vajilla" class="form-label">Vajilla</label>
-                <input type="checkbox" value="1" name="vajilla" class="form-check-input" id="vajilla-checkbox"
-                @if(old('vajilla') == '')
-                    @if($vajilla)
+                <input type="checkbox" value="1" name="vajilla" class="form-check-input @error('vajilla') is-invalid @enderror" id="vajilla-checkbox" aria-describedby="emailHelp" 
+                    @if(old('vajilla') != '')
+                        checked
+                    @elseif($vajilla)
                         checked
                     @endif
-                @else
-                    @if(old('vajilla'))
-                        checked
-                    @endif
-                @endif >
-                <div class="mb-3" id="vajilla-input-container">
-                    <label for="servicio_cantidad" class="form-label">Cantidad</label>
-                    <input type="number" class="form-control" name="servicio_cantidad" id="servicio_cantidad"
-                        value="{{ $vajilla->servicio_cantidad }}">
+                >
+                <div class="mb-3" id="vajilla-input-container" style="visibility: hidden; height: 0;">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <input type="number" placeholder="Ingrese un número" class="form-control" name="servicio_cantidad" id="servicio_cantidad" placeholder="Cantidad de vajilla" value="@if(old('vajilla') != '' && old('cantidad') != ''){{ old('cantidad') }}@elseif($vajilla){{ $vajilla->servicio_cantidad }}@endif">
+                    @error('servicio_cantidad')
+                        <small class="text-danger">{{ '*'.$message }}</small>
+                    @enderror
                 </div>
-
+            
                 <!-- Pileta -->
                 <label for="pileta" class="form-label">Pileta</label>
-                <input type="checkbox" value="1" name="pileta" class="form-check-input" id="pileta-checkbox"
-                @if(old('pileta') == '')
-                    @if($pileta)
+                <input type="checkbox" value="1" name="pileta" class="form-check-input @error('pileta') is-invalid @enderror" id="pileta-checkbox" aria-describedby="emailHelp" 
+                    @if(old('pileta') != '')
+                        checked
+                    @elseif($pileta)
                         checked
                     @endif
-                @else
-                    @if(old('pileta'))
-                        checked
-                    @endif
-                @endif >
-                <div class="mb-3 row" id="pileta-select-container">
-                   
-                    <div class="col-md-6">
-                        <label for="desde" class="form-label">Desde</label>
-                        <input type="time" name="desde" class="form-control" value="{{ $pileta->desde }}">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="hasta" class="form-label">Hasta</label>
-                        <input type="time" name="hasta" class="form-control" value="{{ $pileta->hasta }}">
+                >
+                <div class="mb-3" id="pileta-select-container" style="visibility: hidden; height: 0;">
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="desde" class="form-label">Desde</label>
+                            <input type="time" name="desde" class="form-control @error('desde') is-invalid @enderror" aria-describedby="emailHelp" value="@if(old('pileta') != '' && old('desde') != ''){{ old('desde') }}@elseif($pileta){{ substr($pileta->desde, 0, 5) }}@endif">
+                            @error('desde')
+                                <small class="text-danger">{{ '*'.$message }}</small>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="hasta" class="form-label">Hasta</label>
+                            <input type="time" name="hasta" class="form-control @error('hasta') is-invalid @enderror" aria-describedby="emailHelp" value="@if(old('pileta') != '' && old('hasta') != ''){{ old('hasta') }}@elseif($pileta){{ substr($pileta->hasta, 0, 5) }}@endif">
+                            @error('hasta')
+                                <small class="text-danger">{{ '*'.$message }}</small>
+                            @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +116,6 @@
             <div class="mb-3">
                 <label for="deposito" class="form-label">Deposito</label>
                 <select class="form-select" name="deposito" id="deposito">
-                    <option value="">Seleccionar deposito</option>
                     @foreach ($depositos as $deposito)
                         <option value="{{ $deposito->monto }}"
                             {{ $alquiler->deposito == $deposito->monto ? 'selected' : '' }}>
