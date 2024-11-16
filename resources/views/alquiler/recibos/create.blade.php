@@ -43,7 +43,7 @@
             </div>
            
         
-            <a href="{{ route('recibos') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('alquiler-ver', $alquiler_id) }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
     </div>

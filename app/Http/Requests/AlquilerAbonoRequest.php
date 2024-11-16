@@ -22,7 +22,6 @@ class AlquilerAbonoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'alquiler_id' => 'required|exists:alquileres,id',
             'monto_pagado' => 'required|integer|min:0',
             'metodo_de_pagos_id' => 'required|exists:metodo_de_pagos,id',
         ];
@@ -31,9 +30,6 @@ class AlquilerAbonoRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'alquiler_id.required' => 'El campo alquiler es obligatorio.',
-            'alquiler_id.exists' => 'El alquiler seleccionado no es válido.',
-
             'monto_pagado.required' => 'El campo monto pagado es obligatorio.',
             'monto_pagado.integer' => 'El campo monto pagado debe ser un número entero.',
             'monto_pagado.min' => 'El campo monto pagado debe ser al menos 0.',

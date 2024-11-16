@@ -47,24 +47,23 @@ class AlquilerAbonoController extends Controller
         
         try{
             DB::beginTransaction();
-            Alquiler_abono::create($request->all());
-            
-            $alquiler = Alquilere::findOrFail($request->alquiler_id);
-            
+            $alquilerAbono = Alquiler_abono::with("alquiler")->create(attributes: $request->all());
+            $alquiler = $alquilerAbono->alquiler;
             $monto=$alquiler->monto_adeudado;
+
             $monto-=$request->monto_pagado;
-            $alquiler->update(['monto_adeudado' => $monto]);
-            if($monto<=0){
-                $alquiler->update(['estado_id'=>1]);
-            }
+
+            $alquiler->monto_adeudado = $monto;
+
+            $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
+
             $alquiler -> save();
             DB::commit();
-            
         }catch(Exception $e){
             DB::rollBack();
             dd($e);
         }
-        return $this->index($request->alquiler_id);
+        return redirect()->route("alquiler-ver", $request->alquiler_id);
     }
 
 
@@ -86,31 +85,30 @@ class AlquilerAbonoController extends Controller
      * Update the specified resource in storage.
      */
     public function update(AlquilerAbonoUpdateRequest $request, $id)
-    {
-        try{
+    {       
+        try {
             DB::beginTransaction();
-            $abono = Alquiler_abono::findOrFail($id);
-            $alquiler = Alquilere::findOrFail($request->alquiler_id);
-            $monto=$alquiler->monto_adeudado;
-            $monto+=$abono->monto_pagado;
-            $alquiler->update(['monto_adeudado' => $monto]);
+
+            $abono = Alquiler_abono::with(["alquiler"])->findOrFail($id);
+            $alquiler = $abono->alquiler;
+
+            $montoPagadoAnterior = $abono->monto_pagado;
 
             $abono->update($request->all());
 
-            $monto=$alquiler->monto_adeudado;
-            $monto-=$request->monto_pagado;
-            $alquiler->update(['monto_adeudado' => $monto]);
-            if($monto<=0){
-                $alquiler->update(['estado_id'=>1]);
-            }
-            $alquiler -> save();
+            $diferenciaPagado = $abono->monto_pagado - $montoPagadoAnterior;
+
+            $alquiler->monto_adeudado -= $diferenciaPagado;
+
+            $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
+
+            $alquiler->save();
+
             DB::commit();
-            
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
-            dd($e);
         }
-        return $this->index($request->alquiler_id);
+        return redirect()->route("alquiler-ver", $alquiler->id);
     }
 
     /**
@@ -126,10 +124,11 @@ class AlquilerAbonoController extends Controller
 
         // Suma el monto del abono al monto total del alquiler
         $alquiler->monto_adeudado+= $abono->monto_pagado;
+        $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
         $alquiler->save();
 
         Alquiler_abono::destroy($id);
-        return redirect()->route("abonos", $id);
+        return redirect()->route("alquiler-ver", $alquiler->id);
     }
 
 }

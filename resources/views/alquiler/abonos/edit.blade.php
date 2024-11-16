@@ -15,15 +15,14 @@
             @csrf
             <div class="mb-3">
                 <label for="monto_pagado" class="form-label">Precio</label>
-                <input type="text" placeholder="Monto abonado" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado')=="" ? $abono->monto_pagado : old('monto_pagado') }}">
-                @error('contacto')
+                <input type="number" placeholder="Monto abonado" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado')=="" ? $abono->monto_pagado : old('monto_pagado') }}">
+                @error('monto_pagado')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
             <div class="mb-3">
                 <label for="metodo_de_pagos_id" class="form-label">Metodo</label>
-                
-                    <select class="form-select" name="metodo_de_pagos_id" id="">
+                    <select class="form-select" name="metodo_de_pagos_id">
                             <option value="">Seleccionar metodo</option>  
                         @foreach ($metodos as $metodo)
                             <option value="{{ $metodo->id }}" {{ (old('metodo_de_pagos_id', $abono->metodo_de_pagos_id) == $metodo->id) ? 'selected' : '' }}> {{ $metodo->nombre }} </option>
@@ -32,10 +31,9 @@
                     @error('metodo_de_pagos_id')
                         <small class="text-danger"> {{ '*'.$message }}</small>
                     @enderror
-                
             </div>
 
-            <a href="{{ route('abonos',$abono->id)}}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('alquiler-ver',$abono->alquiler()->id)}}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Modificar</button>
           </form>
     </div>

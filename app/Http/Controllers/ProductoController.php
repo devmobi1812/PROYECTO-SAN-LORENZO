@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductoStoreRequest;
 use App\Http\Requests\ProductoUpdateRequest;
 use App\Models\Producto;
+use App\Models\TipoProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -25,7 +26,9 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        return view('productos.create');
+        return view('productos.create', [
+            "tiposDeProducto" => TipoProducto::all()
+        ]);
     }
 
     /**
@@ -58,8 +61,11 @@ class ProductoController extends Controller
     public function edit($id)
     {
         try{
-            $producto = Producto::findOrFail($id);
-            return view('productos.edit', ["producto" => $producto]);
+            $producto = Producto::with(["tipoProducto"])->findOrFail($id);
+            return view('productos.edit', [
+                "producto" => $producto,
+                "tiposDeProducto" => TipoProducto::all()
+            ]);
         }catch(Exception $e){
             return redirect()->route("404");
         }

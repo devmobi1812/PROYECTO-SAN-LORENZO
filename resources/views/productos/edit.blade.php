@@ -19,6 +19,25 @@
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
+
+            <div class="mb-3">
+                <label for="tipo_producto_id" class="form-label">Tipo de producto</label>
+                <select class="form-select" name="tipo_producto_id" id="">  
+                    @foreach($tiposDeProducto as $tipo)
+                        <option value="{{$tipo->id}}" 
+                            @if(old('tipo_producto_id') == $tipo->id)
+                                selected
+                            @elseif(old('tipo_producto_id') == '' && $tipo->id == $producto->tipoProducto->id)
+                                selected
+                            @endif
+                            >{{$tipo->nombre}}</option>
+                    @endforeach
+                </select>
+                @error('tipo_producto_id')
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
+            </div>
+
             <a href="{{ route('productos') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Modificar</button>
           </form>

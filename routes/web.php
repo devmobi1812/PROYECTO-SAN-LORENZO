@@ -106,6 +106,7 @@ Route::controller(AlquilerReciboController::class)->middleware(['auth'])->group(
 
 Route::controller(AlquilereController::class)->middleware(['auth'])->group( function(){
     Route::get("alquileres", "index")->name("alquileres");
+    Route::get("alquileres/ver/{id}", "show")->name("alquiler-ver");
     Route::get("alquileres/crear", "create")->name("alquiler-crear");
     Route::post("alquileres/guardar", "store")->name("alquiler-guardar");
     Route::get("alquileres/editar/{id}", "edit")->name("alquiler-editar");

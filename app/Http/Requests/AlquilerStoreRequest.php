@@ -22,7 +22,14 @@ class AlquilerStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            /*"cliente_id" => "required|integer|exists:clientes,id", 
+            "fecha" => "required|date",
+            "servicios" => "required|array",
+            'servicios.*.id' => 'nullable|integer|exists:servicios,id',
+            'servicios.*.cantidad' => 'nullable|integer|min:1',
+            'servicios.*.desde' => 'nullable|date_format:H:i',
+            'servicios.*.hasta' => 'nullable|date_format:H:i'
+            */
         ];
     }
     

@@ -22,19 +22,10 @@ class AlquilerUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_id' => 'required|exists:clientes,id', // Verifica que el cliente exista en la tabla 'clientes'
+            'nombre_id' => 'required|exists:clientes,id',
             'fecha' => 'required|date', 
-            'descuento_id' => 'nullable|exists:descuentos,id',
-            'deposito' => 'required|numeric|min:0', 
+            'descuento_id' => 'required|exists:descuentos,id',
 
-           
-            'servicio_cantidad' => 'nullable|integer|min:1', 
-            'desde' => 'nullable|date_format:H:i', 
-            'hasta' => 'nullable|date_format:H:i|after:desde', 
-
-            'quincho' => 'nullable|boolean', 
-            'vajilla' => 'nullable|boolean', 
-            'pileta' => 'nullable|boolean', 
         ];
     }
 
@@ -43,9 +34,6 @@ class AlquilerUpdateRequest extends FormRequest
         return [
             'nombre_id.required' => 'El campo cliente es obligatorio.',
             'fecha.required' => 'La fecha es obligatoria.',
-            'servicio_cantidad.integer' => 'La cantidad del servicio debe ser un número entero.',
-            'desde.date' => 'La fecha de inicio debe ser una fecha válida.',
-            'hasta.after' => 'La fecha de fin debe ser posterior a la fecha de inicio.',
            
         ];
     }

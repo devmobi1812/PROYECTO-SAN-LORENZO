@@ -21,7 +21,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="metodo_de_pagos_id" class="form-label">Metodo</label>
+                <label for="metodo_de_pagos_id" class="form-label">Método de pago</label>
                 
                     <select class="form-select" name="metodo_de_pagos_id" id="">
                             <option value="">Seleccionar metodo</option>  
@@ -36,7 +36,7 @@
             </div>
             <input type="hidden" name="alquiler_id" value="{{$alquiler_id}}">
         
-            <a href="{{ route('abonos', $alquiler_id) }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('alquiler-ver', $alquiler_id) }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
     </div>

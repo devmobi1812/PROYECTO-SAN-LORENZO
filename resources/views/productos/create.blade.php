@@ -18,7 +18,20 @@
               @error('nombre')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
-            </div>           
+            </div>
+            
+            <div class="mb-3">
+                <label for="tipo_producto_id" class="form-label">Tipo de producto</label>
+                <select class="form-select" name="tipo_producto_id" id="">
+                        <option value="">Seleccionar tipo de producto</option>  
+                    @foreach ($tiposDeProducto as $tipo)
+                        <option value="{{$tipo->id}}" >{{$tipo->nombre}}</option>
+                    @endforeach
+                </select>
+                @error('tipo_pproducto')
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
+            </div>
         
             <a href="{{ route('productos') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Crear</button>

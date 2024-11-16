@@ -78,7 +78,7 @@
                             
 
                             <td>
-                                <a href="{{ route('abonos', $alquiler->id)}}" type="button" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a><!--BOTON DE VER-->
+                                <a href="{{ route('alquiler-ver', $alquiler->id)}}" type="button" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a><!--BOTON DE VER-->
                                 <a href="{{ route('abono-crear', $alquiler->id)}}" type="button" class="btn btn-success"><i class="fa-solid fa-money-bill"></i></a> <!--BOTON DE CREAR ABONO-->
                                 <a href="{{ route('alquiler-editar', $alquiler->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                 <a class="btn btn-danger" href="{{ route('alquiler-borrar', $alquiler->id) }}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->

@@ -17,7 +17,6 @@ class AlquilerReciboController extends Controller
      */
     public function index()
     {
-        
         $recibos = Alquiler_recibo::with('alquiler')->get();       
         return view('alquiler.recibos.index', ['recibos'=>$recibos]);
     }

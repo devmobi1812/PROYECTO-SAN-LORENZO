@@ -49,7 +49,7 @@
                 @enderror
             </div>
         
-            <a href="{{ route('recibos') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('alquiler-ver', $recibo->alquiler()->id) }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Modificar</button>
         </form>
     </div>
