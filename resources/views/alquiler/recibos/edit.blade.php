@@ -1,5 +1,5 @@
 @extends('template')
-@section('titulo', 'Editar recibo')
+@section('titulo', 'Crear recibo')
 @push('css')
 @endpush
 @section('contenido')
@@ -7,54 +7,27 @@
         <h1 class="mt-4">Recibo</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" href="">Alquileres</a></li>
-            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('recibos') }} ">Recibos</a></li>
-            <li class="breadcrumb-item active">Editar</li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('recibo-guardar', $alquiler->id) }}">Alquileres</a></li>
+            <li class="breadcrumb-item active">Editar recibo</li>
         </ol>
-        <form method="POST" action="{{ route('recibo-actualizar', $recibo->id) }}">
+        <form method="POST" action="{{route('recibo-guardar', $recibo->id)}}">
             @csrf
-            <div class="mb-3">
-                <label for="servicio_nombre" class="form-label">Servicio</label>
-                <input type="text" name="servicio_nombre" class="form-control @error('servicio_nombre') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('servicio_nombre') }}">
-                @error('servicio_nombre')
-                    <small class="text-danger"> {{ '*'.$message}}</small>
-                @enderror
+            <div class="mb-36">
+                    @foreach($productos as $index => $producto)
+                        <label class="form-label">{{ $producto->nombre }}</label>
+                        <input type="checkbox" name="servicios[{{$producto->id}}][selected]"  value="1" class="form-check-input checkbox-servicio" aria-describedby="emailHelp">
+                            @include('components.formServiceFragments.create'.$producto->tipoProducto->id, [
+                                "producto" => $producto
+                            ])
+                    @endforeach
             </div>
-            <div class="mb-3">
-                <label for="servicio_precio" class="form-label">Precio</label>
-                <input type="number" name="servicio_precio" class="form-control @error('servicio_precio') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('servicio_precio') }}">
-                @error('servicio_precio')
-                    <small class="text-danger"> {{ '*'.$message}}</small>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="servicio_cantidad" class="form-label">Cantidad</label>
-                <input type="number" name="servicio_cantidad" class="form-control @error('servicio_cantidad') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('servicio_cantidad') }}">
-                @error('servicio_cantidad')
-                    <small class="text-danger"> {{ '*'.$message}}</small>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="desde" class="form-label">Desde</label>
-                <input type="number" name="desde" class="form-control @error('desde') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('desde') }}">
-                @error('desde')
-                    <small class="text-danger"> {{ '*'.$message}}</small>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="hasta" class="form-label">Hasta</label>
-                <input type="number" name="hasta" class="form-control @error('hasta') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('hasta') }}">
-                @error('hasta')
-                    <small class="text-danger"> {{ '*'.$message}}</small>
-                @enderror
-            </div>
+           
         
-            <a href="{{ route('alquiler-ver', $recibo->alquiler()->id) }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a href="{{ route('alquiler-ver', $alquiler->id) }}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Editar</button>
         </form>
     </div>
 @endsection
 @push('js')
-
-    
+    <script src="{{ asset('js/alquileres.js') }}"></script>
 @endpush

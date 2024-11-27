@@ -22,13 +22,7 @@ class AlquilerReciboStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "alquiler_id"=>"required|integer",
-            "servicio_nombre" => "required|string|max:100",
-            "servicio_precio" => "required|integer",
-            "servicio_cantidad" => "required|integer",
-            "servicio_deposito" => "required|integer",
-            "desde"=>"time",
-            "hasta"=>"time"
+
        ];
     }
 

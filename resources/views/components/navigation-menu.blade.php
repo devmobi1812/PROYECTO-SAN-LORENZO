@@ -58,6 +58,10 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-dollar-to-slot"></i></div><!-- el default <i class="fas fa-table"> -->
                     Alquileres
                 </a>
+                <a class="nav-link" href="{{ route('alquileres-historico') }}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-clock-rotate-left"></i></div><!-- el default <i class="fas fa-table"> -->
+                    Histórico
+                </a>
                 <a class="nav-link" href="{{ route('clientes') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div><!-- el default <i class="fas fa-chart-area"> -->
                     Clientes

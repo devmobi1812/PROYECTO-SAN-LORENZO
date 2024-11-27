@@ -96,9 +96,9 @@ Route::controller(AlquilerAbonoController::class)->middleware(['auth'])->group( 
 });
 
 Route::controller(AlquilerReciboController::class)->middleware(['auth'])->group( function(){
-    Route::get("recibos", "index")->name("recibos");
-    Route::get("recibos/crear", "create")->name("recibo-crear");
-    Route::post("recibos/guardar", "store")->name("recibo-guardar");
+    //Route::get("recibos", "index")->name("recibos");
+    Route::get("recibos/crear/{alquiler_id}", "create")->name("recibo-crear");
+    Route::post("recibos/guardar/{alquiler_id}", "store")->name("recibo-guardar");
     Route::get("recibos/editar/{id}", "edit")->name("recibo-editar");
     Route::post("recibos/actualizar/{id}", "update")->name("recibo-actualizar");
     Route::get("recibos/eliminar/{id}", "destroy")->name("recibo-borrar");
@@ -106,6 +106,7 @@ Route::controller(AlquilerReciboController::class)->middleware(['auth'])->group(
 
 Route::controller(AlquilereController::class)->middleware(['auth'])->group( function(){
     Route::get("alquileres", "index")->name("alquileres");
+    Route::get("alquileres/historico", "indexHistorico")->name("alquileres-historico");
     Route::get("alquileres/ver/{id}", "show")->name("alquiler-ver");
     Route::get("alquileres/crear", "create")->name("alquiler-crear");
     Route::post("alquileres/guardar", "store")->name("alquiler-guardar");

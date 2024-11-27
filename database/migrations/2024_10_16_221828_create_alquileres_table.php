@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId("nombre_id")->constrained("clientes");
             $table->foreignId("dia_id")->constrained("dias");
-            $table->foreignId("descuento_id")->constrained("descuentos");
+            $table->integer( "descuento")->default(0);
             $table->foreignId("estado_id")->constrained("estados")->default(2); // inpago
             $table->integer("monto_final")->default(0);
             $table->integer("monto_adeudado")->default(0);
@@ -25,6 +25,20 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        DB::unprepared("
+            CREATE TRIGGER after_alquileres_update
+            BEFORE UPDATE ON alquileres
+            FOR EACH ROW
+            BEGIN
+                IF OLD.descuento != NEW.descuento THEN
+                    SET NEW.monto_adeudado =  NEW.monto_final / (1 - OLD.descuento / 100)
+                                                        * (1 - NEW.descuento / 100) - NEW.monto;
+                    SET NEW.monto_final = NEW.monto_final / (1 - OLD.descuento / 100)
+                                                        * (1 - NEW.descuento / 100);
+                END IF;
+            END;
+        ");
     }
 
     /**
@@ -32,6 +46,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        DB::unprepared("DROP TRIGGER IF EXISTS after_alquileres_update;");
         Schema::dropIfExists('alquileres');
     }
 };

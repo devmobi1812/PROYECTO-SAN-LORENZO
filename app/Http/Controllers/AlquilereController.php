@@ -16,6 +16,7 @@ use App\Models\Deposito;
 use App\Models\Descuento;
 use App\Models\MetodoDePago;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -26,7 +27,15 @@ class AlquilereController extends Controller
      */
     public function index()
     {
-        $alquileres = Alquilere::with(['estado', 'descuento', 'cliente'])->get();
+        $alquileres = Alquilere::with(['estado', 'cliente'])->whereDate('fecha', '>=', Carbon::today())->get();
+        $servicios = Alquiler_recibo::all();
+        //dd($alquileres);
+        return view('alquiler.alquileres.index',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
+    }
+    
+    public function indexHistorico()
+    {
+        $alquileres = Alquilere::with(['estado', 'cliente'])->whereDate('fecha', '<', Carbon::today())->get();
         $servicios = Alquiler_recibo::all();
         //dd($alquileres);
         return view('alquiler.alquileres.index',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
@@ -66,16 +75,15 @@ class AlquilereController extends Controller
             $alquiler = Alquilere::with(["descuento"])->create([ 
                 'nombre_id' => $request->nombre_id, 
                 'dia_id' => $dia, 
-                'descuento_id' => $request->descuento_id, 
+                'descuento' => Descuento::find($request->descuento_id)->cantidad, 
                 'estado_id' => 2,//es inpago 
                 'monto_final' => 0, // Se actualizará más adelante 
                 'monto_adeudado' => 0, // Inicialmente en 0 
-                'deposito' => $request->deposito, 
+                'deposito' => Deposito::find($request->deposito)->monto, 
                 'fecha' => $request->fecha 
             ]); 
             if($alquiler){
                 // Crear los recibos y calcular el monto final             
-                $montoFinal = 0;
                 foreach($request->servicios as $servicio) {
                     if(isset($servicio['id']) && isset($servicio['selected'])) { 
 
@@ -88,11 +96,9 @@ class AlquilereController extends Controller
                                         'alquiler_id' => $alquiler->id,
                                         'servicio_nombre' => $servicioPedido->nombre,
                                         'servicio_precio' => $servicioPedido->precio,
-                                        'servicio_cantidad' => 1,
                                         'desde' => $servicioPedido->turno->desde,
                                         'hasta' => $servicioPedido->turno->hasta
                                     ]);
-                                    $montoFinal += $servicioPedido->precio;
                                     break;
                 
                                 case 2:
@@ -100,21 +106,19 @@ class AlquilereController extends Controller
                                     if (!isset($servicio['desde']) || !isset($servicio['hasta'])) {
                                         break;
                                     }
-                
+
+                                    $desde = new \DateTime($servicio['desde']);
+                                    $hasta = new \DateTime($servicio['hasta']);
+                                    $intervalo = $desde->diff($hasta);
+
                                     $recibo = Alquiler_recibo::create([
                                         'alquiler_id' => $alquiler->id,
                                         'servicio_nombre' => $servicioPedido->nombre,
                                         'servicio_precio' => $servicioPedido->precio,
-                                        'servicio_cantidad' => 1,
+                                        'servicio_cantidad' => 1 * $intervalo->h,
                                         'desde' => $servicio['desde'],
                                         'hasta' => $servicio['hasta']
                                     ]);
-                
-                                    $desde = new \DateTime($servicio['desde']);
-                                    $hasta = new \DateTime($servicio['hasta']);
-                                    $intervalo = $desde->diff($hasta);
-                
-                                    $montoFinal += $servicioPedido->precio * $intervalo->h;
                                     break;
                 
                                 case 3:
@@ -129,25 +133,17 @@ class AlquilereController extends Controller
                                         'servicio_precio' => $servicioPedido->precio,
                                         'servicio_cantidad' => $servicio['cantidad'],
                                     ]);
-                                    $montoFinal += $servicioPedido->precio * $servicio['cantidad'];
                                     break;
                             }
                         }
                     }
                 }
-                       
-
-                $montoFinal = $montoFinal - ($montoFinal * $alquiler->descuento->cantidad / 100) + $alquiler->deposito;
-                
-                $alquiler->update([
-                    'monto_final' => $montoFinal, 
-                    'monto_adeudado'=> $montoFinal     
-                ]);
 
                 if ($request->seña == 1) {
+                    $alquiler->refresh();
                     $datosAbono = [
                         'alquiler_id' => $alquiler->id,
-                        'monto_pagado' => $montoFinal/2,
+                        'monto_pagado' => $alquiler->monto_final/2,
                         'metodo_de_pagos_id' => $request->metodo_de_pagos_id
                     ];
                 
@@ -222,25 +218,21 @@ class AlquilereController extends Controller
             $descuentoNuevo = Descuento::find($request->descuento_id);
             $depositoNuevo = Deposito::find($request->deposito);
         
-            $montoAbonado = $alquiler->alquilerAbonos->sum('monto_pagado');
-        
-            $montoTotal = $alquiler->alquilerRecibos->sum('servicio_precio');
-        
-            $montoFinal = $montoTotal - ($montoTotal * $descuentoNuevo->cantidad / 100) + $depositoNuevo->monto;
-        
             $dia = $this->getDayOfWeek($request->fecha);
         
             $alquiler->update([
                 'nombre_id' => $request->nombre_id,
                 'dia_id' => $dia,
-                'descuento_id' => $request->descuento_id,
+                'descuento' => $descuentoNuevo->cantidad,
                 'deposito' => $depositoNuevo->monto,
                 'fecha' => $request->fecha,
-                'monto_final' => $montoFinal,
-                'monto_adeudado' => $montoFinal - $montoAbonado,
-                'estado_id' => $montoFinal - $montoAbonado <= 0 ? 1 : 2 // Estado 1: Pagado, 2: Impago
             ]);       
+
+            $alquiler->save();
             DB::commit();
+
+            $alquiler->refresh();
+            $alquiler->estado_id = $alquiler->monto_adeudado <= 0  ? 1 : 2;
         } catch (Exception $e) {
             DB::rollBack();
             dd($e);

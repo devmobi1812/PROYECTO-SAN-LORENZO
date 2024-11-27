@@ -24,10 +24,6 @@ class Alquilere extends Model
         return $this->belongsTo(Dia::class);
     }
 
-    public function descuento(){
-        return $this->belongsTo(Descuento::class, "descuento_id");
-    }
-
     public function estado(){
         return $this->belongsTo(Estado::class, "estado_id");
     }
@@ -40,7 +36,7 @@ class Alquilere extends Model
         return $this->hasMany(Alquiler_abono::class, "alquiler_id");
     }
 
-    protected $fillable = ['nombre_id', 'dia_id', 'descuento_id', 'estado_id', 'monto_final', 'monto_adeudado', 'deposito', 'fecha'];
+    protected $fillable = ['nombre_id', 'dia_id', 'descuento', 'estado_id', 'monto_final', 'monto_adeudado', 'deposito', 'fecha'];
     
     protected static function boot() { 
         parent::boot(); 

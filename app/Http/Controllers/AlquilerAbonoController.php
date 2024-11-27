@@ -49,11 +49,6 @@ class AlquilerAbonoController extends Controller
             DB::beginTransaction();
             $alquilerAbono = Alquiler_abono::with("alquiler")->create(attributes: $request->all());
             $alquiler = $alquilerAbono->alquiler;
-            $monto=$alquiler->monto_adeudado;
-
-            $monto-=$request->monto_pagado;
-
-            $alquiler->monto_adeudado = $monto;
 
             $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
 
@@ -92,14 +87,8 @@ class AlquilerAbonoController extends Controller
             $abono = Alquiler_abono::with(["alquiler"])->findOrFail($id);
             $alquiler = $abono->alquiler;
 
-            $montoPagadoAnterior = $abono->monto_pagado;
-
             $abono->update($request->all());
-
-            $diferenciaPagado = $abono->monto_pagado - $montoPagadoAnterior;
-
-            $alquiler->monto_adeudado -= $diferenciaPagado;
-
+            
             $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
 
             $alquiler->save();
@@ -122,8 +111,6 @@ class AlquilerAbonoController extends Controller
         // Encuentra el alquiler asociado al abono
         $alquiler = $abono->alquiler;
 
-        // Suma el monto del abono al monto total del alquiler
-        $alquiler->monto_adeudado+= $abono->monto_pagado;
         $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
         $alquiler->save();
 

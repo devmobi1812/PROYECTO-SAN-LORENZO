@@ -18,7 +18,11 @@
                   <select class="form-select" name="nombre_id" id="">
                           <option value="">Seleccionar cliente</option>
                       @foreach ($clientes as $cliente)
-                          <option value="{{$cliente->id}}" socio="{{$cliente->socio}}" >{{$cliente->nombre}}</option>
+                            <option value="{{$cliente->id}}"
+                                @if(old('nombre_id') == $cliente->id)
+                                 selected
+                                @endif 
+                                >{{$cliente->nombre}}</option>
                       @endforeach
                   </select>
                   @error('nombre_id')
@@ -30,15 +34,17 @@
 
           <div class="mb-3">
             <label for="">Seleccionar fecha</label>
-            <input class="form-control" type="date" id="fecha" name="fecha">
+            <input class="form-control" type="date" id="fecha" name="fecha" value="{{ old("fecha") }}">
           </div>
-
+          @error('fecha')
+            <small class="text-danger"> {{ '*'.$message }}</small>
+          @enderror
           
           <h4>¿Qué servicios deseas?</h4>
           <div class="mb-36">
                 @foreach($productos as $index => $producto)
                     <label class="form-label">{{ $producto->nombre }}</label>
-                    <input type="checkbox" name="servicios[{{$producto->id}}][selected]"  value="1" class="form-check-input checkbox-servicio" aria-describedby="emailHelp">
+                    <input type="checkbox" name="servicios[{{$producto->id}}][selected]"  value="1" class="form-check-input checkbox-servicio" aria-describedby="emailHelp" @checked(old("servicios.{$producto->id}.selected"))>
                         @include('components.formServiceFragments.create'.$producto->tipoProducto->id, [
                             "producto" => $producto
                         ])
@@ -53,7 +59,7 @@
                     <select class="form-select" name="deposito" id="">
                             <option value="">Seleccionar deposito</option>
                         @foreach ($depositos as $deposito)
-                            <option value="{{$deposito->monto}}" >{{$deposito->nombre}}</option>
+                            <option value="{{$deposito->id}}" @selected($deposito->id == old("deposito"))>{{$deposito->nombre}}</option>
                         @endforeach
                     </select>
                     @error('deposito')
@@ -62,27 +68,27 @@
             
             </div>
             <div class="mb-3">
-                <label for="descuento" class="form-label">Descuento</label>
+                <label for="descuento_id" class="form-label">Descuento</label>
                     <select class="form-select" name="descuento_id" id="descuento_id">
                             <option value="">Seleccionar descuento</option>
                         @foreach ($descuentos as $descuento)
-                            <option value="{{$descuento->id}}" >{{$descuento->nombre}}</option>
+                            <option value="{{$descuento->id}}" @selected($descuento->id == old("descuento_id")) >{{$descuento->nombre}}</option>
                         @endforeach
                     </select>
-                    @error('descuento')
+                    @error('descuento_id')
                         <small class="text-danger"> {{ '*'.$message }}</small>
                     @enderror
             
             </div>
             <!-- Seña -->
-            <label class="form-label checkbox-servicio">Abonar seña</label>
-            <input type="checkbox" value="1" name="seña" class="checkbox-servicio form-check-input @error('seña') is-invalid @enderror" id="seña-checkbox" aria-describedby="emailHelp" @if(old('seña') == 'seña') checked @endif>
+            <label class="form-label">Abonar seña</label>
+            <input type="checkbox" value="1" name="seña" class="checkbox-servicio form-check-input @error('seña') is-invalid @enderror"  @checked(old("seña")) >
             <div class="mb-3" id="seña-select-container" style="visibility: hidden; height: 0;">
                 <label for="seña" class="form-label">Seleccionar metodo</label>
                 <select class="form-select" name="metodo_de_pagos_id" id="">
                         <option value="">Seleccionar aqui</option>  
                     @foreach ($metodos as $metodo)
-                        <option value="{{$metodo->id}}" >{{$metodo->nombre}}</option>
+                        <option value="{{$metodo->id}}" @selected($metodo->id == old("metodo_de_pagos_id")) >{{$metodo->nombre}}</option>
                     @endforeach
                 </select>
                 @error('metodo_de_pagos_id')

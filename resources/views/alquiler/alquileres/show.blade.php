@@ -45,7 +45,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Descuento aplicado</th>
-                                    <td>{{$alquiler->descuento->cantidad}}%</td>
+                                    <td>{{$alquiler->descuento}}%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -80,7 +80,7 @@
                                 <tr>
                                     <td>{{$recibo->id}}</td>
                                     <td>{{$recibo->servicio_nombre}}</td>
-                                    <td>{{$recibo->servicio_precio - ($recibo->servicio_precio * $alquiler->descuento->cantidad / 100)}}</td>
+                                    <td>{{$recibo->servicio_precio - ($recibo->servicio_precio * $alquiler->descuento / 100)}}</td>
                                     <td>{{$recibo->servicio_cantidad}}</td>
                                     <td>{{$recibo->desde}}</td>
                                     <td>{{$recibo->hasta}}</td>

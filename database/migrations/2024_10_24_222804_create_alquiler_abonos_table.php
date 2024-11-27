@@ -20,8 +20,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-    /*
-        TODO: consultar y agregar para que el monto adeudado tengo como valor base el precio final - los abonos
         DB::unprepared("
             CREATE TRIGGER after_alquiler_abonos_insert
             AFTER INSERT ON alquiler_abonos
@@ -48,42 +46,10 @@ return new class extends Migration
             FOR EACH ROW
             BEGIN
                 UPDATE alquileres
-                SET monto_adeudado = monto_adeudado + OLD.monto_pagado
+                SET monto_adeudado = monto_adeudado - OLD.monto_pagado
                 WHERE id = OLD.alquiler_id;
             END;
         ");
-
-        DB::unprepared("
-            CREATE TRIGGER after_alquiler_recibos_insert
-            AFTER INSERT ON alquiler_recibos
-            FOR EACH ROW
-            BEGIN
-                UPDATE alquileres
-                SET monto_final = monto_final + NEW.servicio_precio
-                WHERE id = NEW.alquiler_id;
-            END;
-        ");
-        DB::unprepared("
-            CREATE TRIGGER after_alquiler_recibos_update
-            AFTER UPDATE ON alquiler_recibos
-            FOR EACH ROW
-            BEGIN
-                UPDATE alquileres
-                SET monto_final = monto_final - OLD.servicio_precio + NEW.servicio_precio
-                WHERE id = NEW.alquiler_id;
-            END;
-        ");
-        DB::unprepared("
-            CREATE TRIGGER after_alquiler_recibos_delete
-            AFTER DELETE ON alquiler_recibos
-            FOR EACH ROW
-            BEGIN
-                UPDATE alquileres
-                SET monto_final = monto_final - OLD.servicio_precio
-                WHERE id = OLD.alquiler_id;
-            END;
-        ");
-        */
     }
 
     /**
@@ -91,15 +57,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alquiler_abonos');
-        /*
         DB::unprepared("DROP TRIGGER IF EXISTS after_alquiler_abonos_insert;");
         DB::unprepared("DROP TRIGGER IF EXISTS after_alquiler_abonos_update;");
         DB::unprepared("DROP TRIGGER IF EXISTS after_alquiler_abonos_delete;");
-        
-        DB::unprepared("DROP TRIGGER IF EXISTS after_alquiler_recibos_insert;");
-        DB::unprepared("DROP TRIGGER IF EXISTS after_alquiler_recibos_update;");
-        DB::unprepared("DROP TRIGGER IF EXISTS after_alquiler_recibos_delete;");
-        */
+        Schema::dropIfExists('alquiler_abonos'); 
     }
 };
