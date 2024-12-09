@@ -46,7 +46,7 @@ return new class extends Migration
             FOR EACH ROW
             BEGIN
                 UPDATE alquileres
-                SET monto_adeudado = monto_adeudado - OLD.monto_pagado
+                SET monto_adeudado = monto_adeudado + OLD.monto_pagado
                 WHERE id = OLD.alquiler_id;
             END;
         ");
