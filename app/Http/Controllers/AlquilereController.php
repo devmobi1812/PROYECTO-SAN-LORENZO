@@ -170,8 +170,10 @@ class AlquilereController extends Controller
     {
         try{
             $alquiler = Alquilere::with(["alquilerRecibos", "alquilerAbonos", "cliente", "estado", "dia"])->findOrFail($id);
+            $servicios = Alquiler_recibo::all();
             return view("alquiler.alquileres.show", [
-                "alquiler" => $alquiler
+                "alquiler" => $alquiler,
+                "servicios"=>$servicios
             ]);
         }catch(Exception $e){
             return redirect()->route('404');

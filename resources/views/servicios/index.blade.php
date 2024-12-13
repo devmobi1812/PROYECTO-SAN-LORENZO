@@ -12,6 +12,7 @@
         </ol>
         <a class="btn btn-primary mb-3" role="button" href="{{ route('servicio-crear') }}"><i
                 class="fa-solid fa-circle-plus"></i> Cargar servicio</a>
+        <a class="btn btn-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir</a>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
@@ -58,6 +59,7 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
+    <script src="{{ asset('js/impresion.js') }}"></script>
     
     
 @endpush
