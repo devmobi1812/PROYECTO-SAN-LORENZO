@@ -61,7 +61,7 @@
                             </td>
                             
                             <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
-                            <td>${{$alquiler->monto_final}}.-</td>
+                            <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
                             <td>${{$alquiler->monto_adeudado}}.-</td>
                             <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->descuento}}%</td>

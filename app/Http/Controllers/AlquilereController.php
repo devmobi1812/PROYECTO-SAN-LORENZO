@@ -91,7 +91,7 @@ class AlquilereController extends Controller
                 
                             if ($servicioPedido->producto && $servicioPedido->producto->tipoProducto) {
                             switch($servicioPedido->producto->tipoProducto->id) {
-                                case 1:
+                                case 1: // QUINCHO
                                     $recibo = Alquiler_recibo::create([
                                         'alquiler_id' => $alquiler->id,
                                         'servicio_nombre' => $servicioPedido->nombre,
@@ -101,7 +101,7 @@ class AlquilereController extends Controller
                                     ]);
                                     break;
                 
-                                case 2:
+                                case 2: // PILETA
                                     //temooral hasta configurar las verificaciones
                                     if (!isset($servicio['desde']) || !isset($servicio['hasta'])) {
                                         break;
@@ -121,7 +121,7 @@ class AlquilereController extends Controller
                                     ]);
                                     break;
                 
-                                case 3:
+                                case 3: // VAJILLA
                                     //temooral hasta configurar las verificaciones
                                     if (empty($servicio['cantidad'])) {
                                         break;
@@ -138,7 +138,25 @@ class AlquilereController extends Controller
                         }
                     }
                 }
-
+                
+                // CREAR ABONO DEL DEPOSITO
+                $idDeposito=$request->deposito;
+                $deposito=Deposito::findOrFail($idDeposito);
+                if($deposito->monto != 0){
+                    $alquiler->refresh();
+                    $datosAbono = [
+                        'alquiler_id' => $alquiler->id,
+                        'monto_pagado' => $deposito->monto,
+                        'metodo_de_pagos_id' => 1 // Por defecto dejamos efectivo
+                    ];
+                
+                    $alquilerAbonoRequest = new AlquilerAbonoRequest();
+                    $alquilerAbonoRequest->replace($datosAbono);
+ 
+                    $abonoController = new AlquilerAbonoController();
+                    $abonoController->store($alquilerAbonoRequest);
+                }
+                // CREAR ABONO DE LA SEÑA
                 if ($request->seña == 1) {
                     $alquiler->refresh();
                     $datosAbono = [
@@ -153,6 +171,7 @@ class AlquilereController extends Controller
                     $abonoController = new AlquilerAbonoController();
                     $abonoController->store($alquilerAbonoRequest);
                 }
+
                 
             }
             DB::commit(); 

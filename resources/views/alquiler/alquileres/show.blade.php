@@ -5,7 +5,7 @@
 @endpush
 @section('contenido')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Alquiler</h1>
+        <h1 class="mt-4">Detalles del alquiler</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }} ">Alquileres</a></li>
@@ -51,10 +51,18 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Monto final</th>
+                                    <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Monto del alquiler sin deposito</th>
                                     <td>${{$alquiler->monto_final}}.-</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Monto Adeudado</th>
+                                    <th scope="row">Monto pagado</th>
+                                    <td>${{$alquiler->monto_final-$alquiler->monto_adeudado}}.-</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Monto adeudado</th>
                                     <td>${{$alquiler->monto_adeudado}}.-</td>
                                 </tr>
                                 <tr>
@@ -64,6 +72,19 @@
                                 <tr>
                                     <th scope="row">Descuento aplicado</th>
                                     <td>{{$alquiler->descuento}}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Estado actual</th>
+                                    <td>
+                                        <a href=""
+                                        @if($alquiler->estado->nombre=="Impago")
+                                            class="btn btn-danger " style="pointer-events: none;"
+                                        @else
+                                            class="btn btn-success" style="pointer-events: none;"
+                                        @endif>
+                                        {{$alquiler->estado->nombre}}
+                                        </a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

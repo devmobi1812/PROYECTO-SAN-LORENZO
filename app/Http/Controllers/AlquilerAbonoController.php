@@ -103,19 +103,27 @@ class AlquilerAbonoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-        // Encuentra el abono a eliminar
-        $abono = Alquiler_abono::findOrFail($id);
+    public function destroy($id){
+        try {
+            $abono = Alquiler_abono::findOrFail($id);
+            $alquiler = Alquilere::findOrFail($abono->alquiler_id);
 
-        // Encuentra el alquiler asociado al abono
-        $alquiler = $abono->alquiler;
+            $montoAbono = $abono->monto_pagado;
+            $alquiler->monto_adeudado += $montoAbono;
+            $alquiler->save();
 
-        $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
-        $alquiler->save();
+            // ACTUALIZA EL ESTADO DEL ALQUILER BASADO EN EL MONTO ADEUDADO
+            $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
+            $alquiler->save();
 
-        Alquiler_abono::destroy($id);
+            Alquiler_abono::destroy($id);
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
         return redirect()->route("alquiler-ver", $alquiler->id);
     }
+
+
+
 
 }
