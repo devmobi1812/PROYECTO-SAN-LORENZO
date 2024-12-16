@@ -14,7 +14,7 @@
             @csrf
             <div class="mb-3">
               <label for="name" class="form-label">Nombre</label>
-              <input type="text" placeholder="Ingrese un nombre" name="name" class="form-control @error('name') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('name') }}">
+              <input type="text" placeholder="Ingrese el nombre del nuevo usuario" name="name" class="form-control @error('name') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('name') }}">
               @error('name')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror

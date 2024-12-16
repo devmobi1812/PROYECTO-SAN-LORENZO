@@ -14,14 +14,14 @@
             @csrf
             <div class="mb-3">
               <label for="name" class="form-label">Nombre</label>
-              <input type="text"  name="name" class="form-control @error('name') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('name') == "" ? $usuario->name : old('name') }}">
+              <input type="text"  name="name" placeholder="Ingrese el nombre del nuevo usuario"class="form-control @error('name') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('name') == "" ? $usuario->name : old('name') }}">
               @error('name')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email"  name="email" class="form-control @error('email') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('email') == "" ? $usuario->email : old('email') }}">
+                <input type="email"  placeholder="Ingrese su email" name="email" class="form-control @error('email') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('email') == "" ? $usuario->email : old('email') }}">
                 @error('email')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
@@ -29,7 +29,7 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password"  name="password" class="form-control @error('password') is-invalid @enderror" aria-describedby="emailHelp" >
+                <input type="password"  placeholder="Ingrese su contraseña" name="password" class="form-control @error('password') is-invalid @enderror" aria-describedby="emailHelp" >
                 @error('password')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror
@@ -37,7 +37,7 @@
 
             <div class="mb-3">
                 <label for="password2" class="form-label">Repita su contraseña</label>
-                <input type="password"  name="password2" class="form-control @error('password2') is-invalid @enderror" aria-describedby="emailHelp" >
+                <input type="password"  placeholder="Vuelva a ingresar su contraseña" name="password2" class="form-control @error('password2') is-invalid @enderror" aria-describedby="emailHelp" >
                 @error('password2')
                   <small class="text-danger"> {{ '*'.$message}}</small>
               @enderror

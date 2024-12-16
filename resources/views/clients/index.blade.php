@@ -12,7 +12,7 @@
         </ol>
         <a class="btn btn-primary mb-3" role="button" href="{{ route('cliente-crear') }}"><i
                 class="fa-solid fa-circle-plus"></i> Cargar cliente</a>
-        <a class="btn btn-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir</a>
+        <a class="btn btn-outline-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir</a>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>

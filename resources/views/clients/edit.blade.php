@@ -28,7 +28,7 @@
             </div>
             <div class="mb-3">
                 <label for="contacto" class="form-label">Contacto</label>
-                <input type="text" placeholder="Ingrese información de contacto" name="contacto" class="form-control @error('contacto') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('contacto')=="" ? $cliente->contacto : old('contacto') }}">
+                <input type="text" placeholder="Ingrese información de contacto, puede ser telefono o mail" name="contacto" class="form-control @error('contacto') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('contacto')=="" ? $cliente->contacto : old('contacto') }}">
                 @error('contacto')
                 <small class="text-danger"> {{ '*'.$message}}</small>
             @enderror

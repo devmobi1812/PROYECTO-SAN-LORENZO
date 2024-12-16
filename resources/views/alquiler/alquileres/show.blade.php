@@ -12,7 +12,7 @@
             <li class="breadcrumb-item active">Ver</li>
         </ol>
 
-        <a class="btn btn-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir recibo</a>
+        <a class="btn btn-outline-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir recibo</a>
 
         <div class="row">
             <div class="col-xl-12">
@@ -119,8 +119,7 @@
             </div>
             <div class="col-xl-6">
                 <div class="card mb-4">
-                    <a class="btn btn-primary mb-3" role="button" href="{{ route('abono-crear', $alquiler->id)}}"><i
-                        class="fa-solid fa-circle-plus"></i> Cargar abono</a>
+                    <a class="btn btn-success mb-3" role="button" href="{{ route('abono-crear', $alquiler->id)}}" ><i class="fa-solid fa-money-bill"></i> Cargar abono</a>
                     <div class="card-header">
                         <i class="fas fa-chart-bar me-1"></i>
                         Abonos de alquiler
