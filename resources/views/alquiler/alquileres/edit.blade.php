@@ -1,5 +1,5 @@
 @extends('template')
-@section('titulo', 'Crear alquiler')
+@section('titulo', 'Editar alquiler')
 @push('css')
 @endpush
 @section('contenido')

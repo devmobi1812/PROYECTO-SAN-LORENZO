@@ -1,6 +1,6 @@
 
 @extends('template')
-@section('titulo', 'Crear alquiler')
+@section('titulo', 'Detalles del alquiler')
 @push('css')
 @endpush
 @section('contenido')
@@ -50,7 +50,7 @@
                                     <td>{{$alquiler->cliente->nombre}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Monto final</th>
+                                    <th scope="row">Monto final con deposito</th>
                                     <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
                                 </tr>
                                 <tr>
@@ -66,7 +66,7 @@
                                     <td>${{$alquiler->monto_adeudado}}.-</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Deposito pagado</th>
+                                    <th scope="row">Valor del deposito</th>
                                     <td>${{$alquiler->deposito}}.-</td>
                                 </tr>
                                 <tr>

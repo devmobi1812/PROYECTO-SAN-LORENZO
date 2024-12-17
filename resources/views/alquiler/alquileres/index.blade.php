@@ -1,5 +1,5 @@
 @extends('template')
-@section('titulo', 'Depositos')
+@section('titulo', 'Alquileres')
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     @endpush
@@ -61,7 +61,7 @@
                             </td>
                             
                             <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
-                            <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
+                            <td>${{$alquiler->monto_final}}.-</td>
                             <td>${{$alquiler->monto_adeudado}}.-</td>
                             <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->descuento}}%</td>

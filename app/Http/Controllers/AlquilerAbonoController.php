@@ -108,10 +108,10 @@ class AlquilerAbonoController extends Controller
             $abono = Alquiler_abono::findOrFail($id);
             $alquiler = Alquilere::findOrFail($abono->alquiler_id);
 
-            $montoAbono = $abono->monto_pagado;
+            /*$montoAbono = $abono->monto_pagado;
             $alquiler->monto_adeudado += $montoAbono;
-            $alquiler->save();
-
+            $alquiler->save();*/
+            $alquiler->refresh();
             // ACTUALIZA EL ESTADO DEL ALQUILER BASADO EN EL MONTO ADEUDADO
             $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
             $alquiler->save();

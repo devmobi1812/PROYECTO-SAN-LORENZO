@@ -139,23 +139,6 @@ class AlquilereController extends Controller
                     }
                 }
                 
-                // CREAR ABONO DEL DEPOSITO
-                $idDeposito=$request->deposito;
-                $deposito=Deposito::findOrFail($idDeposito);
-                if($deposito->monto != 0){
-                    $alquiler->refresh();
-                    $datosAbono = [
-                        'alquiler_id' => $alquiler->id,
-                        'monto_pagado' => $deposito->monto,
-                        'metodo_de_pagos_id' => 1 // Por defecto dejamos efectivo
-                    ];
-                
-                    $alquilerAbonoRequest = new AlquilerAbonoRequest();
-                    $alquilerAbonoRequest->replace($datosAbono);
- 
-                    $abonoController = new AlquilerAbonoController();
-                    $abonoController->store($alquilerAbonoRequest);
-                }
                 // CREAR ABONO DE LA SEÑA
                 if ($request->seña == 1) {
                     $alquiler->refresh();
