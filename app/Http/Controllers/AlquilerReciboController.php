@@ -182,9 +182,18 @@ class AlquilerReciboController extends Controller
     }
     public function destroy($id)
     {   
-        $recibo = Alquiler_recibo::findOrFail($id);
-        $alquilerAsociado = Alquilere::findOrFail($recibo->alquiler_id);
-        Alquiler_recibo::destroy($id);
+        try {
+            $recibo = Alquiler_recibo::findOrFail($id);
+            $alquilerAsociado = Alquilere::findOrFail($recibo->alquiler_id);
+            Alquiler_recibo::destroy($id);
+            $alquilerAsociado->refresh();
+            // ACTUALIZA EL ESTADO DEL ALQUILER BASADO EN EL MONTO ADEUDADO
+            $alquilerAsociado->estado_id = $alquilerAsociado->monto_adeudado <= 0 ? 1 : 2;
+            $alquilerAsociado->save();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        
         return redirect()->route("alquiler-ver", $alquilerAsociado->id);
     }
 }
