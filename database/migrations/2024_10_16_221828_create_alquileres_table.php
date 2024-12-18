@@ -32,10 +32,9 @@ return new class extends Migration
             FOR EACH ROW
             BEGIN
                 IF OLD.descuento != NEW.descuento THEN
-                    SET NEW.monto_adeudado =  NEW.monto_final / (1 - OLD.descuento / 100)
-                                                        * (1 - NEW.descuento / 100);
-                    SET NEW.monto_final = NEW.monto_final / (1 - OLD.descuento / 100)
-                                                        * (1 - NEW.descuento / 100);
+                SET NEW.monto_final = NEW.monto_final / (1 - OLD.descuento / 100)
+                                                    * (1 - NEW.descuento / 100);
+                    SET NEW.monto_adeudado =  NEW.monto_final - (OLD.monto_final - OLD.monto_adeudado);
                 END IF;
             END;
         ");
