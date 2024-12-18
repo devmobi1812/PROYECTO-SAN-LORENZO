@@ -123,11 +123,13 @@
                                     <td>${{$recibo->servicio_precio - ($recibo->servicio_precio * $alquiler->descuento / 100)}}.-</td>
                                     <td>${{$recibo->servicio_precio*$recibo->servicio_cantidad-(($recibo->servicio_precio*$recibo->servicio_cantidad) * $alquiler->descuento / 100)}}.-</td>
                                     <td>{{$recibo->servicio_cantidad}}</td>
-                                    <td>{{$recibo->desde}}</td>
-                                    <td>{{$recibo->hasta}}</td>
-                                    
                                     <td>
-                                        <a href="{{ route('recibo-editar', $recibo->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                        {{ substr($recibo->desde, 0, 5) . "hs"}}
+                                    </td>
+                                    <td>
+                                        {{substr($recibo->hasta, 0, 5) . "hs" }}
+                                    </td>
+                                    <td>
                                         <a class="btn btn-danger" href="{{ route('recibo-borrar', $recibo->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
                                     </td>
                                 </tr>
