@@ -38,7 +38,7 @@ class AlquilereController extends Controller
         $alquileres = Alquilere::with(['estado', 'cliente'])->whereDate('fecha', '<', Carbon::today())->get();
         $servicios = Alquiler_recibo::all();
         //dd($alquileres);
-        return view('alquiler.alquileres.index',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
+        return view('alquiler.alquileres.history',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
     }
 
     /**
