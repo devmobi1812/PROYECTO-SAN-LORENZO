@@ -7,8 +7,8 @@
         <meta name="description" content="Sistema de Gestión San Lorenzo" />
         <meta name="author" content="TAS" />
         <title>Club San Lorenzo - @yield('titulo')</title>
-        <link href="{{ asset('css/template.css')}}" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link href="{{ asset('css/template.css')}}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
         @stack('css')
