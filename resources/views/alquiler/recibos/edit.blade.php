@@ -24,7 +24,7 @@
            
         
             <a href="{{ route('alquiler-ver', $alquiler->id) }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Editar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
         </form>
     </div>
 @endsection

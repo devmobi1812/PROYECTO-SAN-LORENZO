@@ -27,7 +27,7 @@
             </div>
             
             <a href="{{ route('depositos') }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Modificar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
           </form>
     </div>
 @endsection

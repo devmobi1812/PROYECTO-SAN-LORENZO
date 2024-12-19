@@ -8,7 +8,7 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('panel') }} ">Panel</a></li>
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }} ">Alquiler</a></li>
-            <li class="breadcrumb-item active">Crear</li>
+            <li class="breadcrumb-item active">Editar</li>
         </ol>
         <form method="POST" action="{{ route('alquiler-actualizar', $alquiler->id) }}">
             @csrf
@@ -77,7 +77,7 @@
             </div>
             
             <a href="{{ route('alquileres') }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
           </form>
     </div>
 @endsection

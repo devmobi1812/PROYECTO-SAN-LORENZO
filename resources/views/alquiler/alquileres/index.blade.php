@@ -27,9 +27,9 @@
                             <th>Cliente</th>
                             <th>Horario</th>
                             <th>Fecha</th>
-                            <th>Monto Final</th>
-                            <th>Monto Adeudado</th>
-                            <th>Deposito</th>
+                            <th>Monto Final (sin deposito)</th>
+                            <th>Monto Adeudado (sin deposito)</th>
+                            <th>Valor del deposito</th>
                             <th>Descuento</th>
                             <th>Estado</th>
                             <th>Acciones</th>

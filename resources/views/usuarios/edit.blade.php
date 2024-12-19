@@ -44,7 +44,7 @@
             </div>
             
             <a href="{{ route('usuarios') }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Modificar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
           </form>
     </div>
 @endsection
