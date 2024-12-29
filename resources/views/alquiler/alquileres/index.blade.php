@@ -28,7 +28,7 @@
                             <th>Horario</th>
                             <th>Fecha</th>
                             <th>Monto Final (sin deposito)</th>
-                            <th>Monto Adeudado (sin deposito)</th>
+                            <th>Monto Bruto Adeudado</th>
                             <th>Valor del deposito</th>
                             <th>Descuento</th>
                             <th>Estado</th>
@@ -73,7 +73,7 @@
                                    @else
                                        class="btn btn-success" style="pointer-events: none;"
                                    @endif>
-                                   {{$alquiler->estado->nombre}}
+                                   Bruto {{$alquiler->estado->nombre}}
                                 </a>
                             </td>
                             

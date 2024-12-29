@@ -62,8 +62,16 @@
                                     <td>${{$alquiler->monto_final-$alquiler->monto_adeudado}}.-</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Monto adeudado</th>
-                                    <td>${{$alquiler->monto_adeudado}}.-</td>
+                                    <th scope="row">Monto bruto adeudado (sin deposito)</th>
+                                    @if($alquiler->monto_adeudado>=0)
+                                        <td>${{$alquiler->monto_adeudado}}.-</td>
+                                    @else
+                                        <td>$0.-</td>
+                                    @endif
+                                </tr>
+                                <tr>
+                                    <th scope="row">Monto neto adeudado</th>
+                                    <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Valor del deposito</th>
@@ -76,14 +84,23 @@
                                 <tr>
                                     <th scope="row">Estado actual</th>
                                     <td>
+                                        <!-- ESTADO ACTUAL DEL ALQUILER -->
                                         <a href=""
                                         @if($alquiler->estado->nombre=="Impago")
                                             class="btn btn-danger " style="pointer-events: none;"
                                         @else
                                             class="btn btn-success" style="pointer-events: none;"
                                         @endif>
-                                        {{$alquiler->estado->nombre}}
+                                        Alquiler Bruto {{$alquiler->estado->nombre}}
                                         </a>
+                                        <!-- ESTADO ACTUAL DEL DEPOSITO -->
+                                        <a href=""
+                                        @if(($alquiler->monto_adeudado+$alquiler->deposito)>0)
+                                            class="btn btn-danger " style="pointer-events: none;">Alquiler Neto Impago</a>
+                                        @else
+                                            class="btn btn-success" style="pointer-events: none;">Alquiler Neto Pago</a>
+                                        @endif
+                                        
                                     </td>
                                 </tr>
                             </tbody>
