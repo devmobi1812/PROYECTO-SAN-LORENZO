@@ -45,7 +45,7 @@
                             <option value="{{$deposito->id}}"
                                 @if(filled(old('deposito')) && old('deposito') == $deposito->id)
                                     selected
-                                @elseif($alquiler->deposito && $alquiler->deposito == $deposito->cantidad)
+                                @elseif($alquiler->deposito == $deposito->cantidad)
                                     selected
                                 @endif                                 
                                 >{{$deposito->nombre}}</option>
@@ -64,7 +64,7 @@
                             <option value="{{$descuento->id}}"
                                 @if(filled(old('descuento_id')) && old('descuento_id') == $descuento->id)
                                     selected
-                                @elseif($alquiler->descuento && $alquiler->descuento == $descuento->cantidad)
+                                @elseif($alquiler->descuento == $descuento->cantidad)
                                     selected
                                 @endif  
                                 >{{$descuento->nombre}}</option>
