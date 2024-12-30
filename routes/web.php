@@ -126,7 +126,7 @@ Route::controller(UserController::class)->middleware(['auth'])->group( function(
 
 Route::controller(loginController::class)->group( function(){
     Route::get("login", "index")->name("login");
-    Route::post("login", "login")->name("login");
+    Route::post("login", "login")->name("login.post");
     Route::get("logout", "logout")->name("logout");
 });
 Route::view("/panel", "panel.index")->middleware(['auth'])->name("panel");

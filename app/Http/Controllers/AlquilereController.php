@@ -144,6 +144,7 @@ class AlquilereController extends Controller
                     $alquiler->refresh();
                     $datosAbono = [
                         'alquiler_id' => $alquiler->id,
+                        'detalle'=> 'Seña',
                         'monto_pagado' => $alquiler->monto_final/2,
                         'metodo_de_pagos_id' => $request->metodo_de_pagos_id
                     ];

@@ -15,8 +15,8 @@
             @csrf
             <div class="mb-3">
                 <label for="monto_pagado" class="form-label">Precio</label>
-                <input type="number" placeholder="Ingrese solo numeros" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado') }}">
-                @error('contacto')
+                <input type="number" placeholder="Ingrese solo números" name="monto_pagado" class="form-control @error('monto_pagado') is-invalid @enderror" aria-describedby="emailHelp" value="{{ old('monto_pagado') }}">
+                @error('monto_pagado')
                     <small class="text-danger"> {{ '*'.$message}}</small>
                 @enderror
             </div>
@@ -34,6 +34,14 @@
                     @enderror
                 
             </div>
+            <div class="mb-3">
+                <label for="detalle" class="form-label">Detalle</label>
+                <input type="text" placeholder="Ingrese una breve descripción" name="detalle" class="form-control @error('detalle') is-invalid @enderror" value="{{ old('detalle') }}">
+                @error('detalle')
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
+            </div>
+
             <input type="hidden" name="alquiler_id" value="{{$alquiler_id}}">
         
             <a href="{{ route('alquiler-ver', $alquiler_id) }}" class="btn btn-secondary">Cancelar</a>

@@ -43,7 +43,7 @@
                     <select class="form-select" name="deposito" id="">
                         @foreach ($depositos as $deposito)
                             <option value="{{$deposito->id}}"
-                                @if(old('deposito') != '' && old('deposito') == $deposito->id)
+                                @if(filled(old('deposito')) && old('deposito') == $deposito->id)
                                     selected
                                 @elseif($alquiler->deposito && $alquiler->deposito == $deposito->cantidad)
                                     selected
@@ -62,7 +62,7 @@
                     <select class="form-select" name="descuento_id">
                         @foreach ($descuentos as $descuento)
                             <option value="{{$descuento->id}}"
-                                @if(old('descuento_id') != '' && old('descuento_id') == $descuento->id)
+                                @if(filled(old('descuento_id')) && old('descuento_id') == $descuento->id)
                                     selected
                                 @elseif($alquiler->descuento && $alquiler->descuento == $descuento->cantidad)
                                     selected

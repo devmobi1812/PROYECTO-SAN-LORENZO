@@ -32,6 +32,13 @@
                         <small class="text-danger"> {{ '*'.$message }}</small>
                     @enderror
             </div>
+            <div class="mb-3">
+                <label for="detalle" class="form-label">Detalle</label>
+                <input type="text" placeholder="Ingrese una breve descripción" name="detalle" class="form-control @error('detalle') is-invalid @enderror" value="{{ old('detalle')=="" ? $abono->detalle : old('detalle') }}">
+                @error('detalle')
+                    <small class="text-danger"> {{ '*'.$message}}</small>
+                @enderror
+            </div>
 
             <a href="{{ route('alquiler-ver',$abono->alquiler->id)}}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Modificar</button>

@@ -63,7 +63,12 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Monto bruto adeudado (sin deposito)</th>
-                                    @if($alquiler->monto_adeudado>=0)
+                                    @if($alquiler->monto_adeudado>=0) 
+                                    <!--
+                                          Supongamos que te alquilé 40 juegos de vajilla y al final tengo que pedir menos porque no viene tanta gente,
+                                          yo ya pagué los 40 juegos. Ponele que ahora en vez de 40 necesito 20, ¿el sistema me va a seguir marcando que el
+                                          club no adeuda nada al cliente si actualizo los valores?  
+                                    -->
                                         <td>${{$alquiler->monto_adeudado}}.-</td>
                                     @else
                                         <td>$0.-</td>
@@ -71,6 +76,12 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Monto neto adeudado</th>
+                                    <!-- PROPUESTA:
+                                        - monto adeudado
+                                        - monto final
+                                        - monto deposito
+                                        - estado deposito (pago, impago, devuelto, no devuelto) 
+                                    -->
                                     <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
                                 </tr>
                                 <tr>
@@ -94,6 +105,12 @@
                                         Alquiler Bruto {{$alquiler->estado->nombre}}
                                         </a>
                                         <!-- ESTADO ACTUAL DEL DEPOSITO -->
+
+                                        <!-- No representa el estado del deposito, si no que representa si se pagó el alquiler y el deposito.
+                                            Ademas el deposito NO está incluido en el monto final en la base de datos,
+                                            para dejarlo mas acomodado para el balance a futuro es ideal.
+                                            PD: no podes agregar un abono que sea el deposito puesto que se 
+                                            descuajeringa todo el balance(si le devolvimos el depoosito sigue quedando como que tenemos los 15000 por ejemplo) -->
                                         <a href=""
                                         @if(($alquiler->monto_adeudado+$alquiler->deposito)>0)
                                             class="btn btn-danger " style="pointer-events: none;">Alquiler Neto Impago</a>
@@ -171,6 +188,8 @@
                                 <th>#</th>
                                 <th>Monto</th>
                                 <th>Metodo</th>
+                                <th>Detalle</th>
+                                <th>Fecha</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -180,6 +199,8 @@
                                 <td>{{$abono->id}}</td>
                                 <td>${{$abono->monto_pagado }}.-</td>
                                 <td>{{$abono->metodoDePago->nombre}}</td>
+                                <td>{{$abono->detalle}}</td>
+                                <td>{{$abono->created_at->format('d/m/Y')}}</td>
                                 <td>
                                     <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
                                     <a class="btn btn-danger" href="{{ route('abono-borrar', $abono->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->

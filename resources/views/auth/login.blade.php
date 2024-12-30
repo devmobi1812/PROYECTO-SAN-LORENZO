@@ -21,7 +21,7 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Iniciar sesión</h3></div>
                                     <div class="card-body">
-                                        <form action="{{ route('login') }}" method="POST">
+                                        <form action="{{ route('login.post') }}" method="POST">
                                             @csrf
                                             <div class="form-floating mb-3">
                                                 <input class="form-control @error('email') is-invalid @enderror" id="inputEmail" type="email" name="email" value="{{ old('email') }}" />
