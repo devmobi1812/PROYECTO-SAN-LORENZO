@@ -11,15 +11,14 @@
             <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('alquileres') }} ">Alquileres</a></li>
             <li class="breadcrumb-item active">Ver</li>
         </ol>
-        
+
         <a class="btn btn-outline-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir recibo</a>
-        
+
         <div class="row">
-            <!-- DATOS DEL ALQUILER-->
-            <div class="col-xl-6">
+            <div class="col-xl-12">
                 <div class="card mb-4">
-                    <div class="table-responsive">
-                        <div class="card-header"><i class="fa-solid fa-database"></i> Datos del alquiler</div>
+                    
+                    <div class="card-body">
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
@@ -50,24 +49,43 @@
                                     <th scope="row">Cliente</th>
                                     <td>{{$alquiler->cliente->nombre}}</td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- RECIBO -->
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="table-responsive">
-                        <div class="card-header"><i class="fa-solid fa-receipt"></i> Recibo del alquiler</div>
-                        <table class="table table-striped">
-                            <tbody>
                                 <tr>
-                                    <th scope="row">Servicios</th>
+                                    <th scope="row">Monto final con deposito</th>
+                                    <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Monto del alquiler sin deposito</th>
                                     <td>${{$alquiler->monto_final}}.-</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Deposito</th>
+                                    <th scope="row">Monto pagado</th>
+                                    <td>${{$alquiler->monto_final-$alquiler->monto_adeudado}}.-</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Monto bruto adeudado (sin deposito)</th>
+                                    @if($alquiler->monto_adeudado>=0) 
+                                    <!--
+                                          Supongamos que te alquilé 40 juegos de vajilla y al final tengo que pedir menos porque no viene tanta gente,
+                                          yo ya pagué los 40 juegos. Ponele que ahora en vez de 40 necesito 20, ¿el sistema me va a seguir marcando que el
+                                          club no adeuda nada al cliente si actualizo los valores?  
+                                    -->
+                                        <td>${{$alquiler->monto_adeudado}}.-</td>
+                                    @else
+                                        <td>$0.-</td>
+                                    @endif
+                                </tr>
+                                <tr>
+                                    <th scope="row">Monto neto adeudado</th>
+                                    <!-- PROPUESTA:
+                                        - monto adeudado
+                                        - monto final
+                                        - monto deposito
+                                        - estado deposito (pago, impago, devuelto, no devuelto) 
+                                    -->
+                                    <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Valor del deposito</th>
                                     <td>${{$alquiler->deposito}}.-</td>
                                 </tr>
                                 <tr>
@@ -75,37 +93,29 @@
                                     <td>{{$alquiler->descuento}}%</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Monto final</th>
-                                    <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- ESTADO -->
-            <div class="col-xl-12">
-                <div class="card mb-4">
-                    <div class="table-responsive">
-                        <div class="card-header"><i class="fa-solid fa-file-invoice-dollar"></i> Estado actual del alquiler</div>
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Monto pagado</th>
-                                    <td>${{$alquiler->monto_final-$alquiler->monto_adeudado}}.-</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Monto adeudado</th>
-                                    <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
-                                </tr>
-                                <tr>
                                     <th scope="row">Estado actual</th>
                                     <td>
+                                        <!-- ESTADO ACTUAL DEL ALQUILER -->
+                                        <a href=""
+                                        @if($alquiler->estado->nombre=="Impago")
+                                            class="btn btn-danger " style="pointer-events: none;"
+                                        @else
+                                            class="btn btn-success" style="pointer-events: none;"
+                                        @endif>
+                                        Alquiler Bruto {{$alquiler->estado->nombre}}
+                                        </a>
+                                        <!-- ESTADO ACTUAL DEL DEPOSITO -->
+
+                                        <!-- No representa el estado del deposito, si no que representa si se pagó el alquiler y el deposito.
+                                            Ademas el deposito NO está incluido en el monto final en la base de datos,
+                                            para dejarlo mas acomodado para el balance a futuro es ideal.
+                                            PD: no podes agregar un abono que sea el deposito puesto que se 
+                                            descuajeringa todo el balance(si le devolvimos el depoosito sigue quedando como que tenemos los 15000 por ejemplo) -->
                                         <a href=""
                                         @if(($alquiler->monto_adeudado+$alquiler->deposito)>0)
-                                            class="btn btn-danger " style="pointer-events: none;">Impago</a>
+                                            class="btn btn-danger " style="pointer-events: none;">Alquiler Neto Impago</a>
                                         @else
-                                            class="btn btn-success" style="pointer-events: none;">Pago</a>
+                                            class="btn btn-success" style="pointer-events: none;">Alquiler Neto Pago</a>
                                         @endif
                                         
                                     </td>
@@ -121,8 +131,11 @@
                 <div class="card mb-4">
                     <a class="btn btn-primary mb-3" role="button" href="{{ route('recibo-crear', $alquiler->id)}}"><i
                         class="fa-solid fa-circle-plus"></i> Cargar servicio al alquiler</a>
-                    <div class="card-header"><i class="fas fa-chart-area me-1"></i>Servicios del alquiler</div>
-                    <div class="table-responsive">
+                    <div class="card-header">
+                        <i class="fas fa-chart-area me-1"></i> 
+                        Recibo del alquiler
+                   </div>
+                    <div class="card-body">
                         <table id="datatablesSimple" class="table table-striped">
                             <thead>
                                 <tr>
@@ -164,35 +177,38 @@
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <a class="btn btn-success mb-3" role="button" href="{{ route('abono-crear', $alquiler->id)}}" ><i class="fa-solid fa-money-bill"></i> Cargar abono</a>
-                    <div class="card-header"><i class="fas fa-chart-bar me-1"></i>Abonos de alquiler</div>
-                    <div class="table-responsive">                
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Abonos de alquiler
+                    </div>
+                    <div class="card-body">                
                         <table id="datatablesSimple" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Monto</th>
-                                    <th>Metodo</th>
-                                    <th>Detalle</th>
-                                    <th>Fecha</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($alquiler->alquilerAbonos as $abono)
-                                <tr>
-                                    <td>{{$abono->id}}</td>
-                                    <td>${{$abono->monto_pagado }}.-</td>
-                                    <td>{{$abono->metodoDePago->nombre}}</td>
-                                    <td>{{$abono->detalle}}</td>
-                                    <td>{{$abono->created_at->format('d/m/Y')}}</td>
-                                    <td>
-                                        <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                        <a class="btn btn-danger" href="{{ route('abono-borrar', $abono->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
-                                   </td>
-                                </tr>
-                                @endforeach
-        
-                            </tbody>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Monto</th>
+                                <th>Metodo</th>
+                                <th>Detalle</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($alquiler->alquilerAbonos as $abono)
+                            <tr>
+                                <td>{{$abono->id}}</td>
+                                <td>${{$abono->monto_pagado }}.-</td>
+                                <td>{{$abono->metodoDePago->nombre}}</td>
+                                <td>{{$abono->detalle}}</td>
+                                <td>{{$abono->created_at->format('d/m/Y')}}</td>
+                                <td>
+                                    <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                    <a class="btn btn-danger" href="{{ route('abono-borrar', $abono->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                </td>
+                            </tr>
+                            @endforeach
+    
+                        </tbody>
                         </table>
                     </div>
                 </div>
