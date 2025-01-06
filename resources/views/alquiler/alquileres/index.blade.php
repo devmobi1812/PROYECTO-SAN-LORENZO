@@ -27,9 +27,9 @@
                             <th>Cliente</th>
                             <th>Horario</th>
                             <th>Fecha</th>
-                            <th>Monto Final (sin deposito)</th>
-                            <th>Monto Bruto Adeudado</th>
-                            <th>Valor del deposito</th>
+                            <th>Monto Final (deposito incluido)</th>
+                            <th>Monto Adeudado</th>
+                            <th>Monto Deposito</th>
                             <th>Descuento</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -61,8 +61,8 @@
                             </td>
                             
                             <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
-                            <td>${{$alquiler->monto_final}}.-</td>
-                            <td>${{$alquiler->monto_adeudado}}.-</td>
+                            <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
+                            <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
                             <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->descuento}}%</td>
 
@@ -73,7 +73,7 @@
                                    @else
                                        class="btn btn-success" style="pointer-events: none;"
                                    @endif>
-                                   Bruto {{$alquiler->estado->nombre}}
+                                        {{$alquiler->estado->nombre}}
                                 </a>
                             </td>
                             
