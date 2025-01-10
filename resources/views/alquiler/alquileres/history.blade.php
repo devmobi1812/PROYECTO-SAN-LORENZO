@@ -60,20 +60,21 @@
                             </td>
                             
                             <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
-                            <td>${{$alquiler->monto_final}}.-</td>
-                            <td>${{$alquiler->monto_adeudado}}.-</td>
+                            <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
+                            <td>${{$alquiler->monto_adeudado + (($alquiler->estadoDeposito->id != 3) ? $alquiler->deposito : 0)}}.-</td>
                             <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->descuento}}%</td>
 
                             <td>
-                                <a href=""
-                                   @if($alquiler->estado->nombre=="Impago")
-                                       class="btn btn-danger " style="pointer-events: none;"
-                                   @else
-                                       class="btn btn-success" style="pointer-events: none;"
-                                   @endif>
-                                   {{$alquiler->estado->nombre}}
-                                </a>
+                                <a href="" class="btn 
+                                @switch($alquiler->estadoAlquiler->id)
+                                    @case(1)
+                                        btn-success
+                                        @break
+                                    @case(2)
+                                        btn-danger
+                                        @break
+                                @endswitch " style="pointer-events: none;">{{$alquiler->estadoAlquiler->nombre}}</a>
                             </td>
                             
 

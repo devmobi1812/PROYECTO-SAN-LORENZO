@@ -16,10 +16,12 @@ return new class extends Migration
             $table->foreignId("nombre_id")->constrained("clientes");
             $table->foreignId("dia_id")->constrained("dias");
             $table->integer( "descuento")->default(0);
-            $table->foreignId("estado_id")->constrained("estados")->default(2); // inpago
+            $table->foreignId(column: "estado_id")->constrained("estados")->default(2); // inpago
             $table->integer("monto_final")->default(0);
             $table->integer("monto_adeudado")->default(0);
             $table->integer("deposito")->default(0);
+            $table->unsignedBigInteger("estado_deposito")->default(2);
+            $table->foreign("estado_deposito")->references("id")->on("estados");
             $table->date("fecha");
 
 

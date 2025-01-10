@@ -84,14 +84,31 @@
             <label class="form-label">Abonar seña</label>
             <input type="checkbox" value="1" name="seña" class="checkbox-servicio form-check-input @error('seña') is-invalid @enderror"  @checked(old("seña")) >
             <div class="mb-3" id="seña-select-container" style="visibility: hidden; height: 0;">
-                <label for="seña" class="form-label">Seleccionar metodo</label>
-                <select class="form-select" name="metodo_de_pagos_id" id="">
-                        <option value="">Seleccionar aqui</option>  
+                <label for="metodo_de_pagos_id" class="form-label">Seleccionar método de pago</label>
+                <select class="form-select" name="metodo_de_pagos_id">
+                        <option value="">Seleccionar aquí</option>  
                     @foreach ($metodos as $metodo)
                         <option value="{{$metodo->id}}" @selected($metodo->id == old("metodo_de_pagos_id")) >{{$metodo->nombre}}</option>
                     @endforeach
                 </select>
                 @error('metodo_de_pagos_id')
+                    <small class="text-danger">{{ '*'.$message }}</small>
+                @enderror
+            </div>
+
+
+            <!-- Deposito -->
+            <label class="form-label">Abonar depósito</label>
+            <input type="checkbox" value="1" name="deposito_pago" class="checkbox-servicio form-check-input @error('deposito_pago') is-invalid @enderror"  @checked(old("deposito_pago")) >
+            <div class="mb-3" id="seña-select-container" style="visibility: hidden; height: 0;">
+                <label for="metodo_de_pago_deposito" class="form-label">Seleccionar método de pago</label>
+                <select class="form-select" name="metodo_de_pago_deposito">
+                        <option value="">Seleccionar aquí</option>  
+                    @foreach ($metodos as $metodo)
+                        <option value="{{$metodo->id}}" @selected($metodo->id == old("metodo_de_pago_deposito")) >{{$metodo->nombre}}</option>
+                    @endforeach
+                </select>
+                @error('metodo_de_pago_deposito')
                     <small class="text-danger">{{ '*'.$message }}</small>
                 @enderror
             </div>

@@ -19,7 +19,8 @@ class MetodoDePagoSeeder extends Seeder
             ["nombre" => "Billetera Virtual"],
             ["nombre" => "Tarjeta Credito"],
             ["nombre" => "Tarjeta Debito"],
-            ["nombre" => "Credito Personal"]
+            ["nombre" => "Credito Personal"],
+            ["nombre" => "No especificado"]
         ];
         DB::table("metodo_de_pagos")->insert($metodoDePago);
     }

@@ -11,6 +11,7 @@ use App\Models\Alquilere;
 use App\Models\Alquiler_recibo;
 use App\Models\Cliente;
 use App\Models\Producto;
+use App\Models\Estado;
 use App\Models\Servicio;
 use App\Models\Deposito;
 use App\Models\Descuento;
@@ -27,7 +28,7 @@ class AlquilereController extends Controller
      */
     public function index()
     {
-        $alquileres = Alquilere::with(['estado', 'cliente'])->whereDate('fecha', '>=', Carbon::today())->get();
+        $alquileres = Alquilere::with(['estadoAlquiler', 'cliente', 'estadoDeposito'])->whereDate('fecha', '>=', Carbon::today())->get();
         $servicios = Alquiler_recibo::all();
         //dd($alquileres);
         return view('alquiler.alquileres.index',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
@@ -35,7 +36,7 @@ class AlquilereController extends Controller
     
     public function indexHistorico()
     {
-        $alquileres = Alquilere::with(['estado', 'cliente'])->whereDate('fecha', '<', Carbon::today())->get();
+        $alquileres = Alquilere::with(['estadoAlquiler', 'cliente', 'estadoDeposito'])->whereDate('fecha', '<', Carbon::today())->get();
         $servicios = Alquiler_recibo::all();
         //dd($alquileres);
         return view('alquiler.alquileres.history',['alquileres' =>$alquileres, 'servicios'=>$servicios]);
@@ -80,6 +81,7 @@ class AlquilereController extends Controller
                 'monto_final' => 0, // Se actualizará más adelante 
                 'monto_adeudado' => 0, // Inicialmente en 0 
                 'deposito' => Deposito::find($request->deposito)->monto, 
+                'estado_deposito' => ($request->deposito_pago == 1) ? 1 /*Pago*/ : 2 /*Impago*/, 
                 'fecha' => $request->fecha 
             ]); 
             if($alquiler){
@@ -156,6 +158,22 @@ class AlquilereController extends Controller
                     $abonoController->store($alquilerAbonoRequest);
                 }
 
+                if ($request->deposito_pago == 1) {
+                    $alquiler->refresh();
+                    $datosAbono = [
+                        'alquiler_id' => $alquiler->id,
+                        'detalle'=> 'Depósito',
+                        'monto_pagado' => $alquiler->deposito,
+                        'metodo_de_pagos_id' => $request->metodo_de_pagos_id,
+                        'es_deposito' => true
+                    ];
+                
+                    $alquilerAbonoRequest = new AlquilerAbonoRequest();
+                    $alquilerAbonoRequest->replace($datosAbono);
+    
+                    $abonoController = new AlquilerAbonoController();
+                    $abonoController->store($alquilerAbonoRequest);
+                }
                 
             }
             DB::commit(); 
@@ -163,7 +181,7 @@ class AlquilereController extends Controller
             DB::rollBack();
             dd($e);
         }        
-        return redirect()->route("alquileres");   
+        return redirect()->route('alquiler-ver', $alquiler->id);   
     }
 
     /**
@@ -172,7 +190,7 @@ class AlquilereController extends Controller
     public function show($id)
     {
         try{
-            $alquiler = Alquilere::with(["alquilerRecibos", "alquilerAbonos", "cliente", "estado", "dia"])->findOrFail($id);
+            $alquiler = Alquilere::with(["alquilerRecibos", "alquilerAbonos", "cliente", "estadoAlquiler", "estadoDeposito", "dia"])->findOrFail($id);
             $servicios = Alquiler_recibo::all();
             return view("alquiler.alquileres.show", [
                 "alquiler" => $alquiler,
@@ -196,12 +214,14 @@ class AlquilereController extends Controller
             $clientes = Cliente::all();
             $deposito = Deposito::all();
             $descuentos = Descuento::all();
+            $estados = Estado::all();
 
             return view("alquiler.alquileres.edit", [
                 "alquiler" => $alquiler,
                 "clientes" => $clientes,
                 "depositos" => $deposito,
                 "descuentos" => $descuentos,
+                "estados" => $estados
             ]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -224,7 +244,7 @@ class AlquilereController extends Controller
             $depositoNuevo = Deposito::find($request->deposito);
         
             $dia = $this->getDayOfWeek($request->fecha);
-        
+
             $alquiler->update([
                 'nombre_id' => $request->nombre_id,
                 'dia_id' => $dia,
@@ -234,15 +254,17 @@ class AlquilereController extends Controller
             ]);       
 
             $alquiler->save();
-            DB::commit();
-
+            
             $alquiler->refresh();
-            $alquiler->estado_id = $alquiler->monto_adeudado <= 0  ? 1 : 2;
+
+            $montoTotal = $alquiler->monto_adeudado + ($alquiler->estadoDeposito->id != 2 ? $alquiler->deposito : 0);
+            $alquiler->estado_id = $montoTotal <= 0 ? 1 : 2;
+            DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             dd($e);
         }
-        return redirect()->route("alquileres");   
+        return redirect()->route('alquiler-ver', $id);   
     }
 
 
@@ -253,6 +275,96 @@ class AlquilereController extends Controller
     {
         Alquilere::destroy($id);
         return redirect()->route("alquileres");
+    }
+
+    public function pagarDeposito($id){
+        try {
+            DB::beginTransaction();
+
+            $alquiler = Alquilere::findOrFail($id);
+            $alquiler->estado_deposito = 1;
+            $alquiler->save();
+
+            $abonoDeposito = Alquiler_abono::where('alquiler_id', $id)
+            ->where('es_deposito', true)
+            ->get();
+
+            if($abonoDeposito->isEmpty()){
+                $datosAbono = [
+                    'alquiler_id' => $alquiler->id,
+                    'detalle'=> 'Depósito',
+                    'monto_pagado' => $alquiler->deposito,
+                    'metodo_de_pagos_id' => 7,
+                    'es_deposito' => true
+                ];
+            
+                $alquilerAbonoRequest = new AlquilerAbonoRequest();
+                $alquilerAbonoRequest->replace($datosAbono);
+    
+                $abonoController = new AlquilerAbonoController();
+                $abonoController->store($alquilerAbonoRequest);
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        return redirect()->route('alquiler-ver', $id);   
+    }
+
+    public function reembolsarDeposito($id){
+        try {
+            DB::beginTransaction();
+
+            $alquiler = Alquilere::findOrFail($id);
+            $alquiler->estado_deposito = 3;
+            
+            $abonoDeposito = Alquiler_abono::where('alquiler_id', $id)
+            ->where('es_deposito', true)
+            ->delete();
+
+
+            $alquiler->save();
+            
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        return redirect()->route('alquiler-ver', $id);   
+    }
+
+    public function retenerDeposito($id){
+        try {
+            DB::beginTransaction();
+
+            $alquiler = Alquilere::findOrFail($id);
+            
+            $abonoDeposito = Alquiler_abono::where('alquiler_id', $id)
+            ->where('es_deposito', true)
+            ->get();
+
+            if($abonoDeposito->isEmpty()){
+                $datosAbono = [
+                    'alquiler_id' => $alquiler->id,
+                    'detalle'=> 'Depósito',
+                    'monto_pagado' => $alquiler->deposito,
+                    'metodo_de_pagos_id' => 7,
+                    'es_deposito' => true
+                ];
+            
+                $alquilerAbonoRequest = new AlquilerAbonoRequest();
+                $alquilerAbonoRequest->replace(input: $datosAbono);
+    
+                $abonoController = new AlquilerAbonoController();
+                $abonoController->store($alquilerAbonoRequest);
+            }
+            $alquiler->estado_deposito = 4;
+            $alquiler->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+        return redirect()->route('alquiler-ver', $id);   
     }
 
 }

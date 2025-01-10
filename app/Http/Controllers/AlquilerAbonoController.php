@@ -50,8 +50,9 @@ class AlquilerAbonoController extends Controller
             $alquilerAbono = Alquiler_abono::with("alquiler")->create(attributes: $request->all());
             $alquiler = $alquilerAbono->alquiler;
 
-            $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
-
+            $montoTotal = $alquiler->monto_adeudado + ($alquiler->estadoDeposito->id != 2 ? $alquiler->deposito : 0);
+            $alquiler->estado_id = $montoTotal <= 0 ? 1 : 2;
+            
             $alquiler -> save();
             DB::commit();
         }catch(Exception $e){
@@ -89,8 +90,9 @@ class AlquilerAbonoController extends Controller
 
             $abono->update($request->all());
             
-            $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
-
+            $montoTotal = $alquiler->monto_adeudado + ($alquiler->estadoDeposito->id != 2 ? $alquiler->deposito : 0);
+            $alquiler->estado_id = $montoTotal <= 0 ? 1 : 2;
+            
             $alquiler->save();
 
             DB::commit();
@@ -112,7 +114,8 @@ class AlquilerAbonoController extends Controller
             
             $alquiler->refresh();
             // ACTUALIZA EL ESTADO DEL ALQUILER BASADO EN EL MONTO ADEUDADO
-            $alquiler->estado_id = $alquiler->monto_adeudado <= 0 ? 1 : 2;
+            $montoTotal = $alquiler->monto_adeudado + ($alquiler->estadoDeposito->id != 2 ? $alquiler->deposito : 0);
+            $alquiler->estado_id = $montoTotal <= 0 ? 1 : 2;
             $alquiler->save();
         } catch (Exception $e) {
             DB::rollBack();

@@ -13,14 +13,15 @@
         </ol>
         
         <a class="btn btn-outline-primary mb-3 imprimir" role="button" ><i class="fa-solid fa-print"></i> Imprimir recibo</a>
-        
+        <a href="{{ route('alquiler-editar', $alquiler->id) }}" class="btn btn-warning mb-3 float-end" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+
         <div class="row">
             <!-- DATOS DEL ALQUILER-->
             <div class="col-xl-6">
                 <div class="card mb-4">
-                    <div class="table-responsive">
-                        <div class="card-header"><i class="fa-solid fa-database"></i> Datos del alquiler</div>
-                        <table class="table table-striped">
+                    <div class="card-header"><i class="fa-solid fa-database"></i> Datos del alquiler</div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped m-0">
                             <tbody>
                                 <tr>
                                     <th scope="row">Alquiler Nº</th>
@@ -58,16 +59,16 @@
             <!-- RECIBO -->
             <div class="col-xl-6">
                 <div class="card mb-4">
-                    <div class="table-responsive">
-                        <div class="card-header"><i class="fa-solid fa-receipt"></i> Recibo del alquiler</div>
-                        <table class="table table-striped">
+                    <div class="card-header"><i class="fa-solid fa-receipt"></i> Recibo del alquiler</div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped m-0">
                             <tbody>
                                 <tr>
                                     <th scope="row">Servicios</th>
                                     <td>${{$alquiler->monto_final}}.-</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Deposito</th>
+                                    <th scope="row">Depósito</th>
                                     <td>${{$alquiler->deposito}}.-</td>
                                 </tr>
                                 <tr>
@@ -83,47 +84,75 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex flex-row-reverse">
+                <a href="{{ route('pagar-deposito', $alquiler->id) }}" class="btn btn-success mb-3 ms-1">Pagar depósito</a>
+                <a href="{{ route('reembolsar-deposito', $alquiler->id) }}" class="btn btn-info mb-3 ms-1">Reembolsar depósito</a>
+                <a href="{{ route('retener-deposito', $alquiler->id) }}" class="btn btn-warning mb-3 ms-1">Retener depósito</a>
+            </div>
             <!-- ESTADO -->
-            <div class="col-xl-12">
-                <div class="card mb-4">
-                    <div class="table-responsive">
+            <div class="row mx-0 px-0">
+                <div class="col-xl-12">
+                    <div class="card mb-4">
                         <div class="card-header"><i class="fa-solid fa-file-invoice-dollar"></i> Estado actual del alquiler</div>
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Monto pagado</th>
-                                    <td>${{$alquiler->monto_final-$alquiler->monto_adeudado}}.-</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Monto adeudado</th>
-                                    <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Estado actual</th>
-                                    <td>
-                                        <a href=""
-                                        @if(($alquiler->monto_adeudado+$alquiler->deposito)>0)
-                                            class="btn btn-danger " style="pointer-events: none;">Impago</a>
-                                        @else
-                                            class="btn btn-success" style="pointer-events: none;">Pago</a>
-                                        @endif
-                                        
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="card-body p-0">
+                            <table class="table table-striped m-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Monto pagado</th>
+                                        <td>${{$alquiler->monto_final - $alquiler->monto_adeudado}}.-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Monto adeudado</th>
+                                        <td>${{$alquiler->monto_adeudado + (($alquiler->estadoDeposito->id != 3) ? $alquiler->deposito : 0)}}.-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Estado actual</th>
+                                        <td>
+                                            <a href="" class="btn 
+                                            @switch($alquiler->estadoAlquiler->id)
+                                                @case(1)
+                                                    btn-success
+                                                    @break
+                                                @case(2)
+                                                    btn-danger
+                                                    @break
+                                            @endswitch " style="pointer-events: none;">{{$alquiler->estadoAlquiler->nombre}}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Estado del depósito</th>
+                                        <td>
+                                            <a href="" class="btn 
+                                            @switch($alquiler->estadoDeposito->id)
+                                                @case(1)
+                                                    btn-success
+                                                    @break
+                                                @case(2)
+                                                    btn-danger
+                                                    @break
+                                                @case(3)
+                                                    btn-info
+                                                    @break
+                                                @case(4)
+                                                    btn-warning
+                                                    @break
+                                                @endswitch " style="pointer-events: none;">{{$alquiler->estadoDeposito->nombre}}</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mx-0 px-0">
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <a class="btn btn-primary mb-3" role="button" href="{{ route('recibo-crear', $alquiler->id)}}"><i
                         class="fa-solid fa-circle-plus"></i> Cargar servicio al alquiler</a>
                     <div class="card-header"><i class="fas fa-chart-area me-1"></i>Servicios del alquiler</div>
-                    <div class="table-responsive">
-                        <table id="datatablesSimple" class="table table-striped">
+                    <div class="card-body p-0">
+                        <table id="datatablesSimple" class="table table-striped m-0">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -165,8 +194,8 @@
                 <div class="card mb-4">
                     <a class="btn btn-success mb-3" role="button" href="{{ route('abono-crear', $alquiler->id)}}" ><i class="fa-solid fa-money-bill"></i> Cargar abono</a>
                     <div class="card-header"><i class="fas fa-chart-bar me-1"></i>Abonos de alquiler</div>
-                    <div class="table-responsive">                
-                        <table id="datatablesSimple" class="table table-striped">
+                    <div class="table-body p-0">                
+                        <table id="datatablesSimple" class="table table-striped m-0">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -186,8 +215,10 @@
                                     <td>{{$abono->detalle}}</td>
                                     <td>{{$abono->created_at->format('d/m/Y')}}</td>
                                     <td>
-                                        <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
-                                        <a class="btn btn-danger" href="{{ route('abono-borrar', $abono->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                        @if(!$abono->es_deposito)
+                                            <a href="{{ route('abono-editar', $abono->id) }}" class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i></a><!--BOTON EDITAR-->
+                                            <a class="btn btn-danger" href="{{ route('abono-borrar', $abono->id)}}"><i class="fa-solid fa-trash"></i></a><!--BOTON ELIMINAR-->
+                                        @endif
                                    </td>
                                 </tr>
                                 @endforeach

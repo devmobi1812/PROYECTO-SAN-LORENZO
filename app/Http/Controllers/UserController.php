@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $usuarios = User::all();
+        $usuarios = User::where('id', '>', 1)->get();
         return view("usuarios.index", ["usuarios" => $usuarios]);
     }
 
@@ -51,8 +51,13 @@ class UserController extends Controller
     public function edit($id)
     {
         try{
+            if($id == 1){
+                return redirect()->route("404");
+            }
+            
             $usuario = User::findOrFail($id);
             return view('usuarios.edit', ["usuario" => $usuario]);
+
         }catch(Exception $e){
             return redirect()->route("404");
         }
@@ -64,6 +69,9 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request,$id)
     {
         try{
+            if($id == 1){
+                return redirect()->route("usuarios");
+            }
             DB::beginTransaction();
 
             $usuario = User::findOrFail($id);
@@ -89,7 +97,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //TODO: si borra su propio usuario que cierre sesión o  no dejarte, preferiblemente la segunda
+        if($id == 1){
+            return redirect()->route("usuarios");
+        }
         User::destroy($id);
         return redirect()->route("usuarios");
     }

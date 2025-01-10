@@ -27,10 +27,11 @@
                             <th>Cliente</th>
                             <th>Horario</th>
                             <th>Fecha</th>
-                            <th>Monto Final (deposito incluido)</th>
+                            <th>Monto Final</th>
                             <th>Monto Adeudado</th>
                             <th>Monto Deposito</th>
                             <th>Descuento</th>
+                            <th>Estado Deposito</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -62,19 +63,37 @@
                             
                             <td>{{$alquiler->dia->nombre ." ". $alquiler->fecha}}</td>
                             <td>${{$alquiler->monto_final+$alquiler->deposito}}.-</td>
-                            <td>${{$alquiler->monto_adeudado+$alquiler->deposito}}.-</td>
+                            <td>${{$alquiler->monto_adeudado + (($alquiler->estadoDeposito->id != 3) ? $alquiler->deposito : 0)}}.-</td>
                             <td>${{$alquiler->deposito}}.-</td>
                             <td>{{$alquiler->descuento}}%</td>
+                            <td>
+                                <a href="" class="btn 
+                                @switch($alquiler->estadoDeposito->id)
+                                    @case(1)
+                                        btn-success
+                                        @break
+                                    @case(2)
+                                        btn-danger
+                                        @break
+                                    @case(3)
+                                        btn-info
+                                        @break
+                                    @case(4)
+                                        btn-warning
+                                        @break
+                                    @endswitch " style="pointer-events: none;">{{$alquiler->estadoDeposito->nombre}}</a>
+                            </td>
 
                             <td>
-                                <a href=""
-                                   @if($alquiler->estado->nombre=="Impago")
-                                       class="btn btn-danger " style="pointer-events: none;"
-                                   @else
-                                       class="btn btn-success" style="pointer-events: none;"
-                                   @endif>
-                                        {{$alquiler->estado->nombre}}
-                                </a>
+                                <a href="" class="btn 
+                                @switch($alquiler->estadoAlquiler->id)
+                                    @case(1)
+                                        btn-success
+                                        @break
+                                    @case(2)
+                                        btn-danger
+                                        @break
+                                @endswitch " style="pointer-events: none;">{{$alquiler->estadoAlquiler->nombre}}</a>
                             </td>
                             
 

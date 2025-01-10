@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer("monto_pagado");
             $table->string("detalle", 100)->nullable();
             $table->foreignId("metodo_de_pagos_id")->constrained("metodo_de_pagos");
+            $table->boolean("es_deposito")->default(false);
             $table->timestamps();
         });
 

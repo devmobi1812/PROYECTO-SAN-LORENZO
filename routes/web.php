@@ -113,6 +113,10 @@ Route::controller(AlquilereController::class)->middleware(['auth'])->group( func
     Route::get("alquileres/editar/{id}", "edit")->name("alquiler-editar");
     Route::post("alquileres/actualizar/{id}", "update")->name("alquiler-actualizar");
     Route::get("alquileres/eliminar/{id}", "destroy")->name("alquiler-borrar");
+    Route::get("alquileres/pagar-deposito/{id}", "pagarDeposito")->name("pagar-deposito");
+    Route::get("alquileres/reembolsar-deposito/{id}", "reembolsarDeposito")->name("reembolsar-deposito");
+    Route::get("alquileres/retener-deposito/{id}", "retenerDeposito")->name("retener-deposito");
+
 });
 
 Route::controller(UserController::class)->middleware(['auth'])->group( function(){

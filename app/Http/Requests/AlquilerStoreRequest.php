@@ -32,6 +32,8 @@ class AlquilerStoreRequest extends FormRequest
             'seña' => 'nullable|boolean',
             'metodo_de_pagos_id' => 'nullable|integer|required_if:seña,1|exists:metodo_de_pagos,id',
             'deposito' => 'required|integer|exists:depositos,id',
+            'deposito_pago' => 'nullable|boolean',
+            'metodo_de_pago_deposito' => 'nullable|integer|required_if:deposito_pago,1|exists:metodo_de_pagos,id',
             'descuento_id' => 'required|integer|exists:descuentos,id'
 
         ];
@@ -68,6 +70,11 @@ class AlquilerStoreRequest extends FormRequest
         'metodo_de_pagos_id.integer' => 'El método de pago debe ser un número válido.',
         'metodo_de_pagos_id.exists' => 'El método de pago seleccionado no existe en nuestros registros.',
         'metodo_de_pagos_id.required_if' => 'El método de pago es obligatorio si el campo "Seña" está activado.',
+
+        'metodo_de_pago_deposito.integer' => 'El método de pago debe ser un número válido.',
+        'metodo_de_pago_deposito.exists' => 'El método de pago seleccionado no existe en nuestros registros.',
+        'metodo_de_pago_deposito.required_if' => 'El método de pago es obligatorio si el campo "Pagar Depósito" está activado.',
+
     ];
 }
 
