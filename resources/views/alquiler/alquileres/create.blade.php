@@ -22,7 +22,12 @@
                                 @if(old('nombre_id') == $cliente->id)
                                  selected
                                 @endif 
-                                >{{$cliente->nombre}}</option>
+                                @if ($cliente->socio == 1)
+                                    >{{$cliente->nombre ." - Socio"}}
+                                @else
+                                    >{{$cliente->nombre ." - No Socio"}}
+                                @endif
+                            </option>
                       @endforeach
                   </select>
                   @error('nombre_id')

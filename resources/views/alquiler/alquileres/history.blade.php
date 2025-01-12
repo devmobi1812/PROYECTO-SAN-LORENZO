@@ -66,15 +66,7 @@
                             <td>{{$alquiler->descuento}}%</td>
 
                             <td>
-                                <a href="" class="btn 
-                                @switch($alquiler->estadoAlquiler->id)
-                                    @case(1)
-                                        btn-success
-                                        @break
-                                    @case(2)
-                                        btn-danger
-                                        @break
-                                @endswitch " style="pointer-events: none;">{{$alquiler->estadoAlquiler->nombre}}</a>
+                                <a href="" class="btn btn-dark" style="pointer-events: none;">{{$alquiler->estadoAlquiler->nombre}}</a>
                             </td>
                             
 

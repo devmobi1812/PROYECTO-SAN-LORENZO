@@ -85,9 +85,9 @@
                 </div>
             </div>
             <div class="d-flex flex-row-reverse">
-                <a href="{{ route('pagar-deposito', $alquiler->id) }}" class="btn btn-success mb-3 ms-1">Pagar depósito</a>
-                <a href="{{ route('reembolsar-deposito', $alquiler->id) }}" class="btn btn-info mb-3 ms-1">Reembolsar depósito</a>
-                <a href="{{ route('retener-deposito', $alquiler->id) }}" class="btn btn-warning mb-3 ms-1">Retener depósito</a>
+                <a href="{{ route('pagar-deposito', $alquiler->id) }}" class="btn btn-outline-dark mb-3 ms-1"><i class="fa-solid fa-money-bill"></i> Pagar depósito</a>
+                <a href="{{ route('reembolsar-deposito', $alquiler->id) }}" class="btn btn-outline-dark mb-3 ms-1"><i class="fa-brands fa-joget"></i> Reembolsar depósito</a>
+                <a href="{{ route('retener-deposito', $alquiler->id) }}" class="btn btn-outline-dark mb-3 ms-1"><i class="fa-solid fa-sack-dollar"></i> Retener depósito</a>
             </div>
             <!-- ESTADO -->
             <div class="row mx-0 px-0">
@@ -122,21 +122,7 @@
                                     <tr>
                                         <th scope="row">Estado del depósito</th>
                                         <td>
-                                            <a href="" class="btn 
-                                            @switch($alquiler->estadoDeposito->id)
-                                                @case(1)
-                                                    btn-success
-                                                    @break
-                                                @case(2)
-                                                    btn-danger
-                                                    @break
-                                                @case(3)
-                                                    btn-info
-                                                    @break
-                                                @case(4)
-                                                    btn-warning
-                                                    @break
-                                                @endswitch " style="pointer-events: none;">{{$alquiler->estadoDeposito->nombre}}</a>
+                                            <a href="" class="btn btn-dark" style="pointer-events: none;">{{$alquiler->estadoDeposito->nombre}}</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -151,7 +137,7 @@
                     <a class="btn btn-primary mb-3" role="button" href="{{ route('recibo-crear', $alquiler->id)}}"><i
                         class="fa-solid fa-circle-plus"></i> Cargar servicio al alquiler</a>
                     <div class="card-header"><i class="fas fa-chart-area me-1"></i>Servicios del alquiler</div>
-                    <div class="card-body p-0">
+                    <div class="table-responsive p-0">
                         <table id="datatablesSimple" class="table table-striped m-0">
                             <thead>
                                 <tr>
@@ -194,7 +180,7 @@
                 <div class="card mb-4">
                     <a class="btn btn-success mb-3" role="button" href="{{ route('abono-crear', $alquiler->id)}}" ><i class="fa-solid fa-money-bill"></i> Cargar abono</a>
                     <div class="card-header"><i class="fas fa-chart-bar me-1"></i>Abonos de alquiler</div>
-                    <div class="table-body p-0">                
+                    <div class="table-responsive p-0">                
                         <table id="datatablesSimple" class="table table-striped m-0">
                             <thead>
                                 <tr>
