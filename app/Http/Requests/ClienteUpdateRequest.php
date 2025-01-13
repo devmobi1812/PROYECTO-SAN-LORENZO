@@ -24,7 +24,7 @@ class ClienteUpdateRequest extends FormRequest
     {
         return [
             'dni' => [
-                'required',
+                'nullable',
                 'integer',
                 'min_digits:7',
                 Rule::unique('clientes')->ignore($this->route(param: 'id'))
@@ -38,7 +38,6 @@ class ClienteUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            "dni.required" => "El campo DNI es obligatorio.",
             "dni.integer" => "El campo DNI debe ser un número entero.",
             "dni.min_digits" => "El campo DNI debe tener al menos 7 caracteres.",
             

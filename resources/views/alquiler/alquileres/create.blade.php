@@ -22,7 +22,7 @@
                                 @if(old('nombre_id') == $cliente->id)
                                  selected
                                 @endif 
-                                @if ($cliente->socio == 1)
+                                @if ($cliente->socio)
                                     >{{$cliente->nombre ." - Socio"}}
                                 @else
                                     >{{$cliente->nombre ." - No Socio"}}
