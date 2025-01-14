@@ -23,7 +23,7 @@ class AlquilerUpdateRequest extends FormRequest
     {
         return [
             'nombre_id' => 'required|exists:clientes,id',
-            'fecha' => 'required|date', 
+            "fecha" => "required|date|after_or_equal:today",
             'descuento_id' => 'required|exists:descuentos,id'
         ];
     }

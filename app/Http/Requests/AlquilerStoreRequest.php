@@ -23,7 +23,7 @@ class AlquilerStoreRequest extends FormRequest
     {
         return [
             "nombre_id" => "required|integer|exists:clientes,id", 
-            "fecha" => "required|date|after:today",
+            "fecha" => "required|date|after_or_equal:today",
             "servicios" => "required|array",
             'servicios.*.id' => 'nullable|integer|exists:servicios,id',
             'servicios.*.cantidad' => 'nullable|integer|min:1',
