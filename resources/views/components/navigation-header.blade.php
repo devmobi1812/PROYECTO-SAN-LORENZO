@@ -25,6 +25,7 @@
                 -->
                 
                 <!--<li><hr class="dropdown-divider" /></li>-->
+                <li><a class="dropdown-item" href="{{ route('manual') }}"><i class="fa-solid fa-book"></i> Manual de usuario</a></li>
                 <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a></li>
             </ul>
         </li>
