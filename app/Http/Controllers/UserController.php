@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $usuarios = User::where('id', '>', 1)->get();
+        $usuarios = User::where('id', '>', 4)->get();
         return view("usuarios.index", ["usuarios" => $usuarios]);
     }
 

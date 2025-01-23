@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-01-2025 a las 19:14:00
+-- Tiempo de generación: 23-01-2025 a las 01:13:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -36,6 +36,7 @@ CREATE TABLE `alquileres` (
   `monto_final` int(11) NOT NULL DEFAULT 0,
   `monto_adeudado` int(11) NOT NULL DEFAULT 0,
   `deposito` int(11) NOT NULL DEFAULT 0,
+  `estado_deposito` bigint(20) UNSIGNED NOT NULL DEFAULT 2,
   `fecha` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -67,6 +68,7 @@ CREATE TABLE `alquiler_abonos` (
   `monto_pagado` int(11) NOT NULL,
   `detalle` varchar(100) DEFAULT NULL,
   `metodo_de_pagos_id` bigint(20) UNSIGNED NOT NULL,
+  `es_deposito` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -182,20 +184,12 @@ CREATE TABLE `clientes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `domicilio` varchar(100) NOT NULL,
-  `dni` int(11) NOT NULL,
+  `dni` int(11) DEFAULT NULL,
   `socio` tinyint(1) NOT NULL DEFAULT 0,
   `contacto` varchar(100) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id`, `nombre`, `domicilio`, `dni`, `socio`, `contacto`, `created_at`, `updated_at`) VALUES
-(1, 'Ayrton Mobilio', 'Las Heras', 11234567, 0, '2494', '2024-12-14 02:52:57', '2024-12-14 02:52:57'),
-(2, 'Dario Carsaniga', 'Av. General Paz', 223456789, 1, '2494', '2024-12-14 02:53:17', '2024-12-14 02:53:17');
 
 -- --------------------------------------------------------
 
@@ -216,8 +210,8 @@ CREATE TABLE `depositos` (
 --
 
 INSERT INTO `depositos` (`id`, `nombre`, `monto`, `created_at`, `updated_at`) VALUES
-(1, 'Depósito base', 15000, '2025-01-06 21:10:55', '2025-01-06 21:10:55'),
-(2, 'Sin depósito', 0, '2025-01-06 21:10:55', '2025-01-06 21:10:55');
+(1, 'Depósito base', 15000, '2025-01-23 03:06:54', '2025-01-23 03:06:54'),
+(2, 'Sin depósito', 0, '2025-01-23 03:06:54', '2025-01-23 03:06:54');
 
 -- --------------------------------------------------------
 
@@ -238,8 +232,8 @@ CREATE TABLE `descuentos` (
 --
 
 INSERT INTO `descuentos` (`id`, `nombre`, `cantidad`, `created_at`, `updated_at`) VALUES
-(1, 'Socio', 30, '2024-12-14 02:47:30', '2024-12-14 02:47:30'),
-(2, 'No socio', 0, '2024-12-14 02:47:38', '2024-12-14 02:47:38');
+(1, 'Socio', 30, '2024-12-14 05:47:30', '2024-12-14 05:47:30'),
+(2, 'No socio', 0, '2024-12-14 05:47:38', '2024-12-14 05:47:38');
 
 -- --------------------------------------------------------
 
@@ -286,7 +280,9 @@ CREATE TABLE `estados` (
 
 INSERT INTO `estados` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 (1, 'Pago', NULL, NULL),
-(2, 'Impago', NULL, NULL);
+(2, 'Impago', NULL, NULL),
+(3, 'Reembolsado', NULL, NULL),
+(4, 'Retenido', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -362,7 +358,8 @@ INSERT INTO `metodo_de_pagos` (`id`, `nombre`, `created_at`, `updated_at`) VALUE
 (3, 'Billetera Virtual', NULL, NULL),
 (4, 'Tarjeta Credito', NULL, NULL),
 (5, 'Tarjeta Debito', NULL, NULL),
-(6, 'Credito Personal', NULL, NULL);
+(6, 'Credito Personal', NULL, NULL),
+(7, 'No especificado', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -381,22 +378,22 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(79, '0001_01_01_000000_create_users_table', 1),
-(80, '0001_01_01_000001_create_cache_table', 1),
-(81, '0001_01_01_000002_create_jobs_table', 1),
-(82, '2024_10_16_215315_create_clientes_table', 1),
-(83, '2024_10_16_215540_create_dias_table', 1),
-(84, '2024_10_16_215555_create_descuentos_table', 1),
-(85, '2024_10_16_215604_create_turnos_table', 1),
-(86, '2024_10_16_215609_create_tipo_producto_table', 1),
-(87, '2024_10_16_215610_create_productos_table', 1),
-(88, '2024_10_16_221827_create_estados_table', 1),
-(89, '2024_10_16_221828_create_alquileres_table', 1),
-(90, '2024_10_16_222430_create_servicios_table', 1),
-(91, '2024_10_23_211606_create_metodo_de_pagos_table', 1),
-(92, '2024_10_24_222804_create_alquiler_abonos_table', 1),
-(93, '2024_10_25_223059_create_alquiler_recibos_table', 1),
-(94, '2024_10_30_221835_create_depositos_table', 1);
+(17, '0001_01_01_000000_create_users_table', 1),
+(18, '0001_01_01_000001_create_cache_table', 1),
+(19, '0001_01_01_000002_create_jobs_table', 1),
+(20, '2024_10_16_215315_create_clientes_table', 1),
+(21, '2024_10_16_215540_create_dias_table', 1),
+(22, '2024_10_16_215555_create_descuentos_table', 1),
+(23, '2024_10_16_215604_create_turnos_table', 1),
+(24, '2024_10_16_215609_create_tipo_producto_table', 1),
+(25, '2024_10_16_215610_create_productos_table', 1),
+(26, '2024_10_16_221827_create_estados_table', 1),
+(27, '2024_10_16_221828_create_alquileres_table', 1),
+(28, '2024_10_16_222430_create_servicios_table', 1),
+(29, '2024_10_23_211606_create_metodo_de_pagos_table', 1),
+(30, '2024_10_24_222804_create_alquiler_abonos_table', 1),
+(31, '2024_10_25_223059_create_alquiler_recibos_table', 1),
+(32, '2024_10_30_221835_create_depositos_table', 1);
 
 -- --------------------------------------------------------
 
@@ -429,9 +426,9 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `tipo_producto_id`, `created_at`, `updated_at`) VALUES
-(1, 'Quincho', 1, '2024-12-14 02:47:53', '2024-12-14 02:47:53'),
-(2, 'Vajilla', 3, '2024-12-14 02:48:02', '2024-12-14 02:48:02'),
-(3, 'Pileta', 2, '2024-12-14 02:48:10', '2024-12-14 02:48:10');
+(1, 'Quincho', 1, '2024-12-14 05:47:53', '2024-12-14 05:47:53'),
+(2, 'Vajilla', 3, '2024-12-14 05:48:02', '2024-12-14 05:48:02'),
+(3, 'Pileta', 2, '2024-12-14 05:48:10', '2024-12-14 05:48:10');
 
 -- --------------------------------------------------------
 
@@ -454,13 +451,13 @@ CREATE TABLE `servicios` (
 --
 
 INSERT INTO `servicios` (`id`, `turno_id`, `producto_id`, `nombre`, `precio`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Quincho Dia Completo', 50000, '2024-12-14 02:50:22', '2024-12-14 02:50:22'),
-(2, 2, 1, 'Quincho Mediodia', 25000, '2024-12-14 02:50:38', '2024-12-14 02:50:38'),
-(3, 3, 1, 'Quincho Noche', 60000, '2024-12-14 02:51:04', '2024-12-14 02:51:04'),
-(4, 4, 1, 'Quincho Tarde (2 horas)', 10000, '2024-12-14 02:51:23', '2024-12-14 02:51:23'),
-(5, 5, 1, 'Quincho Tarde (3 horas)', 15000, '2024-12-14 02:51:36', '2024-12-14 02:51:36'),
-(6, NULL, 3, 'Pileta', 5000, '2024-12-14 02:51:53', '2024-12-14 02:51:53'),
-(7, NULL, 2, 'Vajilla', 350, '2024-12-14 02:52:06', '2024-12-14 02:52:06');
+(1, 1, 1, 'Quincho Dia Completo', 50000, '2024-12-14 05:50:22', '2024-12-14 05:50:22'),
+(2, 2, 1, 'Quincho Mediodia', 25000, '2024-12-14 05:50:38', '2024-12-14 05:50:38'),
+(3, 3, 1, 'Quincho Noche', 60000, '2024-12-14 05:51:04', '2024-12-14 05:51:04'),
+(4, 4, 1, 'Quincho Tarde (2 horas)', 10000, '2024-12-14 05:51:23', '2024-12-14 05:51:23'),
+(5, 5, 1, 'Quincho Tarde (3 horas)', 15000, '2024-12-14 05:51:36', '2024-12-14 05:51:36'),
+(6, NULL, 3, 'Pileta', 5000, '2024-12-14 05:51:53', '2024-12-14 05:51:53'),
+(7, NULL, 2, 'Vajilla', 350, '2024-12-14 05:52:06', '2024-12-14 05:52:06');
 
 -- --------------------------------------------------------
 
@@ -482,7 +479,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('LPAzQeqyBSVhFGXFY5s2uWJghx9fNYqCtKDZj8uY', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'YTo0OntzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyNzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3BhbmVsIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo2OiJfdG9rZW4iO3M6NDA6InVOMEo1MDM0Q09OTU9yN0pLTmp0RTA2UndlYkZQNTVSWlVtY3JBaloiO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1736187232);
+('KUGnZEZXozZk3aXZjR1YVwZDAcZnNvIBkUOX2X2U', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQjFEQUsyMDdwNmZuTXQyNXVONldJSVhUd1BZTmhRb3hPWmhBY2s1ayI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyNzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3BhbmVsIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wYW5lbCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1737591143);
 
 -- --------------------------------------------------------
 
@@ -502,9 +499,9 @@ CREATE TABLE `tipo_producto` (
 --
 
 INSERT INTO `tipo_producto` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
-(1, 'Inmueble horario fijo', '2025-01-06 21:10:55', '2025-01-06 21:10:55'),
-(2, 'Inmueble horario flexible', '2025-01-06 21:10:55', '2025-01-06 21:10:55'),
-(3, 'No inmueble', '2025-01-06 21:10:55', '2025-01-06 21:10:55');
+(1, 'Inmueble horario fijo', '2025-01-23 03:06:54', '2025-01-23 03:06:54'),
+(2, 'Inmueble horario flexible', '2025-01-23 03:06:54', '2025-01-23 03:06:54'),
+(3, 'No inmueble', '2025-01-23 03:06:54', '2025-01-23 03:06:54');
 
 -- --------------------------------------------------------
 
@@ -526,11 +523,11 @@ CREATE TABLE `turnos` (
 --
 
 INSERT INTO `turnos` (`id`, `nombre`, `desde`, `hasta`, `created_at`, `updated_at`) VALUES
-(1, 'Dia Completo', '09:00:00', '05:00:00', '2024-12-14 02:49:10', '2024-12-14 02:49:10'),
-(2, 'Mediodia', '09:00:00', '18:00:00', '2024-12-14 02:49:21', '2024-12-14 02:49:21'),
-(3, 'Noche', '19:00:00', '05:00:00', '2024-12-14 02:49:33', '2024-12-14 02:49:33'),
-(4, 'Tarde (2 horas)', '14:00:00', '16:00:00', '2024-12-14 02:49:46', '2024-12-14 02:49:46'),
-(5, 'Tarde (3 horas)', '14:00:00', '17:00:00', '2024-12-14 02:49:56', '2024-12-14 02:49:56');
+(1, 'Dia Completo', '09:00:00', '05:00:00', '2024-12-14 05:49:10', '2024-12-14 05:49:10'),
+(2, 'Mediodia', '09:00:00', '18:00:00', '2024-12-14 05:49:21', '2024-12-14 05:49:21'),
+(3, 'Noche', '19:00:00', '05:00:00', '2024-12-14 05:49:33', '2024-12-14 05:49:33'),
+(4, 'Tarde (2 horas)', '14:00:00', '16:00:00', '2024-12-14 05:49:46', '2024-12-14 05:49:46'),
+(5, 'Tarde (3 horas)', '14:00:00', '17:00:00', '2024-12-14 05:49:56', '2024-12-14 05:49:56');
 
 -- --------------------------------------------------------
 
@@ -554,7 +551,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'ADMIN', 'admin@gmail.com', NULL, '$2y$12$v.5A.Z1eRdEBrBnAWcikKeVmMMlQ.H.29dskjxQUrAM0EOSbsaVDC', NULL, '2025-01-06 21:10:55', '2025-01-06 21:10:55');
+(1, 'ADMIN', 'admin@gmail.com', NULL, '$2y$12$NwhKbagtbofN6.lDWHUbj.CCSmjJ5Di8NO/UM/KqTE0lHmzClM4g2', NULL, '2025-01-23 03:06:54', '2025-01-23 03:06:54'),
+(2, 'Mobi', 'mobi@gmail.com', NULL, '$2y$12$jwTa0uJzvfDXV7RDDpCyveaQ3qeSCxWCsQpnHnZnLpzsuDeLbFlnS', NULL, '2025-01-23 03:08:21', '2025-01-23 03:08:21'),
+(3, 'Sebas', 'seba@gmail.com', NULL, '$2y$12$XEVDHAbZRigfuWVIPBVzmOODEpzToXX1DaST5T4nikwcZ6I02eBXa', NULL, '2025-01-23 03:10:06', '2025-01-23 03:10:06'),
+(4, 'Dario', 'dario@gmail.com', NULL, '$2y$12$IcpExFYThmaK3EyNMY9bKeViQ25MVuw/UiTUehsQ7EI4A60ZUrgRC', NULL, '2025-01-23 03:11:10', '2025-01-23 03:11:10');
 
 --
 -- Índices para tablas volcadas
@@ -567,7 +567,8 @@ ALTER TABLE `alquileres`
   ADD PRIMARY KEY (`id`),
   ADD KEY `alquileres_nombre_id_foreign` (`nombre_id`),
   ADD KEY `alquileres_dia_id_foreign` (`dia_id`),
-  ADD KEY `alquileres_estado_id_foreign` (`estado_id`);
+  ADD KEY `alquileres_estado_id_foreign` (`estado_id`),
+  ADD KEY `alquileres_estado_deposito_foreign` (`estado_deposito`);
 
 --
 -- Indices de la tabla `alquiler_abonos`
@@ -733,7 +734,7 @@ ALTER TABLE `alquiler_recibos`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `depositos`
@@ -757,7 +758,7 @@ ALTER TABLE `dias`
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -775,13 +776,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de la tabla `metodo_de_pagos`
 --
 ALTER TABLE `metodo_de_pagos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -811,7 +812,7 @@ ALTER TABLE `turnos`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -822,6 +823,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `alquileres`
   ADD CONSTRAINT `alquileres_dia_id_foreign` FOREIGN KEY (`dia_id`) REFERENCES `dias` (`id`),
+  ADD CONSTRAINT `alquileres_estado_deposito_foreign` FOREIGN KEY (`estado_deposito`) REFERENCES `estados` (`id`),
   ADD CONSTRAINT `alquileres_estado_id_foreign` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`),
   ADD CONSTRAINT `alquileres_nombre_id_foreign` FOREIGN KEY (`nombre_id`) REFERENCES `clientes` (`id`);
 
