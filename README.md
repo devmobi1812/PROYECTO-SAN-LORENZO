@@ -117,6 +117,6 @@ Puedes abrir y editar el proyecto utilizando:
 
 ---
 
-¡Listo! El sistema está configurado para ser utilizado en un entorno de desarrollo. 🚀
+¡Listo! El sistema está configurado para ser utilizado en un entorno de desarrollo. 
 
 
